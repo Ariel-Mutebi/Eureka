@@ -1,1 +1,3 @@
-# Lost And Found
+# Eureka! The Internet's lost-and-found.
+## Why did I decide to create this?
+Because, on second thought, this is probably a better solution to [TOP's Inventory Application Assignment](https://www.theodinproject.com/lessons/node-path-nodejs-inventory-application). It's just simpler and more within the scope of what I have studied so far. (In comparison to [Denarius-API](https://github.com/Ariel-Mutebi/Denarius-API)).
