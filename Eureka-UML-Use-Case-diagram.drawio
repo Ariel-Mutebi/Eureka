@@ -16,6 +16,9 @@
         <mxCell id="XmbwhB73pMSOdemntvVz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="iy57UkjjnLxhf_NylSwj-1" target="XmbwhB73pMSOdemntvVz-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="tv_ducz8JUacjMTweFup-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="iy57UkjjnLxhf_NylSwj-1" target="tv_ducz8JUacjMTweFup-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="iy57UkjjnLxhf_NylSwj-1" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
           <mxGeometry x="410" y="48" width="30" height="60" as="geometry" />
         </mxCell>
@@ -24,9 +27,6 @@
         </mxCell>
         <mxCell id="iy57UkjjnLxhf_NylSwj-2" value="Update post that they created." style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="355" y="188" width="140" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="iy57UkjjnLxhf_NylSwj-4" value="(Any visitor to the site)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="440" y="48" width="130" height="30" as="geometry" />
         </mxCell>
         <mxCell id="tv_ducz8JUacjMTweFup-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="iy57UkjjnLxhf_NylSwj-5" target="tv_ducz8JUacjMTweFup-3">
           <mxGeometry relative="1" as="geometry" />
@@ -54,6 +54,9 @@
         </mxCell>
         <mxCell id="tv_ducz8JUacjMTweFup-6" value="Create Read Update Delete" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="340" y="400" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tv_ducz8JUacjMTweFup-8" value="Contact creator of post if they found/own a lost/found item" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="188" width="140" height="78" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
