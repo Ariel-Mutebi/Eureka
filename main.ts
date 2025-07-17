@@ -1,12 +1,14 @@
-// run the program: deno run main.ts
-// run the program in watch mode: deno task dev
-// test: deno test
+// @ts-types="npm:@types/express";
+import express from 'npm:express';
+import 'jsr:@std/dotenv/load';
 
-export function add(a: number, b: number): number {
-  return a + b;
-}
+const app = express();
+const PORT = Deno.env.get('PORT');
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
-}
+app.get('/', (_, res) => {
+  res.send('Hello, world!');
+});
+
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}.`)
+})
