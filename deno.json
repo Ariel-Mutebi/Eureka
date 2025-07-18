@@ -5,6 +5,7 @@
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
-    "@types/express": "npm:@types/express@^5.0.3"
+    "@types/express": "npm:@types/express@^5.0.3",
+    "pg": "npm:pg@^8.16.3"
   }
 }

@@ -1,4 +1,4 @@
-// @ts-types="npm:@types/express";
+// @ts-types='npm:@types/express';
 import express from 'npm:express';
 import 'jsr:@std/dotenv/load';
 
@@ -10,5 +10,5 @@ app.get('/', (_, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}.`)
-})
+  console.log(`App listening on port ${PORT}.`);
+});
