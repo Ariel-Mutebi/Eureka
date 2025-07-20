@@ -4,11 +4,15 @@ import databaseClientConfig from "./config.ts";
 
 async function populateDB(sql: string) {
   console.log('Populating database...');
-  const client = new Client(databaseClientConfig);
-  await client.connect();
-  await client.query(sql);
-  await client.end();
-  console.log('Done.');
+  try {
+    const client = new Client(databaseClientConfig);
+    await client.connect();
+    await client.query(sql);
+    await client.end();
+    console.log('Done.');
+  } catch (error) {
+    console.error(error);
+  };
 };
 
 try {
