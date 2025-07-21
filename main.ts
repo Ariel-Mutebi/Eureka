@@ -1,14 +1,16 @@
 // @ts-types='npm:@types/express';
-import express from 'npm:express';
 import 'jsr:@std/dotenv/load';
+import express from 'npm:express';
+import { join } from "jsr:@std/path";
+import indexRouter from "./routes/indexRouter.ts";
+import listening from "./littleFunctions/listening.ts";
 
 const app = express();
-const PORT = Deno.env.get('PORT');
+const PORT = Number(Deno.env.get('PORT'));
 
-app.get('/', (_, res) => {
-  res.send('Hello, world!');
-});
+app.set("views", join(import.meta.dirname!, "views"));
+app.set("view engine", "ejs");
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}.`);
-});
+app.use('/', indexRouter);
+
+app.listen(PORT, (error) => listening(error, PORT));
