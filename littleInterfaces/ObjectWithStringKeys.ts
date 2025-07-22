@@ -1,5 +1,6 @@
 interface ObjectWithStringKeys {
-  [ key: string ]: unknown;
+  // deno-lint-ignore no-explicit-any
+  [ key: string ]: any;
 };
 
 export default ObjectWithStringKeys;

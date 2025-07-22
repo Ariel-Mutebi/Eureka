@@ -1,4 +1,7 @@
 <li>
-  <h2><%= item.isLost ? "Lost" : "Found" %>: <%= item.name %></h2>
+  <h2>
+    <%= item.isLost ? "Lost" : "Found" %> in <%= item.locationName %>: <%=
+    item.name %>
+  </h2>
   <p><%= item.description %></p>
 </li>
