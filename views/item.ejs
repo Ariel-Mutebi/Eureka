@@ -1,7 +1,14 @@
 <li>
   <h2>
-    <%= item.isLost ? "Lost" : "Found" %> in <%= item.locationName %>: <%=
-    item.name %>
+    <% const word = item.isLost ? "Lost" : "Found"; %> <%= word %> in <%=
+    item.locationName %>: <%= item.name %>
   </h2>
   <p><%= item.description %></p>
+  <a
+    href="
+    mailto:<%= item.emailOfPersonWhoPosted %>
+    ?subject=<%= encodeURIComponent(`Inquiry about the ${item.name} that you ${word.toLocaleLowerCase()}`) %>"
+  >
+    Contact
+  </a>
 </li>
