@@ -1,7 +1,8 @@
+<% const word = item.isLost ? "Lost" : "Found"; %>
 <li>
   <h2>
-    <% const word = item.isLost ? "Lost" : "Found"; %> <%= word %> at <%=
-    item.locationName %>: <%= item.name %>
+    <%= word %><%= item.locationName ? ` at ${item.locationName}` : "" %>: <%=
+    item.name %>
   </h2>
   <p><%= item.description %></p>
   <a

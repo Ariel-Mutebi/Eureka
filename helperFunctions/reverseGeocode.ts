@@ -4,7 +4,8 @@ async function reverseGeocode(lat: number, lon: number) {
     const location = await response.json();
     return location.name as string;
   } catch (error) {
-    throw new Error(String(error));
+    console.error(error);
+    return "";
   };
 };
 
