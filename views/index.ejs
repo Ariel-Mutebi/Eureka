@@ -1,5 +1,29 @@
-<!DOCTYPE html>
-<h1>Eureka: Caveman Version</h1>
-<ul>
-  <% items.forEach((item) => { %> <%- include("item", { item }) %> <% }); %>
-</ul>
+<%- include("./partials/head") %>
+<body>
+  <h1>Eureka: Caveman Version</h1>
+  <form action="/addItem" method="post">
+    <label for="name">Name of item:</label>
+    <input type="text" id="name" name="name" required />
+    <label for="description">Description of item:</label>
+    <textarea name="description" id="description" required></textarea>
+    <label for="isLost">This item is:</label>
+    <select name="isLost" id="isLost" required>
+      <option value="TRUE">lost</option>
+      <option value="FALSE">found</option>
+    </select>
+    <label for="location">Location of item:</label>
+    <input type="text" name="locationName" id="location" required />
+    <label for="email"
+      >My email (so that I can be contacted for inquiries)</label
+    >
+    <input type="email" name="emailOfPersonWhoPosted" id="email" required />
+    <label for="password">
+      Password for this post (so that only I can edit it)
+    </label>
+    <input type="password" name="password" id="password" required />
+    <button type="submit">Post</button>
+  </form>
+  <ul>
+    <% items.forEach((item) => { %> <%- include("item", { item }) %> <% }); %>
+  </ul>
+</body>

@@ -9,6 +9,7 @@
     "npm:@types/express@*": "5.0.3",
     "npm:@types/express@^5.0.3": "5.0.3",
     "npm:ejs@^3.1.10": "3.1.10",
+    "npm:express-async-handler@^1.2.0": "1.2.0",
     "npm:express@*": "4.21.2",
     "npm:pg@*": "8.16.3",
     "npm:pg@^8.16.3": "8.16.3"
@@ -250,6 +251,9 @@
     },
     "etag@1.8.1": {
       "integrity": "sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg=="
+    },
+    "express-async-handler@1.2.0": {
+      "integrity": "sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w=="
     },
     "express@4.21.2": {
       "integrity": "sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA==",
@@ -639,6 +643,7 @@
       "jsr:@std/assert@1",
       "npm:@types/express@^5.0.3",
       "npm:ejs@^3.1.10",
+      "npm:express-async-handler@^1.2.0",
       "npm:pg@^8.16.3"
     ]
   }

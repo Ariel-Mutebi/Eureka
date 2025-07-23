@@ -1,4 +1,4 @@
-import ObjectWithStringKeys from "../littleInterfaces/ObjectWithStringKeys.ts";
+import ObjectWithStringKeys from "../interfaces/ObjectWithStringKeys.ts";
 import snakeCaseToCamelCase from "./snakeCaseToCamelCase.ts";
 
 function recaseKeys(objectWithSnakeCaseKeys: ObjectWithStringKeys) {
