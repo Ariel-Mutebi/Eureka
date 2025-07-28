@@ -5,14 +5,16 @@
     item.name %>
   </h2>
   <p><%= item.description %></p>
-  <a
-    href="
-    mailto:<%= item.emailOfPersonWhoPosted %>
-    ?subject=<%= encodeURIComponent(`Inquiry about the ${item.name} that you ${word.toLocaleLowerCase()}`) %>"
-  >
-    Contact
-  </a>
-  <form action="/updateItem/<%= item.pk %>" method="post">
-    <button type="submit">Update</button>
-  </form>
+  <p>
+    <a
+      href="
+      mailto:<%= item.emailOfPersonWhoPosted %>
+      ?subject=<%= encodeURIComponent(`Inquiry about the ${item.name} that you ${word.toLocaleLowerCase()}`) %>"
+    >
+      Contact person who posted
+    </a>
+  </p>
+  <p>
+    <a href="/updatePost/<%= item.pk %>">Update post</a>
+  </p>
 </li>
