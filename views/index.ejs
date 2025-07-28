@@ -1,39 +1,45 @@
 <%- include("./partials/head") %>
 <body>
-  <h1>Eureka: Caveman Version</h1>
-  <form action="/addItem" method="post">
-    <% locals.errors?.forEach((error) => { %>
-    <p><%= error %></p>
-    <% }); %>
-    <label for="name">Name of item:</label>
-    <input type="text" id="name" name="name" required />
-    <label for="description">Description of item:</label>
-    <textarea
-      name="description"
-      id="description"
-      minlength="0"
-      maxlength="255"
-      required
-    >
-    </textarea>
-    <label for="isLost">This item is:</label>
-    <select name="isLost" id="isLost" required>
-      <option value="TRUE">lost</option>
-      <option value="FALSE">found</option>
-    </select>
-    <label for="location">Location of item:</label>
-    <input type="text" name="locationName" id="location" required />
-    <label for="email">
-      My email (so that I can be contacted for inquiries)
-    </label>
-    <input type="email" name="emailOfPersonWhoPosted" id="email" required />
-    <label for="password">
-      Password for this post (so that only I can edit it)
-    </label>
-    <input type="password" name="password" id="password" required />
-    <button type="submit">Post</button>
-  </form>
-  <ul>
-    <% items.forEach((item) => { %> <%- include("item", { item }) %> <% }); %>
-  </ul>
+  <h1>Eureka: Caveman Edition</h1>
+  <section>
+    <h2>Create Post</h2>
+    <form action="/addItem" method="post">
+      <% locals.errors?.forEach((error) => { %>
+      <p><%= error %></p>
+      <% }); %>
+      <label for="name">Name of item:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="description">Description of item:</label>
+      <textarea
+        name="description"
+        id="description"
+        minlength="0"
+        maxlength="255"
+        required
+      >
+      </textarea>
+      <label for="isLost">This item is:</label>
+      <select name="isLost" id="isLost" required>
+        <option value="TRUE">lost</option>
+        <option value="FALSE">found</option>
+      </select>
+      <label for="location">Location of item:</label>
+      <input type="text" name="locationName" id="location" required />
+      <label for="email">
+        My email (so that I can be contacted for inquiries)
+      </label>
+      <input type="email" name="emailOfPersonWhoPosted" id="email" required />
+      <label for="password">
+        Password for this post (so that only I can edit it)
+      </label>
+      <input type="password" name="password" id="password" required />
+      <button type="submit">Post</button>
+    </form>
+  </section>
+  <section>
+    <h2>Posts</h2>
+    <ul>
+      <% items.forEach((item) => { %> <%- include("item", { item }) %> <% }); %>
+    </ul>
+  </section>
 </body>
