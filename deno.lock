@@ -9,6 +9,8 @@
     "npm:@types/express@*": "5.0.3",
     "npm:@types/express@^5.0.3": "5.0.3",
     "npm:ejs@^3.1.10": "3.1.10",
+    "npm:express-async-handler@*": "1.2.0",
+    "npm:express-async-handler@^1.2.0": "1.2.0",
     "npm:express-validator@*": "7.2.1",
     "npm:express-validator@^7.2.1": "7.2.1",
     "npm:express@*": "4.21.2",
@@ -252,6 +254,9 @@
     },
     "etag@1.8.1": {
       "integrity": "sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg=="
+    },
+    "express-async-handler@1.2.0": {
+      "integrity": "sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w=="
     },
     "express-validator@7.2.1": {
       "integrity": "sha512-CjNE6aakfpuwGaHQZ3m8ltCG2Qvivd7RHtVMS/6nVxOM7xVGqr4bhflsm4+N5FP5zI7Zxp+Hae+9RE+o8e3ZOQ==",
@@ -654,6 +659,7 @@
       "jsr:@std/assert@1",
       "npm:@types/express@^5.0.3",
       "npm:ejs@^3.1.10",
+      "npm:express-async-handler@^1.2.0",
       "npm:express-validator@^7.2.1",
       "npm:pg@^8.16.3"
     ]
