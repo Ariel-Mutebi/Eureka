@@ -8,6 +8,7 @@ const PORT = Number(Deno.env.get('PORT'));
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use('/', indexRouter);
 
 app.listen(PORT, (error) => listening(error, PORT));

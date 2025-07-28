@@ -1,4 +1,5 @@
 interface ItemInDatabase {
+  pk: string;
   name: string;
   description: string;
   emailOfPersonWhoPosted: string;

@@ -11,7 +11,7 @@ const validateItem = [
   body("description")
     .trim()
     .isLength(minMaxOptions)
-    .withMessage("Description of items" + lengthError),
+    .withMessage("Description of items " + lengthError),
   body("emailOfPersonWhoPosted")
     .isEmail()
     .withMessage("Invalid email."),

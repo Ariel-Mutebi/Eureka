@@ -1,0 +1,62 @@
+<form method="post" id="postCreationForm">
+  <% locals.errors?.forEach((error) => { %>
+  <p><%= error.msg %></p>
+  <% }); %>
+  <input type="hidden" name="pk" value="<%= item.pk %>" />
+  <label for="name">Name of item:</label>
+  <input
+    type="text"
+    id="name"
+    name="name"
+    value="<%= locals.previous?.name %>"
+    required
+  />
+  <label for="description">Description of item:</label>
+  <textarea
+    name="description"
+    id="description"
+    minlength="0"
+    maxlength="255"
+    required
+  >
+<%= locals.previous?.description %></textarea
+  >
+  <label for="isLost">This item is:</label>
+  <select name="isLost" id="isLost" required>
+    <option value="TRUE">lost</option>
+    <% if(locals.previous && locals.previous.isLost === "FALSE") { %>
+    <option value="FALSE" selected>found</option>
+    <% } else { %>
+    <option value="FALSE">found</option>
+    <% } %>
+  </select>
+  <label for="location">Location of item:</label>
+  <input
+    type="text"
+    name="locationName"
+    id="location"
+    value="<%= locals.previous?.locationName %>"
+    required
+  />
+  <label for="email">
+    My email (so that I can be contacted for inquiries)
+  </label>
+  <input
+    type="email"
+    name="emailOfPersonWhoPosted"
+    id="email"
+    value="<%= locals.previous?.emailOfPersonWhoPosted %>"
+    required
+  />
+  <label for="password">
+    Password for this post (so that only I can edit it)
+  </label>
+  <input
+    type="password"
+    name="password"
+    id="password"
+    value="<%= locals.previous?.password %>"
+    required
+  />
+  <button type="submit">Post</button>
+</form>
