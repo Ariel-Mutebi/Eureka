@@ -3,10 +3,10 @@ import selectItemPassword from "../db/queries/selectItemPassword.ts";
 import keysToTokens from "../objects/keysToTokens.ts";
 
 const getAuthToken = async(req: Request, res: Response) => {
-  const userInputtedPassword = req.body.password;
+  const userSubmittedPassword = req.body.password;
   const correctPassword = await selectItemPassword(req.params.itemPrimaryKey);
   
-  if(userInputtedPassword !== correctPassword) {
+  if(userSubmittedPassword !== correctPassword) {
     res.status(403);
     res.end();
     return;

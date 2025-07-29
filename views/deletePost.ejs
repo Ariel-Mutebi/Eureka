@@ -1,0 +1,12 @@
+<%- include("./partials/head") %>
+<body>
+  <h1>Delete <%= itemName %> Post</h1>
+  <p>Fill in and submit the form below to delete this post.</p>
+  <p><%= locals.issue %></p>
+  <form id="authForm" method="post">
+    <label for="password">Password for this post:</label>
+    <input type="password" name="password" id="password" />
+    <input type="hidden" name="itemName" value="<%= itemName %>" />
+    <button type="submit">Submit</button>
+  </form>
+</body>

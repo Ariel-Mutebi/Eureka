@@ -1,12 +1,14 @@
 <%- include("./partials/head") %>
 <body>
-  <h1>Update Post for <%= item.name %></h1>
+  <h1>Update <%= item.name %> Post</h1>
+  <p id="wrongPassword"></p>
+
   <form id="authForm">
-    <p id="wrongPassword"></p>
     <label for="password">Password for this post:</label>
     <input type="password" name="password" id="password" />
     <button type="submit">Submit</button>
   </form>
+
   <%- include("./partials/postCreationForm", { previous: item }) %> <%-
   include("./partials/updatePostScript") %>
 </body>
