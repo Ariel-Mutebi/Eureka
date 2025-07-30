@@ -1,5 +1,5 @@
 <% const word = item.isLost ? "Lost" : "Found"; %>
-<li>
+<article>
   <h2>
     <%= word %><%= item.locationName ? ` at ${item.locationName}` : "" %>: <%=
     item.name %>
@@ -20,4 +20,4 @@
   <p>
     <a href="/deletePost/<%= item.pk %>">Delete post</a>
   </p>
-</li>
+</article>

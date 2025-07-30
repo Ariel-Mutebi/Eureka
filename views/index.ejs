@@ -1,14 +1,18 @@
-<%- include("./partials/head") %>
+<!DOCTYPE html>
+<head>
+  <title>Eureka | Home</title>
+  <link rel="stylesheet" href="/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="/css/index.css" />
+  <script src="/leaflet/leaflet.js"></script>
+</head>
+
 <body>
-  <h1>Eureka: Caveman Edition</h1>
+  <h1>Eureka</h1>
   <nav>
     <a href="/createPost">Create post</a>
   </nav>
   <main>
-    <h2>Posts</h2>
-    <ul>
-      <% items.forEach((item) => { %> <%- include("./partials/item", { item })
-      %> <% }); %>
-    </ul>
+    <section id="map"></section>
   </main>
+  <%- include("./partials/indexScripts") %>
 </body>

@@ -1,0 +1,25 @@
+<!-- set up map to location of first object -->
+<script>
+  const map = L.map("map").setView(
+    [
+      Number("<%= items[0].location.x %>"),
+      Number("<%= items[0].location.y %>"),
+    ],
+    15
+  );
+
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 20,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
+</script>
+
+<% items.forEach((item) => { %>
+<script>
+  L.marker([Number("<%= item.location.x %>"), Number("<%= item.location.y %>")])
+    .addTo(map)
+    .bindPopup(`<%- include('./item', { item }) %>`)
+    .openPopup();
+</script>
+<% }); %>
