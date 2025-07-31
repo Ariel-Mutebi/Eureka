@@ -34,7 +34,6 @@
 <script>
   L.marker([Number("<%= item.location.x %>"), Number("<%= item.location.y %>")])
     .addTo(map)
-    .bindPopup(`<%- include('./item', { item }) %>`)
-    .openPopup();
+    .bindPopup(`<%- include('./item', { item }) %>`);
 </script>
 <% }); %>

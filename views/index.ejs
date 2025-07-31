@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <head>
   <title>Eureka | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/fonts/font.css" />
+  <link rel="stylesheet" href="/bootstrap/bootstrap.css" />
   <link rel="stylesheet" href="/leaflet/leaflet.css" />
   <script src="/leaflet/leaflet.js"></script>
-  <link rel="stylesheet" href="/bootstrap/bootstrap.css" />
 </head>
 
-<body>
-  <h1>Eureka</h1>
-  <nav>
-    <a href="/createPost">Create post</a>
-  </nav>
+<body class="container-fluid p-0 nunito">
+  <div class="row g-0">
+    <header class="col-8 bg-light text-dark p-2">
+      <h1 class="fw-bold display-3">Eureka!</h1>
+      <p class="m-0">The internet's lost-and-found.</p>
+    </header>
+    <nav
+      class="col-4 bg-dark text-light d-flex align-items-center justify-content-center p-2"
+    >
+      <a href="/createPost" class="link-light h4 m-0">Create post</a>
+    </nav>
+  </div>
+
   <main>
     <button type="button" id="previousPin">Previous</button>
     <section id="map" class="vh-100"></section>
