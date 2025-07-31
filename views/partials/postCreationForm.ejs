@@ -2,7 +2,7 @@
   <% locals.errors?.forEach((error) => { %>
   <p><%= error.msg %></p>
   <% }); %>
-  <input type="hidden" name="pk" value="<%= item.pk %>" />
+  <input type="hidden" name="pk" value="<%= locals.previous?.pk %>" />
   <label for="name">Name of item:</label>
   <input
     type="text"
