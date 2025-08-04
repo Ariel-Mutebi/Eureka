@@ -1,0 +1,19 @@
+#mapOverlayGrid {
+  display: grid;
+  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+  pointer-events: none;
+}
+
+#previousPin{
+  grid-column: 0;
+  grid-row: 5;
+}
+
+#nextPin{
+  grid-column: 10;
+  grid-row: 5;
+}
+
+button > i {
+  pointer-events: auto;
+}

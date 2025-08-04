@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <head>
   <title>Eureka | Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/fonts/font.css" />
-  <link rel="stylesheet" href="/bootstrap/bootstrap.css" />
+  <%- include("./partials/fontsAndBootstrap") %>
+  <link rel="stylesheet" href="/css/mapOverlayGrid.css" />
   <link rel="stylesheet" href="/leaflet/leaflet.css" />
   <script src="/leaflet/leaflet.js"></script>
 </head>
@@ -21,10 +20,16 @@
     </nav>
   </div>
 
-  <main>
-    <button type="button" id="previousPin">Previous</button>
-    <section id="map" class="vh-100"></section>
-    <button type="button" id="nextPin">Next</button>
+  <main class="position-relative">
+    <section id="map" class="vh-100 position-relative z-0"></section>
+    <div class="position-absolute z-1 top-0 vh-100 vw-100" id="mapOverlayGrid">
+      <button type="button" id="previousPin" class="bg-transparent border-0">
+        <i class="bi bi-arrow-left-circle-fill display-3 opacity-75"></i>
+      </button>
+      <button type="button" id="nextPin" class="bg-transparent border-0">
+        <i class="bi bi-arrow-right-circle-fill display-3 opacity-75"></i>
+      </button>
+    </div>
   </main>
   <%- include("./partials/indexScripts") %>
 </body>
