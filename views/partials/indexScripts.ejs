@@ -22,18 +22,34 @@
   previousPinButton.addEventListener("click", () => {
     index = Math.max(0, index - 1);
     focusMap();
+    openPopup();
   });
 
   nextPinButton.addEventListener("click", () => {
     index = Math.min(maxIndex, index + 1);
     focusMap();
+    openPopup();
   });
+
+  const popups = [];
+  const openPopup = () => {
+    popups[index].openPopup();
+  };
 </script>
 
 <% items.forEach((item) => { %>
 <script>
-  L.marker([Number("<%= item.location.x %>"), Number("<%= item.location.y %>")])
-    .addTo(map)
-    .bindPopup(`<%- include('./item', { item }) %>`);
+  popups.push(
+    L.marker([
+      Number("<%= item.location.x %>"),
+      Number("<%= item.location.y %>"),
+    ])
+      .addTo(map)
+      .bindPopup(`<%- include('./item', { item }) %>`)
+  );
 </script>
 <% }); %>
+
+<script>
+  openPopup();
+</script>
