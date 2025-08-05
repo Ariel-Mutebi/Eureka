@@ -1,55 +1,29 @@
-<script>
-  const coordinates = JSON.parse(
-    "<%= JSON.stringify(items.map((item) => [item.location.x, item.location.y])) %>"
+<script type="module">
+  import * as myModule from "/scripts/index.js";
+
+  myModule.setUpMap(
+    JSON.parse(
+      "<%= JSON.stringify(items.map((item) => [item.location.x, item.location.y])) %>"
+    )
   );
-  console.log(coordinates);
-  let index = 0;
-  const maxIndex = Number("<%= items.length - 1 %>");
-  const map = L.map("map");
-  const focusMap = () =>
-    map.setView([coordinates[index][0], coordinates[index][1]], 15);
-  focusMap();
-
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 20,
-    attribution:
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(map);
-
-  const previousPinButton = document.getElementById("previousPin");
-  const nextPinButton = document.getElementById("nextPin");
-
-  previousPinButton.addEventListener("click", () => {
-    index = Math.max(0, index - 1);
-    focusMap();
-    openPopup();
-  });
-
-  nextPinButton.addEventListener("click", () => {
-    index = Math.min(maxIndex, index + 1);
-    focusMap();
-    openPopup();
-  });
-
-  const popups = [];
-  const openPopup = () => {
-    popups[index].openPopup();
-  };
 </script>
 
 <% items.forEach((item) => { %>
-<script>
-  popups.push(
+<script type="module">
+  import * as myModule from "/scripts/index.js";
+
+  myModule.popups.push(
     L.marker([
       Number("<%= item.location.x %>"),
       Number("<%= item.location.y %>"),
     ])
-      .addTo(map)
+      .addTo(myModule.map)
       .bindPopup(`<%- include('./item', { item }) %>`)
   );
 </script>
 <% }); %>
 
-<script>
-  openPopup();
+<script type="module">
+  import * as myModule from "/scripts/index.js";
+  myModule.openPopup();
 </script>
