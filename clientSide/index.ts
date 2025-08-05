@@ -2,10 +2,17 @@
 import * as L from "npm:leaflet";
 
 let index = 0;
+
 const map = L.map("map");
-// see ../views/partials/indexScripts.ejs for how pop-ups are added.
 const popups: L.Marker[] = [];
-const openPopup = () => popups[index].openPopup();
+
+function addPopUp(coordinates: L.LatLngExpression, HTMLstring: string){
+  popups.push(L.marker(coordinates).addTo(map).bindPopup(HTMLstring));
+}
+
+function openPopup() {
+  popups[index].openPopup();
+}
 
 function setUpMap(coordinates: number[][]) {
   const focusMap = () => {
@@ -38,6 +45,6 @@ function setUpMap(coordinates: number[][]) {
   };
 
   setUpNavigation();
-};
+}
 
-export { map, popups, openPopup, setUpMap };
+export { addPopUp, openPopup, setUpMap };

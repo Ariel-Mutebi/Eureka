@@ -4984,8 +4984,8 @@ var require_leaflet_src = __commonJS({
         }
       });
       var MarkerDrag = Handler.extend({
-        initialize: function(marker2) {
-          this._marker = marker2;
+        initialize: function(marker3) {
+          this._marker = marker3;
         },
         addHooks: function() {
           var icon2 = this._marker._icon;
@@ -5015,7 +5015,7 @@ var require_leaflet_src = __commonJS({
           return this._draggable && this._draggable._moved;
         },
         _adjustPan: function(e) {
-          var marker2 = this._marker, map3 = marker2._map, speed = this._marker.options.autoPanSpeed, padding = this._marker.options.autoPanPadding, iconPos = getPosition(marker2._icon), bounds = map3.getPixelBounds(), origin = map3.getPixelOrigin();
+          var marker3 = this._marker, map3 = marker3._map, speed = this._marker.options.autoPanSpeed, padding = this._marker.options.autoPanPadding, iconPos = getPosition(marker3._icon), bounds = map3.getPixelBounds(), origin = map3.getPixelOrigin();
           var panBounds = toBounds(bounds.min._subtract(origin).add(padding), bounds.max._subtract(origin).subtract(padding));
           if (!panBounds.contains(iconPos)) {
             var movement = toPoint((Math.max(panBounds.max.x, iconPos.x) - panBounds.max.x) / (bounds.max.x - panBounds.max.x) - (Math.min(panBounds.min.x, iconPos.x) - panBounds.min.x) / (bounds.min.x - panBounds.min.x), (Math.max(panBounds.max.y, iconPos.y) - panBounds.max.y) / (bounds.max.y - panBounds.max.y) - (Math.min(panBounds.min.y, iconPos.y) - panBounds.min.y) / (bounds.min.y - panBounds.min.y)).multiplyBy(speed);
@@ -5024,7 +5024,7 @@ var require_leaflet_src = __commonJS({
             });
             this._draggable._newPos._add(movement);
             this._draggable._startPos._add(movement);
-            setPosition(marker2._icon, this._draggable._newPos);
+            setPosition(marker3._icon, this._draggable._newPos);
             this._onDrag(e);
             this._panRequest = requestAnimFrame(this._adjustPan.bind(this, e));
           }
@@ -5041,14 +5041,14 @@ var require_leaflet_src = __commonJS({
           }
         },
         _onDrag: function(e) {
-          var marker2 = this._marker, shadow = marker2._shadow, iconPos = getPosition(marker2._icon), latlng = marker2._map.layerPointToLatLng(iconPos);
+          var marker3 = this._marker, shadow = marker3._shadow, iconPos = getPosition(marker3._icon), latlng = marker3._map.layerPointToLatLng(iconPos);
           if (shadow) {
             setPosition(shadow, iconPos);
           }
-          marker2._latlng = latlng;
+          marker3._latlng = latlng;
           e.latlng = latlng;
           e.oldLatLng = this._oldLatLng;
-          marker2.fire("move", e).fire("drag", e);
+          marker3.fire("move", e).fire("drag", e);
         },
         _onDragEnd: function(e) {
           cancelAnimFrame(this._panRequest);
@@ -5359,7 +5359,7 @@ var require_leaflet_src = __commonJS({
           return this.options.icon.options.tooltipAnchor;
         }
       });
-      function marker(latlng, options) {
+      function marker2(latlng, options) {
         return new Marker(latlng, options);
       }
       var Path = Layer.extend({
@@ -9802,7 +9802,7 @@ var require_leaflet_src = __commonJS({
       exports2.latLngBounds = toLatLngBounds;
       exports2.layerGroup = layerGroup;
       exports2.map = createMap;
-      exports2.marker = marker;
+      exports2.marker = marker2;
       exports2.point = toPoint;
       exports2.polygon = polygon;
       exports2.polyline = polyline;
@@ -9827,12 +9827,17 @@ var require_leaflet_src = __commonJS({
   }
 });
 
-// frontEnd/index.ts
+// clientSide/index.ts
 var L2 = __toESM(require_leaflet_src());
 var index = 0;
 var map2 = L2.map("map");
 var popups = [];
-var openPopup = () => popups[index].openPopup();
+function addPopUp(coordinates, HTMLstring) {
+  popups.push(L2.marker(coordinates).addTo(map2).bindPopup(HTMLstring));
+}
+function openPopup() {
+  popups[index].openPopup();
+}
 function setUpMap(coordinates) {
   const focusMap = () => {
     map2.setView([
@@ -9862,9 +9867,8 @@ function setUpMap(coordinates) {
   setUpNavigation();
 }
 export {
-  map2 as map,
+  addPopUp,
   openPopup,
-  popups,
   setUpMap
 };
 /* @preserve
