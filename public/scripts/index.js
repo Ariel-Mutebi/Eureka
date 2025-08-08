@@ -9832,7 +9832,7 @@ var L2 = __toESM(require_leaflet_src());
 var index = 0;
 var map2 = L2.map("map");
 var popups = [];
-function addPopUp(coordinates, HTMLstring) {
+function addPopup(coordinates, HTMLstring) {
   popups.push(L2.marker(coordinates).addTo(map2).bindPopup(HTMLstring));
 }
 function openPopup() {
@@ -9867,7 +9867,7 @@ function setUpMap(coordinates) {
   setUpNavigation();
 }
 export {
-  addPopUp,
+  addPopup,
   openPopup,
   setUpMap
 };

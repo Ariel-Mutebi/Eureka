@@ -6,7 +6,7 @@ let index = 0;
 const map = L.map("map");
 const popups: L.Marker[] = [];
 
-function addPopUp(coordinates: L.LatLngExpression, HTMLstring: string){
+function addPopup(coordinates: L.LatLngExpression, HTMLstring: string){
   popups.push(L.marker(coordinates).addTo(map).bindPopup(HTMLstring));
 }
 
@@ -47,4 +47,4 @@ function setUpMap(coordinates: number[][]) {
   setUpNavigation();
 }
 
-export { addPopUp, openPopup, setUpMap };
+export { addPopup, openPopup, setUpMap };
