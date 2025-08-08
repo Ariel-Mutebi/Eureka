@@ -1,5 +1,5 @@
 // @deno-types="npm:@types/leaflet"
-import * as L from "npm:leaflet";
+import * as L from "leaflet";
 
 let index = 0;
 
