@@ -6,6 +6,7 @@
     "jsr:@std/dotenv@*": "0.225.3",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/path@*": "1.0.8",
+    "npm:@reduxjs/toolkit@^2.8.2": "2.8.2_redux@5.0.1",
     "npm:@types/express@*": "5.0.3",
     "npm:@types/express@^5.0.3": "5.0.3",
     "npm:@types/leaflet@^1.9.20": "1.9.20",
@@ -18,8 +19,7 @@
     "npm:leaflet@*": "1.9.4",
     "npm:leaflet@^1.9.4": "1.9.4",
     "npm:pg@*": "8.16.3",
-    "npm:pg@^8.16.3": "8.16.3",
-    "npm:redux@^5.0.1": "5.0.1"
+    "npm:pg@^8.16.3": "8.16.3"
   },
   "jsr": {
     "@std/assert@1.0.10": {
@@ -39,6 +39,23 @@
     }
   },
   "npm": {
+    "@reduxjs/toolkit@2.8.2_redux@5.0.1": {
+      "integrity": "sha512-MYlOhQ0sLdw4ud48FoC5w0dH9VfWQjtCjreKwYTT3l+r427qYC5Y8PihNutepr8XrNaBUDQo9khWUwQxZaqt5A==",
+      "dependencies": [
+        "@standard-schema/spec",
+        "@standard-schema/utils",
+        "immer",
+        "redux",
+        "redux-thunk",
+        "reselect"
+      ]
+    },
+    "@standard-schema/spec@1.0.0": {
+      "integrity": "sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA=="
+    },
+    "@standard-schema/utils@0.3.0": {
+      "integrity": "sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g=="
+    },
     "@types/body-parser@1.19.6": {
       "integrity": "sha512-HLFeCYgz89uk22N5Qg3dvGvsv46B8GLvKKo1zKG4NybA8U2DiEO3w9lqGg29t/tfLRJpJ6iQxnVw4OnB7MoM9g==",
       "dependencies": [
@@ -387,6 +404,9 @@
         "safer-buffer"
       ]
     },
+    "immer@10.1.1": {
+      "integrity": "sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw=="
+    },
     "inherits@2.0.4": {
       "integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ=="
     },
@@ -557,8 +577,17 @@
         "unpipe"
       ]
     },
+    "redux-thunk@3.1.0_redux@5.0.1": {
+      "integrity": "sha512-NW2r5T6ksUKXCabzhL9z+h206HQw/NJkcLm1GPImRQ8IzfXwRGqjVhKJGauHirT0DAuyy6hjdnMZaRoAcy0Klw==",
+      "dependencies": [
+        "redux"
+      ]
+    },
     "redux@5.0.1": {
       "integrity": "sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w=="
+    },
+    "reselect@5.1.1": {
+      "integrity": "sha512-K/BG6eIky/SBpzfHZv/dd+9JBFiS4SWV7FIujVyJRux6e45+73RaUHXLmIR1f7WOMaQ0U1km6qwklRQxpJJY0w=="
     },
     "safe-buffer@5.2.1": {
       "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="
@@ -676,14 +705,14 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
+      "npm:@reduxjs/toolkit@^2.8.2",
       "npm:@types/express@^5.0.3",
       "npm:@types/leaflet@^1.9.20",
       "npm:ejs@^3.1.10",
       "npm:express-async-handler@^1.2.0",
       "npm:express-validator@^7.2.1",
       "npm:leaflet@^1.9.4",
-      "npm:pg@^8.16.3",
-      "npm:redux@^5.0.1"
+      "npm:pg@^8.16.3"
     ]
   }
 }
