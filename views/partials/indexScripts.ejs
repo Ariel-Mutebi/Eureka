@@ -1,6 +1,6 @@
 <script type="module">
-  import * as myModule from "/scripts/index.js";
-  myModule.setUpMap(
+  import { setUpMap } from "/scripts/index.js";
+  setUpMap(
     JSON.parse(
       "<%= JSON.stringify(items.map((item) => [item.location.x, item.location.y])) %>"
     )
@@ -9,16 +9,15 @@
 
 <% items.forEach((item) => { %>
 <script type="module">
-  import * as myModule from "/scripts/index.js";
-  myModule.addPopup([
-    Number("<%= item.location.x %>"),
-    Number("<%= item.location.y %>"),
-    `<%- include('./item', { item }) %>`,
-  ]);
+  import { addPopup } from "/scripts/index.js";
+  addPopup(
+    [Number("<%= item.location.x %>"), Number("<%= item.location.y %>")],
+    `<%- include('./item', { item }) %>`
+  );
 </script>
 <% }); %>
 
 <script type="module">
-  import * as myModule from "/scripts/index.js";
-  myModule.openPopup();
+  import { openPopup } from "/scripts/index.js";
+  openPopup();
 </script>
