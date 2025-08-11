@@ -9866,10 +9866,14 @@ function setUpMap(coordinates) {
   };
   setUpNavigation();
 }
+function setUpSearchBar(items) {
+  console.log(items);
+}
 export {
   addPopup,
   openPopup,
-  setUpMap
+  setUpMap,
+  setUpSearchBar
 };
 /* @preserve
  * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com

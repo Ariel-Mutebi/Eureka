@@ -2,7 +2,6 @@
 import * as L from "npm:leaflet";
 
 let index = 0;
-
 const map = L.map("map");
 const popups: L.Marker[] = [];
 
@@ -47,4 +46,8 @@ function setUpMap(coordinates: number[][]) {
   setUpNavigation();
 }
 
-export { addPopup, openPopup, setUpMap };
+function setUpSearchBar(items: string[]) {
+  console.log(items);
+}
+
+export { addPopup, openPopup, setUpMap, setUpSearchBar };
