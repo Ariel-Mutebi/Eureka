@@ -1,7 +1,7 @@
 // @deno-types="npm:@types/leaflet"
 import * as L from "npm:leaflet";
+import { incrementIndex, decrementIndex, setMaxIndex, store } from "./indexStateManagement.ts";
 
-let index = 0;
 const map = L.map("map");
 const popups: L.Marker[] = [];
 
@@ -10,40 +10,34 @@ function addPopup(coordinates: L.LatLngExpression, HTMLstring: string){
 }
 
 function openPopup() {
-  popups[index].openPopup();
+  popups[store.getState().index].openPopup();
 }
 
 function setUpMap(coordinates: number[][]) {
   const focusMap = () => {
+    const { index } = store.getState();
     map.setView([coordinates[index][0] + 0.002, coordinates[index][1]], 15);
   };
 
-  focusMap();
+  store.subscribe(focusMap);
+  store.dispatch(setMaxIndex(coordinates.length - 1)); // also causes focusMap to be called, making an explicit initial call redundant.
+  store.subscribe(openPopup); // Placed here to prevent a premature initial call.
 
+  // tile layer
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 20,
   attribution:
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  const setUpNavigation = () => {
-    const previousPinButton = document.getElementById("previousPin");
-    const nextPinButton = document.getElementById("nextPin");
+  // map navigation
+  document.getElementById("previousPin")?.addEventListener("click", () => {
+    store.dispatch(decrementIndex());
+  });
 
-    previousPinButton?.addEventListener("click", () => {
-      index = Math.max(0, index - 1);
-      focusMap();
-      openPopup();
-    });
-
-    nextPinButton?.addEventListener("click", () => {
-      index = Math.min(coordinates.length - 1, index + 1);
-      focusMap();
-      openPopup();
-    });
-  };
-
-  setUpNavigation();
+  document.getElementById("nextPin")?.addEventListener("click", () => {
+    store.dispatch(incrementIndex());
+  });
 }
 
 function setUpSearchBar(items: string[]) {
