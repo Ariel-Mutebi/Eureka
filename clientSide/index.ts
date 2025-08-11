@@ -16,7 +16,7 @@ function openPopup() {
 
 function setUpMap(coordinates: number[][]) {
   const focusMap = () => {
-    map.setView([coordinates[index][0], coordinates[index][1]], 15);
+    map.setView([coordinates[index][0] + 0.002, coordinates[index][1]], 15);
   };
 
   focusMap();

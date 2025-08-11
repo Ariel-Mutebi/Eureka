@@ -4,16 +4,20 @@
   pointer-events: none;
 }
 
+form, button > i {
+  pointer-events: auto;
+}
+
+#searchBar {
+  grid-column-start: 2;
+  grid-column-end: 11;
+}
+
 #previousPin{
-  grid-column: 0;
   grid-row: 5;
 }
 
 #nextPin{
   grid-column: 10;
   grid-row: 5;
-}
-
-button > i {
-  pointer-events: auto;
 }

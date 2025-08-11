@@ -9841,7 +9841,7 @@ function openPopup() {
 function setUpMap(coordinates) {
   const focusMap = () => {
     map2.setView([
-      coordinates[index][0],
+      coordinates[index][0] + 2e-3,
       coordinates[index][1]
     ], 15);
   };

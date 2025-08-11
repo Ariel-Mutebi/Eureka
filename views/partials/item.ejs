@@ -1,23 +1,36 @@
 <% const word = item.isLost ? "Lost" : "Found"; %>
-<article class="nunito">
+<article class="nunito text-center">
   <h2>
     <%= word %><%= item.locationName ? ` at ${item.locationName}` : "" %>: <%=
     item.name %>
   </h2>
-  <p><%= item.description %></p>
-  <p>
-    <a
-      href="
-      mailto:<%= item.emailOfPersonWhoPosted %>
-      ?subject=<%= encodeURIComponent(`Inquiry about the ${item.name} that you ${word.toLocaleLowerCase()}`) %>"
-    >
-      Contact person who posted
-    </a>
-  </p>
-  <p>
-    <a href="/updatePost/<%= item.pk %>">Update post</a>
-  </p>
-  <p>
-    <a href="/deletePost/<%= item.pk %>">Delete post</a>
-  </p>
+  <p class="h6"><%= item.description %></p>
+
+  <div class="container">
+    <div class="row">
+      <a
+        href="
+        mailto:<%= item.emailOfPersonWhoPosted %>
+        ?subject=<%= encodeURIComponent(`Inquiry about the ${item.name} that you ${word.toLocaleLowerCase()}`) %>"
+        title="Contact person who posted"
+        class="col-4 bg-secondary-subtle"
+      >
+        <i class="bi bi-envelope-arrow-up-fill h4 text-dark"></i>
+      </a>
+      <a
+        href="/updatePost/<%= item.pk %>"
+        title="Update post"
+        class="col-4 bg-warning-subtle"
+      >
+        <i class="bi bi-pencil-fill h4 text-dark"></i>
+      </a>
+      <a
+        href="/deletePost/<%= item.pk %>"
+        title="Delete post"
+        class="col-4 bg-danger-subtle"
+      >
+        <i class="bi bi-trash-fill h4 text-dark"></i>
+      </a>
+    </div>
+  </div>
 </article>
