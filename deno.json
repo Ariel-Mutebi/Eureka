@@ -12,6 +12,7 @@
     "ejs": "npm:ejs@^3.1.10",
     "express-async-handler": "npm:express-async-handler@^1.2.0",
     "express-validator": "npm:express-validator@^7.2.1",
+    "fuse.js": "npm:fuse.js@^7.1.0",
     "leaflet": "npm:leaflet@^1.9.4",
     "pg": "npm:pg@^8.16.3"
   },

@@ -13,21 +13,21 @@
         mailto:<%= item.emailOfPersonWhoPosted %>
         ?subject=<%= encodeURIComponent(`Inquiry about the ${item.name} that you ${word.toLocaleLowerCase()}`) %>"
         title="Contact person who posted"
-        class="col-4 bg-secondary-subtle"
+        class="col-4 bg-secondary-subtle p-1"
       >
         <i class="bi bi-envelope-arrow-up-fill h4 text-dark"></i>
       </a>
       <a
         href="/updatePost/<%= item.pk %>"
         title="Update post"
-        class="col-4 bg-warning-subtle"
+        class="col-4 bg-warning-subtle p-1"
       >
         <i class="bi bi-pencil-fill h4 text-dark"></i>
       </a>
       <a
         href="/deletePost/<%= item.pk %>"
         title="Delete post"
-        class="col-4 bg-danger-subtle"
+        class="col-4 bg-danger-subtle p-1"
       >
         <i class="bi bi-trash-fill h4 text-dark"></i>
       </a>

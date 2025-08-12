@@ -21,3 +21,7 @@ form, button > i {
   grid-column: 10;
   grid-row: 5;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

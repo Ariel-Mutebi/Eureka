@@ -17,6 +17,8 @@
     "npm:express-validator@*": "7.2.1",
     "npm:express-validator@^7.2.1": "7.2.1",
     "npm:express@*": "4.21.2",
+    "npm:fuse.js@*": "7.1.0",
+    "npm:fuse.js@^7.1.0": "7.1.0",
     "npm:leaflet@*": "1.9.4",
     "npm:leaflet@^1.9.4": "1.9.4",
     "npm:pg@*": "8.16.3",
@@ -358,6 +360,9 @@
     },
     "function-bind@1.1.2": {
       "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA=="
+    },
+    "fuse.js@7.1.0": {
+      "integrity": "sha512-trLf4SzuuUxfusZADLINj+dE8clK1frKdmqiJNb1Es75fmI5oY6X2mxLVUciLLjxqw/xr72Dhy+lER6dGd02FQ=="
     },
     "get-intrinsic@1.2.6": {
       "integrity": "sha512-qxsEs+9A+u85HhllWJJFicJfPDhRmjzoYdl64aMWW9yRIJmSyxdn8IEkuIM530/7T+lv0TIHd8L6Q/ra0tEoeA==",
@@ -712,6 +717,7 @@
       "npm:ejs@^3.1.10",
       "npm:express-async-handler@^1.2.0",
       "npm:express-validator@^7.2.1",
+      "npm:fuse.js@^7.1.0",
       "npm:leaflet@^1.9.4",
       "npm:pg@^8.16.3"
     ]

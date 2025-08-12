@@ -35,4 +35,4 @@ const store = configureStore({
   devTools: false
 });
 
-export { incrementIndex, decrementIndex, setMaxIndex, store };
+export { incrementIndex, decrementIndex, setIndex, setMaxIndex, store };
