@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<head>
-  <title>Eureka | Create Post</title>
-  <%- include("./partials/fontsAndBootstrap") %>
-  <link rel="stylesheet" href="/styles/formPage.css" />
-</head>
+<html lang="en">
+  <head>
+    <title>Eureka | Create Post</title>
+    <%- include("./partials/siteWideStyles") %>
+    <link rel="stylesheet" href="/styles/formPage.css" />
+  </head>
 
-<body>
-  <div class="background p-4 min-vh-100">
-    <div class="tablet container rounded p-4">
-      <nav>
-        <a href="/"><i class="bi bi-house-fill"></i>Home</a>
-      </nav>
+  <body>
+    <div class="background p-4 min-vh-100">
+      <div class="tablet container rounded p-4">
+        <nav>
+          <a href="/"><i class="bi bi-house-fill"></i>Home</a>
+        </nav>
 
-      <header>
-        <h1>Create Post</h1>
-      </header>
+        <header>
+          <h1>Create Post</h1>
+        </header>
 
-      <main><%- include("./partials/postCreationForm") %></main>
+        <main><%- include("./partials/postCreationForm") %></main>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
+</html>

@@ -1,84 +1,89 @@
 <!DOCTYPE html>
-<head>
-  <title>Eureka | Home</title>
-  <%- include("./partials/fontsAndBootstrap") %>
-  <link rel="stylesheet" href="/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="/styles/index.css" />
-</head>
+<html lang="en">
+  <head>
+    <title>Eureka | Home</title>
+    <%- include("./partials/siteWideStyles") %>
+    <link rel="stylesheet" href="/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="/styles/index.css" />
+  </head>
 
-<body class="container-fluid p-0 nunito">
-  <div class="row g-0">
-    <header class="col-8 bg-light text-dark p-2">
-      <h1 class="fw-bold display-3">Eureka!</h1>
-      <p class="m-0">The internet's lost-and-found.</p>
-    </header>
-    <nav
-      class="col-4 bg-dark text-light d-flex align-items-center justify-content-center p-2"
-    >
-      <a href="/createPost" class="link-light h4 m-0">Create post</a>
-    </nav>
-  </div>
-
-  <main class="position-relative">
-    <section id="map" class="vh-100 position-relative z-0"></section>
-    <div class="position-absolute z-1 top-0 vh-100 vw-100" id="mapOverlayGrid">
-      <form id="searchBar" class="container-fluid">
-        <div class="row align-items-center h-100">
-          <div class="col-10 col-sm-11 position-relative p-0">
-            <input
-              type="search"
-              name="searchPattern"
-              id="searchInput"
-              placeholder="Search listing of <%= items.length %> items"
-              class="w-100"
-            />
-            <div id="searchSuggestions" class="position-absolute w-100"></div>
-          </div>
-          <button type="submit" class="col-2 col-sm-1">
-            <i class="bi bi-search"></i>
-          </button>
-        </div>
-      </form>
-
-      <button type="button" id="previousPin" class="bg-transparent border-0">
-        <i class="bi bi-arrow-left-circle-fill display-3 opacity-75"></i>
-      </button>
-
-      <button type="button" id="nextPin" class="bg-transparent border-0">
-        <i class="bi bi-arrow-right-circle-fill display-3 opacity-75"></i>
-      </button>
+  <body class="container-fluid p-0 nunito">
+    <div class="row g-0">
+      <header class="col-8 bg-light text-dark p-2">
+        <h1 class="fw-bold display-3">Eureka!</h1>
+        <p class="m-0">The internet's lost-and-found.</p>
+      </header>
+      <nav
+        class="col-4 bg-dark text-light d-flex align-items-center justify-content-center p-2"
+      >
+        <a href="/createPost" class="link-light h4 m-0">Create post</a>
+      </nav>
     </div>
-  </main>
 
-  <script type="module">
-    import { setUpMap, setUpSearchBar } from "/scripts/index.js";
-    setUpMap(
-      JSON.parse(
-        "<%= JSON.stringify(items.map((item) => [item.location.x, item.location.y])); %>"
-      )
-    );
-    setUpSearchBar(
-      JSON.parse(
-        `<%- JSON.stringify(
-          items.map(({ name, isLost, description, fullLocationName }) => 
-            ({ name, state: isLost ? "lost" : "found", description, fullLocationName }))
-        ); %>`
-      )
-    );
-  </script>
+    <main class="position-relative">
+      <section id="map" class="vh-100 position-relative z-0"></section>
+      <div
+        class="position-absolute z-1 top-0 vh-100 vw-100"
+        id="mapOverlayGrid"
+      >
+        <form id="searchBar" class="container-fluid">
+          <div class="row align-items-center h-100">
+            <div class="col-10 col-sm-11 position-relative p-0">
+              <input
+                type="search"
+                name="searchPattern"
+                id="searchInput"
+                placeholder="Search listing of <%= items.length %> items"
+                class="w-100"
+              />
+              <div id="searchSuggestions" class="position-absolute w-100"></div>
+            </div>
+            <button type="submit" class="col-2 col-sm-1">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
 
-  <% items.forEach((item) => { %>
-  <script type="module">
-    import { addPopup } from "/scripts/index.js";
-    addPopup(
-      [Number("<%= item.location.x %>"), Number("<%= item.location.y %>")],
-      `<%- include('./partials/item', { item }) %>`
-    );
-  </script>
-  <% }); %>
+        <button type="button" id="previousPin" class="bg-transparent border-0">
+          <i class="bi bi-arrow-left-circle-fill display-3 opacity-75"></i>
+        </button>
 
-  <script type="module">
-    import { openPopup } from "/scripts/index.js";
-    openPopup();
-  </script>
-</body>
+        <button type="button" id="nextPin" class="bg-transparent border-0">
+          <i class="bi bi-arrow-right-circle-fill display-3 opacity-75"></i>
+        </button>
+      </div>
+    </main>
+
+    <script type="module">
+      import { setUpMap, setUpSearchBar } from "/scripts/index.js";
+      setUpMap(
+        JSON.parse(
+          "<%= JSON.stringify(items.map((item) => [item.location.x, item.location.y])); %>"
+        )
+      );
+      setUpSearchBar(
+        JSON.parse(
+          `<%- JSON.stringify(
+            items.map(({ name, isLost, description, fullLocationName }) => 
+              ({ name, state: isLost ? "lost" : "found", description, fullLocationName }))
+          ); %>`
+        )
+      );
+    </script>
+
+    <% items.forEach((item) => { %>
+    <script type="module">
+      import { addPopup } from "/scripts/index.js";
+      addPopup(
+        [Number("<%= item.location.x %>"), Number("<%= item.location.y %>")],
+        `<%- include('./partials/item', { item }) %>`
+      );
+    </script>
+    <% }); %>
+
+    <script type="module">
+      import { openPopup } from "/scripts/index.js";
+      openPopup();
+    </script>
+  </body>
+</html>

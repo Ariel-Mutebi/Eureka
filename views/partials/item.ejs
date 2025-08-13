@@ -9,9 +9,7 @@
   <div class="container">
     <div class="row">
       <a
-        href="
-        mailto:<%= item.emailOfPersonWhoPosted %>
-        ?subject=<%= encodeURIComponent(`Inquiry about the ${item.name} that you ${word.toLocaleLowerCase()}`) %>"
+        href="/contact/<%= item.pk %>"
         title="Contact person who posted"
         class="col-4 bg-secondary-subtle p-1"
       >

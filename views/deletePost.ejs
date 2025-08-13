@@ -1,35 +1,39 @@
 <!DOCTYPE html>
-<head>
-  <title>Eureka | Delete Post</title>
-  <%- include("./partials/fontsAndBootstrap") %>
-  <link rel="stylesheet" href="/styles/deletePage.css" />
-</head>
+<html lang="en">
+  <head>
+    <title>Eureka | Delete Post</title>
+    <%- include("./partials/siteWideStyles") %>
+    <link rel="stylesheet" href="/styles/deletePage.css" />
+  </head>
 
-<body>
-  <div class="background p-4 min-vh-100">
-    <div class="tablet container rounded p-4">
-      <nav>
-        <a href="/"><i class="bi bi-house-fill"></i>Home</a>
-      </nav>
+  <body>
+    <div class="background p-4 min-vh-100">
+      <div class="tablet container rounded p-4">
+        <nav>
+          <a href="/"><i class="bi bi-house-fill"></i>Home</a>
+        </nav>
 
-      <header>
-        <h1 class="text-white">Delete <%= itemName %> Post</h1>
-      </header>
+        <header>
+          <h1 class="text-white">Delete <%= itemName %> Post</h1>
+        </header>
 
-      <form id="authForm" method="post" class="d-flex align-items-center">
-        <p><%= locals.error %></p>
-        <input type="hidden" name="itemName" value="<%= itemName %>" />
-        <label for="password" class="text-light">Password for this post:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="form-control w-auto mx-2"
-        />
-        <button type="submit" class="btn btn-danger text-white fw-bold">
-          <i class="bi bi-trash-fill"></i>Delete
-        </button>
-      </form>
+        <form id="authForm" method="post" class="d-flex align-items-center">
+          <p><%= locals.error %></p>
+          <input type="hidden" name="itemName" value="<%= itemName %>" />
+          <label for="password" class="text-light"
+            >Password for this post:</label
+          >
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control w-auto mx-2"
+          />
+          <button type="submit" class="btn btn-danger text-white fw-bold">
+            <i class="bi bi-trash-fill"></i>Delete
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
+</html>
