@@ -1,0 +1,9 @@
+.background {
+  background-image: url("./images/annie-spratt-AFB6S2kibuk-unsplash.jpg");
+  background-size: cover;
+}
+
+.tablet {
+  background-color: hsla(0, 0%, 100%, 0.75);
+  backdrop-filter: blur(5px);
+}
