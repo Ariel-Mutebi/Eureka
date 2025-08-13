@@ -17,11 +17,16 @@
       </header>
 
       <main>
-        <form id="authForm" class="mb-2">
+        <form id="authForm" class="d-flex align-items-center mb-2">
           <p id="wrongPassword"></p>
           <label for="password">Password for this post:</label>
-          <input type="password" name="password" id="password" />
-          <button type="submit">Submit</button>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control w-auto mx-1"
+          />
+          <button type="submit" class="btn btn-secondary">Submit</button>
         </form>
         <%- include("./partials/postCreationForm", { previous: item }) %>
       </main>

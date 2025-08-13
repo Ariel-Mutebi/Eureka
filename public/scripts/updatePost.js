@@ -3,7 +3,7 @@ function setUpAuthForm(itemPK) {
   const authForm = document.getElementById("authForm");
   const updateForm = document.getElementById("postCreationForm");
   const wrongPasswordParagraph = document.getElementById("wrongPassword");
-  updateForm.style.visibility = "hidden";
+  updateForm.classList.add("d-none");
   authForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const authFormData = new FormData(authForm);
@@ -23,7 +23,8 @@ function setUpAuthForm(itemPK) {
     const authToken = await response.text();
     updateForm.action = `${itemPK}/${authToken}`;
     wrongPasswordParagraph.innerText = "";
-    updateForm.style.visibility = "visible";
+    updateForm.classList.remove("d-none");
+    authForm.classList.replace("d-flex", "d-none");
   });
 }
 export {

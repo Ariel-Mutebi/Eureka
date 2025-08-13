@@ -9,7 +9,7 @@ async function deletePost(req: Request, res: Response) {
 
   if(userSubmittedPassword !== correctPassword) {
     res.status(401);
-    res.render("deletePost", { itemName: req.body.itemName, issue: "Wrong password" });
+    res.render("deletePost", { itemName: req.body.itemName, error: "Wrong password" });
     return;
   };
 
