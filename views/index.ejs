@@ -49,5 +49,36 @@
       </button>
     </div>
   </main>
-  <%- include("./partials/indexScripts") %>
+
+  <script type="module">
+    import { setUpMap, setUpSearchBar } from "/scripts/index.js";
+    setUpMap(
+      JSON.parse(
+        "<%= JSON.stringify(items.map((item) => [item.location.x, item.location.y])); %>"
+      )
+    );
+    setUpSearchBar(
+      JSON.parse(
+        `<%- JSON.stringify(
+          items.map(({ name, isLost, description, fullLocationName }) => 
+            ({ name, state: isLost ? "lost" : "found", description, fullLocationName }))
+        ); %>`
+      )
+    );
+  </script>
+
+  <% items.forEach((item) => { %>
+  <script type="module">
+    import { addPopup } from "/scripts/index.js";
+    addPopup(
+      [Number("<%= item.location.x %>"), Number("<%= item.location.y %>")],
+      `<%- include('./partials/item', { item }) %>`
+    );
+  </script>
+  <% }); %>
+
+  <script type="module">
+    import { openPopup } from "/scripts/index.js";
+    openPopup();
+  </script>
 </body>

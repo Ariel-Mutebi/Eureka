@@ -1,7 +1,8 @@
 {
   "tasks": {
     "serve": "deno run --allow-read --allow-env --allow-net main.ts",
-    "build": "deno bundle --platform browser ./clientSide/index.ts > ./public/scripts/index.js",
+    "buildIndex": "deno bundle --platform browser ./clientSide/index.ts > ./public/scripts/index.js",
+    "buildUpdatePost": "deno bundle --platform browser ./clientSide/updatePost.ts > ./public/scripts/updatePost.js",
     "populateDB": "deno run --allow-read --allow-env --allow-net ./db/populate.ts"
   },
   "imports": {
