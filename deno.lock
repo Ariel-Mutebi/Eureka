@@ -22,8 +22,14 @@
     "npm:pg@^8.16.3": "8.16.3"
   },
   "jsr": {
+    "@std/assert@1.0.14": {
+      "integrity": "68d0d4a43b365abc927f45a9b85c639ea18a9fab96ad92281e493e4ed84abaa4"
+    },
     "@std/dotenv@0.225.3": {
       "integrity": "a95e5b812c27b0854c52acbae215856d9cce9d4bbf774d938c51d212711e8d4a"
+    },
+    "@std/internal@1.0.10": {
+      "integrity": "e3be62ce42cab0e177c27698e5d9800122f67b766a0bea6ca4867886cbde8cf7"
     },
     "@std/path@1.0.8": {
       "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
@@ -698,6 +704,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@std/assert@^1.0.14",
       "npm:@reduxjs/toolkit@^2.8.2",
       "npm:@types/express@^5.0.3",
       "npm:@types/leaflet@^1.9.20",

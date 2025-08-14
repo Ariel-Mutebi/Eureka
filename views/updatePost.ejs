@@ -14,10 +14,11 @@
         </nav>
 
         <header>
-          <h1>Update <%= item.name %> Post</h1>
+          <h1>Update <%= locals.item?.name || locals.previous?.name %> Post</h1>
         </header>
 
         <main>
+          <% if(!(locals.errors && locals.previous)) { %>
           <form id="authForm" class="d-flex align-items-center mb-2">
             <p id="wrongPassword"></p>
             <label for="password">Password for this post:</label>
@@ -30,13 +31,14 @@
             <button type="submit" class="btn btn-secondary">Submit</button>
           </form>
           <%- include("./partials/postCreationForm", { previous: item }) %>
+          <script type="module">
+            import { setUpAuthForm } from "/scripts/updatePost.js";
+            setUpAuthForm("<%= item.pk %>");
+          </script>
+          <% } else { %> <%- include("./partials/postCreationForm", { previous,
+          errors }) %> <% } %>
         </main>
       </div>
     </div>
-
-    <script type="module">
-      import { setUpAuthForm } from "/scripts/updatePost.js";
-      setUpAuthForm("<%= item.pk %>");
-    </script>
   </body>
 </html>

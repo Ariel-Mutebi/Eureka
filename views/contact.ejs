@@ -7,6 +7,10 @@
   </head>
   <body>
     <div class="background p-4 min-vh-100">
+      <article class="container px-0">
+        <%- include("./partials/errorList", { errors: locals.errors }) %>
+      </article>
+
       <div class="tablet container rounded bg-white position-relative p-0">
         <header
           class="w-100 bg-light rounded-top d-flex justify-content-between align-items-center p-2"
@@ -27,30 +31,43 @@
                 >the person who posted</span
               >
             </h6>
-            <input
-              type="email"
-              name="email"
-              id="fromAdress"
-              placeholder="From (enter your email address)"
-              aria-label="Please enter your email address"
-              class="clear-default-focus double-underline-when-focused d-block w-100 border-0 border-bottom mb-2"
-            />
+            <% if(!locals.previous) { %>
             <input
               type="text"
               name="subject"
               id="subject"
-              value="Inquiry about the <%= item.name %> that you <%= item.isLost? 'lost' : 'found' %> at <%= item.locationName %>"
+              value="Inquiry about the <%= item.name %> that you <%= item.isLost? 'lost' : 'found' %><%= item.locationName? ` at ${item.locationName}` : '' %>"
               class="clear-default-focus double-underline-when-focused d-block w-100 border-0 border-bottom mb-2"
             />
+            <% } else { %>
+            <input
+              type="text"
+              name="subject"
+              id="subject"
+              value="<%= locals.previous.subject %>"
+              class="clear-default-focus double-underline-when-focused d-block w-100 border-0 border-bottom mb-2"
+            />
+            <% } %>
             <textarea
               name="message"
               id="message"
               class="clear-default-focus w-100 border-0 mb-2"
               placeholder="You can type here"
-            ></textarea>
-            <button type="submit" class="btn btn-primary fw-bold rounded-5">
-              Send
-            </button>
+            >
+<%= locals.previous?.message %></textarea
+            >
+            <div class="d-flex align-items-center">
+              <button
+                type="submit"
+                class="btn btn-primary fw-bold rounded-5 me-2"
+              >
+                Send
+              </button>
+              <small class="text-secondary">
+                Note: please specify in your message a way this person can
+                respond to you (e.g. by telling them your email address).
+              </small>
+            </div>
           </form>
         </main>
       </div>

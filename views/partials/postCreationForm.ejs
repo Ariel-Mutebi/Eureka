@@ -1,12 +1,5 @@
 <form method="post" id="postCreationForm">
-  <% if(locals.errors) { %>
-  <ul class="bg-danger py-2 rounded">
-    <% locals.errors?.forEach((error) => { %>
-    <li class="text-light"><%= error.msg %></li>
-    <% }); %>
-  </ul>
-  <% }; %>
-
+  <% include("./errorList.ejs", { errors: locals.errors }) %>
   <input type="hidden" name="pk" value="<%= locals.previous?.pk %>" />
 
   <div class="row mb-2">
@@ -73,7 +66,7 @@
         required
       />
       <small>
-        If an inquiry about this item comes in, it'll be forwarded to you.
+        If an inquiry about this item comes in, it'll be sent here.
       </small>
     </div>
 

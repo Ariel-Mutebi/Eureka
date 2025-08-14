@@ -8,6 +8,6 @@ import validateItem from "../handlers/validateItem.ts";
 const createPostRouter = Router();
 
 createPostRouter.get("/", renderCreatePost);
-createPostRouter.post("/", validateItem, handleValidationErrors, expressAsyncHandler(createPost));
+createPostRouter.post("/", validateItem, handleValidationErrors("createPost"), expressAsyncHandler(createPost));
 
 export default createPostRouter;

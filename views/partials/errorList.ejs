@@ -1,0 +1,7 @@
+<% if(locals.errors) { %>
+<ul class="bg-danger py-2 rounded">
+  <% locals.errors?.forEach((error) => { %>
+  <li class="text-light"><%= error.msg %></li>
+  <% }); %>
+</ul>
+<% }; %>
