@@ -1,4 +1,18 @@
 .background {
   background-image: url("./images/gustavo-zambelli-sK9W1j9oR3I-unsplash.jpg");
+  background-color: hsla(0, 0%, 0%, 0.25);
+  background-blend-mode: multiply;
   background-size: cover;
+}
+
+.clear-default-focus:focus{
+  outline: none;
+}
+
+.double-underline-when-focused:focus {
+  border-bottom-color: black !important; /* because bootstrap puts !important on everything, making it harder to override. */
+}
+
+#message {
+  height: 200px;
 }
