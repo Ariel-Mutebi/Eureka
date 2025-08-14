@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "serve": "deno run --allow-read --allow-env --allow-net main.ts",
+    "serve": "deno run --allow-read --allow-env --allow-net --allow-sys main.ts",
     "buildIndex": "deno bundle --platform browser ./clientSide/index.ts > ./public/scripts/index.js",
     "buildUpdatePost": "deno bundle --platform browser ./clientSide/updatePost.ts > ./public/scripts/updatePost.js",
     "populateDB": "deno run --allow-read --allow-env --allow-net ./db/populate.ts"
@@ -10,11 +10,13 @@
     "@std/assert": "jsr:@std/assert@^1.0.14",
     "@types/express": "npm:@types/express@^5.0.3",
     "@types/leaflet": "npm:@types/leaflet@^1.9.20",
+    "@types/nodemailer": "npm:@types/nodemailer@^6.4.17",
     "ejs": "npm:ejs@^3.1.10",
     "express-async-handler": "npm:express-async-handler@^1.2.0",
     "express-validator": "npm:express-validator@^7.2.1",
     "fuse.js": "npm:fuse.js@^7.1.0",
     "leaflet": "npm:leaflet@^1.9.4",
+    "nodemailer": "npm:nodemailer@^7.0.5",
     "pg": "npm:pg@^8.16.3"
   },
   "compilerOptions": {
