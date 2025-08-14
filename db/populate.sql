@@ -1,6 +1,6 @@
 INSERT INTO items
 (name, description, email_of_person_who_posted, password, is_lost, location)
 VALUES
-('Bike', 'A big rugged mountain bike', 'pplanes311@gmail.com', 'dev_mode', TRUE, point(0.3014656, 32.5812224)),
-('Car keys', 'Keys to a ferrari', 'pplanes311@gmail.com', 'dev_mode', TRUE, point(0.3014656, 32.5812224)),
-('Wedding ring', 'Wedding ring with a large diamond', 'pplanes311@gmail.com', 'dev_mode', FALSE, point(0.3014656, 32.5812224));
+('Bike', 'This is an example.', 'eurekalostandfound@gmail.com', 'Bro really thinks he is an admin...', TRUE, point(41.8902335, 12.4911639)),
+('Car keys', 'This is an example.', 'eurekalostandfound@gmail.com', 'Bro really thinks he is an admin...', TRUE, point(43.7230159, 10.3966322)),
+('Wedding ring', 'This is an example.', 'eurekalostandfound@gmail.com', 'Bro really thinks he is an admin...', FALSE, point(48.8582599, 2.2945006))

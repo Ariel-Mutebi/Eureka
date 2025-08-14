@@ -19,8 +19,8 @@
 
         <main>
           <% if(!(locals.errors && locals.previous)) { %>
+          <p id="wrongPassword"></p>
           <form id="authForm" class="d-sm-flex align-items-center mb-2">
-            <p id="wrongPassword"></p>
             <label for="password">Password:</label>
             <input
               type="password"

@@ -19,8 +19,9 @@
           <h1 class="text-white">Delete <%= itemName %> Post</h1>
         </header>
 
+        <p class="text-light"><%= locals.error %></p>
+
         <form id="authForm" method="post" class="d-sm-flex align-items-center">
-          <p><%= locals.error %></p>
           <input type="hidden" name="itemName" value="<%= itemName %>" />
           <label for="password" class="text-light">Password:</label>
           <input
