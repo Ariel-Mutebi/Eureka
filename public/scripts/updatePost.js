@@ -24,7 +24,7 @@ function setUpAuthForm(itemPK) {
     updateForm.action = `${itemPK}/${authToken}`;
     wrongPasswordParagraph.innerText = "";
     updateForm.classList.remove("d-none");
-    authForm.classList.replace("d-flex", "d-none");
+    authForm.classList.replace("d-sm-flex", "d-none");
   });
 }
 export {

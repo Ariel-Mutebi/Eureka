@@ -1,5 +1,5 @@
 <form method="post" id="postCreationForm">
-  <% include("./errorList.ejs", { errors: locals.errors }) %>
+  <%- include("./errorList.ejs", { errors: locals.errors }) %>
   <input type="hidden" name="pk" value="<%= locals.previous?.pk %>" />
 
   <div class="row mb-2">

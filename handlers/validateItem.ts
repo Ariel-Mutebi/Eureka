@@ -1,4 +1,5 @@
 import { body } from "npm:express-validator";
+import locationNameIsGeocodable from "../helperFunctions/locationNameIsGeocodable.ts";
 
 const minMaxOptions = { min: 1, max: 255 };
 const lengthError = "must be between 1 and 255 characters.";
@@ -26,6 +27,7 @@ const validateItem = [
     .trim()
     .isLength({ min: 1 }) // no max of 255 as not stored in database.
     .withMessage("Please give a location.")
+    .custom(locationNameIsGeocodable)
 ];
 
 export default validateItem;
