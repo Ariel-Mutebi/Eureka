@@ -19,14 +19,14 @@
 
         <main>
           <% if(!(locals.errors && locals.previous)) { %>
-          <form id="authForm" class="d-flex align-items-center mb-2">
+          <form id="authForm" class="d-sm-flex align-items-center mb-2">
             <p id="wrongPassword"></p>
-            <label for="password">Password for this post:</label>
+            <label for="password">Password:</label>
             <input
               type="password"
               name="password"
               id="password"
-              class="form-control w-auto mx-1"
+              class="form-control w-auto mx-sm-1 my-1 my-sm-0"
             />
             <button type="submit" class="btn btn-secondary">Submit</button>
           </form>
