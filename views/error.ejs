@@ -3,10 +3,20 @@
   <head>
     <title>Eureka | Error</title>
     <%- include("./partials/siteWideStyles") %>
+    <link rel="stylesheet" href="/styles/error.css" />
   </head>
 
   <body>
-    <h1>Status Code: <%= statusCode %></h1>
-    <p><%= error %></p>
+    <div
+      class="background min-vh-100 d-flex justify-content-center align-items-center"
+    >
+      <main
+        class="tablet text-center d-flex flex-column justify-content-center align-items-center p-4"
+      >
+        <h1>Status Code: <%= statusCode %></h1>
+        <p><%= error %></p>
+        <a href="/"><i class="bi bi-house-fill"></i>Return home</a>
+      </main>
+    </div>
   </body>
 </html>

@@ -6,6 +6,7 @@ import updatePostRouter from "./updatePostRouter.ts";
 import createPostRouter from "./createPostRouter.ts";
 import deletePostRouter from "./deletePostRouter.ts";
 import contactRouter from "./contactRouter.ts";
+import render404 from "../handlers/render404.ts";
 
 const indexRouter = Router();
 
@@ -14,6 +15,7 @@ indexRouter.use("/createPost", createPostRouter);
 indexRouter.use("/updatePost", updatePostRouter);
 indexRouter.use("/deletePost", deletePostRouter);
 indexRouter.use("/contact", contactRouter);
+indexRouter.use(render404);
 indexRouter.use(renderError);
 
 export default indexRouter;
