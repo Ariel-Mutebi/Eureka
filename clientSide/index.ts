@@ -1,12 +1,14 @@
 // @deno-types="npm:@types/leaflet"
 import * as L from "npm:leaflet";
+import * as ejs from "npm:ejs";
+import Item from "../interfaces/Item.ts";
+import itemTemplate from "../views/partials/item.ejs" with { type: "text" };
 
-function setUpMap(coordinates: [number, number], HTMLstring: string) {
-  console.log(coordinates);
+function setUpMap(item: Item) {
   const map = L.map("map");
   
   // focus map
-  map.setView([coordinates[0] + 0.002, coordinates[1]], 15);
+  map.setView([item.location.x + 0.002, item.location.y], 15);
 
   // tile layer
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -16,11 +18,13 @@ function setUpMap(coordinates: [number, number], HTMLstring: string) {
   }).addTo(map);
 
   // popup
+  const itemHTML = ejs.render(itemTemplate, { item });
+
   const popup = L.popup({
     closeOnClick: false 
-  }).setContent(HTMLstring)
+  }).setContent(itemHTML);
 
-  L.marker(coordinates)
+  L.marker([item.location.x, item.location.y])
     .addTo(map)
     .bindPopup(popup)
     .openPopup();

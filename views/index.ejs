@@ -58,10 +58,11 @@
     <script type="module">
       import { setUpMap, setUpSearchBar } from "/scripts/index.js";
       setUpMap(
-        JSON.parse(
-          "<%= JSON.stringify([item.location.x, item.location.y]); %>"
-        ),
-        `<%- include('./partials/item', { item }) %>`
+        JSON.parse(`<%- JSON.stringify((function() {
+          const { pk, name, description, isLost, location, fullLocationName } = item;
+          return { pk, name, description, isLost, location, fullLocationName };
+        })());  
+        %>`)
       );
       setUpSearchBar();
     </script>
