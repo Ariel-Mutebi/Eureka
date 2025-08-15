@@ -45,11 +45,11 @@ var require_leaflet_src = __commonJS({
         return dest;
       }
       var create$2 = Object.create || /* @__PURE__ */ function() {
-        function F2() {
+        function F() {
         }
-        return function(proto2) {
-          F2.prototype = proto2;
-          return new F2();
+        return function(proto) {
+          F.prototype = proto;
+          return new F();
         };
       }();
       function bind(fn, obj) {
@@ -89,9 +89,9 @@ var require_leaflet_src = __commonJS({
         };
         return wrapperFn;
       }
-      function wrapNum(x2, range, includeMax) {
+      function wrapNum(x, range, includeMax) {
         var max = range[1], min = range[0], d = max - min;
-        return x2 === max && includeMax ? x2 : ((x2 - min) % d + d) % d + min;
+        return x === max && includeMax ? x : ((x - min) % d + d) % d + min;
       }
       function falseFn() {
         return false;
@@ -211,9 +211,9 @@ var require_leaflet_src = __commonJS({
           this.callInitHooks();
         };
         var parentProto = NewClass.__super__ = this.prototype;
-        var proto2 = create$2(parentProto);
-        proto2.constructor = NewClass;
-        NewClass.prototype = proto2;
+        var proto = create$2(parentProto);
+        proto.constructor = NewClass;
+        NewClass.prototype = proto;
         for (var i in this) {
           if (Object.prototype.hasOwnProperty.call(this, i) && i !== "prototype" && i !== "__super__") {
             NewClass[i] = this[i];
@@ -225,18 +225,18 @@ var require_leaflet_src = __commonJS({
         if (props.includes) {
           checkDeprecatedMixinEvents(props.includes);
           extend.apply(null, [
-            proto2
+            proto
           ].concat(props.includes));
         }
-        extend(proto2, props);
-        delete proto2.statics;
-        delete proto2.includes;
-        if (proto2.options) {
-          proto2.options = parentProto.options ? create$2(parentProto.options) : {};
-          extend(proto2.options, props.options);
+        extend(proto, props);
+        delete proto.statics;
+        delete proto.includes;
+        if (proto.options) {
+          proto.options = parentProto.options ? create$2(parentProto.options) : {};
+          extend(proto.options, props.options);
         }
-        proto2._initHooks = [];
-        proto2.callInitHooks = function() {
+        proto._initHooks = [];
+        proto.callInitHooks = function() {
           if (this._initHooksCalled) {
             return;
           }
@@ -244,8 +244,8 @@ var require_leaflet_src = __commonJS({
             parentProto.callInitHooks.call(this);
           }
           this._initHooksCalled = true;
-          for (var i2 = 0, len = proto2._initHooks.length; i2 < len; i2++) {
-            proto2._initHooks[i2].call(this);
+          for (var i2 = 0, len = proto._initHooks.length; i2 < len; i2++) {
+            proto._initHooks[i2].call(this);
           }
         };
         return NewClass;
@@ -503,12 +503,12 @@ var require_leaflet_src = __commonJS({
           }
           return this;
         },
-        _propagateEvent: function(e2) {
+        _propagateEvent: function(e) {
           for (var id in this._eventParents) {
-            this._eventParents[id].fire(e2.type, extend({
-              layer: e2.target,
-              propagatedFrom: e2.target
-            }, e2), true);
+            this._eventParents[id].fire(e.type, extend({
+              layer: e.target,
+              propagatedFrom: e.target
+            }, e), true);
           }
         }
       };
@@ -518,8 +518,8 @@ var require_leaflet_src = __commonJS({
       Events.fireEvent = Events.fire;
       Events.hasEventListeners = Events.listens;
       var Evented = Class.extend(Events);
-      function Point(x2, y, round) {
-        this.x = round ? Math.round(x2) : x2;
+      function Point(x, y, round) {
+        this.x = round ? Math.round(x) : x;
         this.y = round ? Math.round(y) : y;
       }
       var trunc = Math.trunc || function(v) {
@@ -629,8 +629,8 @@ var require_leaflet_src = __commonJS({
         // Returns the cartesian distance between the current and the given points.
         distanceTo: function(point) {
           point = toPoint(point);
-          var x2 = point.x - this.x, y = point.y - this.y;
-          return Math.sqrt(x2 * x2 + y * y);
+          var x = point.x - this.x, y = point.y - this.y;
+          return Math.sqrt(x * x + y * y);
         },
         // @method equals(otherPoint: Point): Boolean
         // Returns `true` if the given point has the same coordinates.
@@ -650,20 +650,20 @@ var require_leaflet_src = __commonJS({
           return "Point(" + formatNum(this.x) + ", " + formatNum(this.y) + ")";
         }
       };
-      function toPoint(x2, y, round) {
-        if (x2 instanceof Point) {
-          return x2;
+      function toPoint(x, y, round) {
+        if (x instanceof Point) {
+          return x;
         }
-        if (isArray(x2)) {
-          return new Point(x2[0], x2[1]);
+        if (isArray(x)) {
+          return new Point(x[0], x[1]);
         }
-        if (x2 === void 0 || x2 === null) {
-          return x2;
+        if (x === void 0 || x === null) {
+          return x;
         }
-        if (typeof x2 === "object" && "x" in x2 && "y" in x2) {
-          return new Point(x2.x, x2.y);
+        if (typeof x === "object" && "x" in x && "y" in x) {
+          return new Point(x.x, x.y);
         }
-        return new Point(x2, y, round);
+        return new Point(x, y, round);
       }
       function Bounds(a, b) {
         if (!a) {
@@ -823,27 +823,27 @@ var require_leaflet_src = __commonJS({
         // @method extend(otherBounds: LatLngBounds): this
         // Extend the bounds to contain the given bounds
         extend: function(obj) {
-          var sw = this._southWest, ne2 = this._northEast, sw2, ne22;
+          var sw = this._southWest, ne = this._northEast, sw2, ne2;
           if (obj instanceof LatLng) {
             sw2 = obj;
-            ne22 = obj;
+            ne2 = obj;
           } else if (obj instanceof LatLngBounds) {
             sw2 = obj._southWest;
-            ne22 = obj._northEast;
-            if (!sw2 || !ne22) {
+            ne2 = obj._northEast;
+            if (!sw2 || !ne2) {
               return this;
             }
           } else {
             return obj ? this.extend(toLatLng(obj) || toLatLngBounds(obj)) : this;
           }
-          if (!sw && !ne2) {
+          if (!sw && !ne) {
             this._southWest = new LatLng(sw2.lat, sw2.lng);
-            this._northEast = new LatLng(ne22.lat, ne22.lng);
+            this._northEast = new LatLng(ne2.lat, ne2.lng);
           } else {
             sw.lat = Math.min(sw2.lat, sw.lat);
             sw.lng = Math.min(sw2.lng, sw.lng);
-            ne2.lat = Math.max(ne22.lat, ne2.lat);
-            ne2.lng = Math.max(ne22.lng, ne2.lng);
+            ne.lat = Math.max(ne2.lat, ne.lat);
+            ne.lng = Math.max(ne2.lng, ne.lng);
           }
           return this;
         },
@@ -852,8 +852,8 @@ var require_leaflet_src = __commonJS({
         // For example, a ratio of 0.5 extends the bounds by 50% in each direction.
         // Negative values will retract the bounds.
         pad: function(bufferRatio) {
-          var sw = this._southWest, ne2 = this._northEast, heightBuffer = Math.abs(sw.lat - ne2.lat) * bufferRatio, widthBuffer = Math.abs(sw.lng - ne2.lng) * bufferRatio;
-          return new LatLngBounds(new LatLng(sw.lat - heightBuffer, sw.lng - widthBuffer), new LatLng(ne2.lat + heightBuffer, ne2.lng + widthBuffer));
+          var sw = this._southWest, ne = this._northEast, heightBuffer = Math.abs(sw.lat - ne.lat) * bufferRatio, widthBuffer = Math.abs(sw.lng - ne.lng) * bufferRatio;
+          return new LatLngBounds(new LatLng(sw.lat - heightBuffer, sw.lng - widthBuffer), new LatLng(ne.lat + heightBuffer, ne.lng + widthBuffer));
         },
         // @method getCenter(): LatLng
         // Returns the center point of the bounds.
@@ -911,27 +911,27 @@ var require_leaflet_src = __commonJS({
           } else {
             obj = toLatLngBounds(obj);
           }
-          var sw = this._southWest, ne2 = this._northEast, sw2, ne22;
+          var sw = this._southWest, ne = this._northEast, sw2, ne2;
           if (obj instanceof LatLngBounds) {
             sw2 = obj.getSouthWest();
-            ne22 = obj.getNorthEast();
+            ne2 = obj.getNorthEast();
           } else {
-            sw2 = ne22 = obj;
+            sw2 = ne2 = obj;
           }
-          return sw2.lat >= sw.lat && ne22.lat <= ne2.lat && sw2.lng >= sw.lng && ne22.lng <= ne2.lng;
+          return sw2.lat >= sw.lat && ne2.lat <= ne.lat && sw2.lng >= sw.lng && ne2.lng <= ne.lng;
         },
         // @method intersects(otherBounds: LatLngBounds): Boolean
         // Returns `true` if the rectangle intersects the given bounds. Two bounds intersect if they have at least one point in common.
         intersects: function(bounds) {
           bounds = toLatLngBounds(bounds);
-          var sw = this._southWest, ne2 = this._northEast, sw2 = bounds.getSouthWest(), ne22 = bounds.getNorthEast(), latIntersects = ne22.lat >= sw.lat && sw2.lat <= ne2.lat, lngIntersects = ne22.lng >= sw.lng && sw2.lng <= ne2.lng;
+          var sw = this._southWest, ne = this._northEast, sw2 = bounds.getSouthWest(), ne2 = bounds.getNorthEast(), latIntersects = ne2.lat >= sw.lat && sw2.lat <= ne.lat, lngIntersects = ne2.lng >= sw.lng && sw2.lng <= ne.lng;
           return latIntersects && lngIntersects;
         },
         // @method overlaps(otherBounds: LatLngBounds): Boolean
         // Returns `true` if the rectangle overlaps the given bounds. Two bounds overlap if their intersection is an area.
         overlaps: function(bounds) {
           bounds = toLatLngBounds(bounds);
-          var sw = this._southWest, ne2 = this._northEast, sw2 = bounds.getSouthWest(), ne22 = bounds.getNorthEast(), latOverlaps = ne22.lat > sw.lat && sw2.lat < ne2.lat, lngOverlaps = ne22.lng > sw.lng && sw2.lng < ne2.lng;
+          var sw = this._southWest, ne = this._northEast, sw2 = bounds.getSouthWest(), ne2 = bounds.getNorthEast(), latOverlaps = ne2.lat > sw.lat && sw2.lat < ne.lat, lngOverlaps = ne2.lng > sw.lng && sw2.lng < ne.lng;
           return latOverlaps && lngOverlaps;
         },
         // @method toBBoxString(): String
@@ -1122,7 +1122,7 @@ var require_leaflet_src = __commonJS({
           if (latShift === 0 && lngShift === 0) {
             return bounds;
           }
-          var sw = bounds.getSouthWest(), ne2 = bounds.getNorthEast(), newSw = new LatLng(sw.lat - latShift, sw.lng - lngShift), newNe = new LatLng(ne2.lat - latShift, ne2.lng - lngShift);
+          var sw = bounds.getSouthWest(), ne = bounds.getNorthEast(), newSw = new LatLng(sw.lat - latShift, sw.lng - lngShift), newNe = new LatLng(ne.lat - latShift, ne.lng - lngShift);
           return new LatLngBounds(newSw, newNe);
         }
       };
@@ -1229,8 +1229,8 @@ var require_leaflet_src = __commonJS({
         return str || "M0 0";
       }
       var style = document.documentElement.style;
-      var ie2 = "ActiveXObject" in window;
-      var ielt9 = ie2 && !document.addEventListener;
+      var ie = "ActiveXObject" in window;
+      var ielt9 = ie && !document.addEventListener;
       var edge = "msLaunchUri" in navigator && !("documentMode" in document);
       var webkit = userAgentContains("webkit");
       var android = userAgentContains("android");
@@ -1239,12 +1239,12 @@ var require_leaflet_src = __commonJS({
       var androidStock = android && userAgentContains("Google") && webkitVer < 537 && !("AudioNode" in window);
       var opera = !!window.opera;
       var chrome = !edge && userAgentContains("chrome");
-      var gecko = userAgentContains("gecko") && !webkit && !opera && !ie2;
+      var gecko = userAgentContains("gecko") && !webkit && !opera && !ie;
       var safari = !chrome && userAgentContains("safari");
       var phantom = userAgentContains("phantom");
       var opera12 = "OTransition" in style;
       var win = navigator.platform.indexOf("Win") === 0;
-      var ie3d = ie2 && "transition" in style;
+      var ie3d = ie && "transition" in style;
       var webkit3d = "WebKitCSSMatrix" in window && "m11" in new window.WebKitCSSMatrix() && !android23;
       var gecko3d = "MozPerspective" in style;
       var any3d = !window.L_DISABLE_3D && (ie3d || webkit3d || gecko3d) && !opera12 && !phantom;
@@ -1268,7 +1268,7 @@ var require_leaflet_src = __commonJS({
           });
           window.addEventListener("testPassiveEventSupport", falseFn, opts);
           window.removeEventListener("testPassiveEventSupport", falseFn, opts);
-        } catch (e2) {
+        } catch (e) {
         }
         return supportsPassiveOption;
       }();
@@ -1288,7 +1288,7 @@ var require_leaflet_src = __commonJS({
           var shape = div.firstChild;
           shape.style.behavior = "url(#default#VML)";
           return shape && typeof shape.adj === "object";
-        } catch (e2) {
+        } catch (e) {
           return false;
         }
       }();
@@ -1298,7 +1298,7 @@ var require_leaflet_src = __commonJS({
         return navigator.userAgent.toLowerCase().indexOf(str) >= 0;
       }
       var Browser = {
-        ie: ie2,
+        ie,
         ielt9,
         edge,
         webkit,
@@ -1371,16 +1371,16 @@ var require_leaflet_src = __commonJS({
         }
         obj.removeEventListener(pEvent[type], handler, false);
       }
-      function _globalPointerDown(e2) {
-        _pointers[e2.pointerId] = e2;
+      function _globalPointerDown(e) {
+        _pointers[e.pointerId] = e;
       }
-      function _globalPointerMove(e2) {
-        if (_pointers[e2.pointerId]) {
-          _pointers[e2.pointerId] = e2;
+      function _globalPointerMove(e) {
+        if (_pointers[e.pointerId]) {
+          _pointers[e.pointerId] = e;
         }
       }
-      function _globalPointerUp(e2) {
-        delete _pointers[e2.pointerId];
+      function _globalPointerUp(e) {
+        delete _pointers[e.pointerId];
       }
       function _addPointerDocListener() {
         if (!_pointerDocListener) {
@@ -1391,24 +1391,24 @@ var require_leaflet_src = __commonJS({
           _pointerDocListener = true;
         }
       }
-      function _handlePointer(handler, e2) {
-        if (e2.pointerType === (e2.MSPOINTER_TYPE_MOUSE || "mouse")) {
+      function _handlePointer(handler, e) {
+        if (e.pointerType === (e.MSPOINTER_TYPE_MOUSE || "mouse")) {
           return;
         }
-        e2.touches = [];
+        e.touches = [];
         for (var i in _pointers) {
-          e2.touches.push(_pointers[i]);
+          e.touches.push(_pointers[i]);
         }
-        e2.changedTouches = [
-          e2
+        e.changedTouches = [
+          e
         ];
-        handler(e2);
+        handler(e);
       }
-      function _onPointerStart(handler, e2) {
-        if (e2.MSPOINTER_TYPE_TOUCH && e2.pointerType === e2.MSPOINTER_TYPE_TOUCH) {
-          preventDefault(e2);
+      function _onPointerStart(handler, e) {
+        if (e.MSPOINTER_TYPE_TOUCH && e.pointerType === e.MSPOINTER_TYPE_TOUCH) {
+          preventDefault(e);
         }
-        _handlePointer(handler, e2);
+        _handlePointer(handler, e);
       }
       function makeDblclick(event) {
         var newEvent = {}, prop, i;
@@ -1427,15 +1427,15 @@ var require_leaflet_src = __commonJS({
       function addDoubleTapListener(obj, handler) {
         obj.addEventListener("dblclick", handler);
         var last = 0, detail;
-        function simDblclick(e2) {
-          if (e2.detail !== 1) {
-            detail = e2.detail;
+        function simDblclick(e) {
+          if (e.detail !== 1) {
+            detail = e.detail;
             return;
           }
-          if (e2.pointerType === "mouse" || e2.sourceCapabilities && !e2.sourceCapabilities.firesTouchEvents) {
+          if (e.pointerType === "mouse" || e.sourceCapabilities && !e.sourceCapabilities.firesTouchEvents) {
             return;
           }
-          var path = getPropagationPath(e2);
+          var path = getPropagationPath(e);
           if (path.some(function(el) {
             return el instanceof HTMLLabelElement && el.attributes.for;
           }) && !path.some(function(el) {
@@ -1447,7 +1447,7 @@ var require_leaflet_src = __commonJS({
           if (now - last <= delay) {
             detail++;
             if (detail === 2) {
-              handler(makeDblclick(e2));
+              handler(makeDblclick(e));
             }
           } else {
             detail = 1;
@@ -1570,7 +1570,7 @@ var require_leaflet_src = __commonJS({
         var filter = false, filterName = "DXImageTransform.Microsoft.Alpha";
         try {
           filter = el.filters.item(filterName);
-        } catch (e2) {
+        } catch (e) {
           if (value === 1) {
             return;
           }
@@ -1772,8 +1772,8 @@ var require_leaflet_src = __commonJS({
         if (obj[eventsKey] && obj[eventsKey][id]) {
           return this;
         }
-        var handler = function(e2) {
-          return fn.call(context || obj, e2 || window.event);
+        var handler = function(e) {
+          return fn.call(context || obj, e || window.event);
         };
         var originalHandler = handler;
         if (!Browser.touchNative && Browser.pointer && type.indexOf("touch") === 0) {
@@ -1786,10 +1786,10 @@ var require_leaflet_src = __commonJS({
               passive: false
             } : false);
           } else if (type === "mouseenter" || type === "mouseleave") {
-            handler = function(e2) {
-              e2 = e2 || window.event;
-              if (isExternalTarget(obj, e2)) {
-                originalHandler(e2);
+            handler = function(e) {
+              e = e || window.event;
+              if (isExternalTarget(obj, e)) {
+                originalHandler(e);
               }
             };
             obj.addEventListener(mouseSubst[type], handler, false);
@@ -1819,13 +1819,13 @@ var require_leaflet_src = __commonJS({
         }
         obj[eventsKey][id] = null;
       }
-      function stopPropagation(e2) {
-        if (e2.stopPropagation) {
-          e2.stopPropagation();
-        } else if (e2.originalEvent) {
-          e2.originalEvent._stopped = true;
+      function stopPropagation(e) {
+        if (e.stopPropagation) {
+          e.stopPropagation();
+        } else if (e.originalEvent) {
+          e.originalEvent._stopped = true;
         } else {
-          e2.cancelBubble = true;
+          e.cancelBubble = true;
         }
         return this;
       }
@@ -1838,17 +1838,17 @@ var require_leaflet_src = __commonJS({
         el["_leaflet_disable_click"] = true;
         return this;
       }
-      function preventDefault(e2) {
-        if (e2.preventDefault) {
-          e2.preventDefault();
+      function preventDefault(e) {
+        if (e.preventDefault) {
+          e.preventDefault();
         } else {
-          e2.returnValue = false;
+          e.returnValue = false;
         }
         return this;
       }
-      function stop(e2) {
-        preventDefault(e2);
-        stopPropagation(e2);
+      function stop(e) {
+        preventDefault(e);
+        stopPropagation(e);
         return this;
       }
       function getPropagationPath(ev) {
@@ -1863,24 +1863,24 @@ var require_leaflet_src = __commonJS({
         }
         return path;
       }
-      function getMousePosition(e2, container) {
+      function getMousePosition(e, container) {
         if (!container) {
-          return new Point(e2.clientX, e2.clientY);
+          return new Point(e.clientX, e.clientY);
         }
         var scale2 = getScale(container), offset = scale2.boundingClientRect;
         return new Point(
           // offset.left/top values are in page scale (like clientX/Y),
           // whereas clientLeft/Top (border width) values are the original values (before CSS scale applies).
-          (e2.clientX - offset.left) / scale2.x - container.clientLeft,
-          (e2.clientY - offset.top) / scale2.y - container.clientTop
+          (e.clientX - offset.left) / scale2.x - container.clientLeft,
+          (e.clientY - offset.top) / scale2.y - container.clientTop
         );
       }
       var wheelPxFactor = Browser.linux && Browser.chrome ? window.devicePixelRatio : Browser.mac ? window.devicePixelRatio * 3 : window.devicePixelRatio > 0 ? 2 * window.devicePixelRatio : 1;
-      function getWheelDelta(e2) {
-        return Browser.edge ? e2.wheelDeltaY / 2 : e2.deltaY && e2.deltaMode === 0 ? -e2.deltaY / wheelPxFactor : e2.deltaY && e2.deltaMode === 1 ? -e2.deltaY * 20 : e2.deltaY && e2.deltaMode === 2 ? -e2.deltaY * 60 : e2.deltaX || e2.deltaZ ? 0 : e2.wheelDelta ? (e2.wheelDeltaY || e2.wheelDelta) / 2 : e2.detail && Math.abs(e2.detail) < 32765 ? -e2.detail * 20 : e2.detail ? e2.detail / -32765 * 60 : 0;
+      function getWheelDelta(e) {
+        return Browser.edge ? e.wheelDeltaY / 2 : e.deltaY && e.deltaMode === 0 ? -e.deltaY / wheelPxFactor : e.deltaY && e.deltaMode === 1 ? -e.deltaY * 20 : e.deltaY && e.deltaMode === 2 ? -e.deltaY * 60 : e.deltaX || e.deltaZ ? 0 : e.wheelDelta ? (e.wheelDeltaY || e.wheelDelta) / 2 : e.detail && Math.abs(e.detail) < 32765 ? -e.detail * 20 : e.detail ? e.detail / -32765 * 60 : 0;
       }
-      function isExternalTarget(el, e2) {
-        var related = e2.relatedTarget;
+      function isExternalTarget(el, e) {
+        var related = e.relatedTarget;
         if (!related) {
           return true;
         }
@@ -1966,7 +1966,7 @@ var require_leaflet_src = __commonJS({
           return 1 - Math.pow(1 - t, this._easeOutPower);
         }
       });
-      var Map2 = Evented.extend({
+      var Map = Evented.extend({
         options: {
           // @section Map State Options
           // @option crs: CRS = L.CRS.EPSG3857
@@ -2526,7 +2526,7 @@ var require_leaflet_src = __commonJS({
           try {
             delete this._container._leaflet_id;
             delete this._containerId;
-          } catch (e2) {
+          } catch (e) {
             this._container._leaflet_id = void 0;
             this._containerId = void 0;
           }
@@ -2589,8 +2589,8 @@ var require_leaflet_src = __commonJS({
         // @method getBounds(): LatLngBounds
         // Returns the geographical bounds visible in the current map view
         getBounds: function() {
-          var bounds = this.getPixelBounds(), sw = this.unproject(bounds.getBottomLeft()), ne2 = this.unproject(bounds.getTopRight());
-          return new LatLngBounds(sw, ne2);
+          var bounds = this.getPixelBounds(), sw = this.unproject(bounds.getBottomLeft()), ne = this.unproject(bounds.getTopRight());
+          return new LatLngBounds(sw, ne);
         },
         // @method getMinZoom(): Number
         // Returns the minimum zoom level of the map (if set in the `minZoom` option of the map or of any layers), or `0` by default.
@@ -2770,20 +2770,20 @@ var require_leaflet_src = __commonJS({
         // @method mouseEventToContainerPoint(ev: MouseEvent): Point
         // Given a MouseEvent object, returns the pixel coordinate relative to the
         // map container where the event took place.
-        mouseEventToContainerPoint: function(e2) {
-          return getMousePosition(e2, this._container);
+        mouseEventToContainerPoint: function(e) {
+          return getMousePosition(e, this._container);
         },
         // @method mouseEventToLayerPoint(ev: MouseEvent): Point
         // Given a MouseEvent object, returns the pixel coordinate relative to
         // the [origin pixel](#map-getpixelorigin) where the event took place.
-        mouseEventToLayerPoint: function(e2) {
-          return this.containerPointToLayerPoint(this.mouseEventToContainerPoint(e2));
+        mouseEventToLayerPoint: function(e) {
+          return this.containerPointToLayerPoint(this.mouseEventToContainerPoint(e));
         },
         // @method mouseEventToLatLng(ev: MouseEvent): LatLng
         // Given a MouseEvent object, returns geographical coordinate where the
         // event took place.
-        mouseEventToLatLng: function(e2) {
-          return this.layerPointToLatLng(this.mouseEventToLayerPoint(e2));
+        mouseEventToLatLng: function(e) {
+          return this.layerPointToLatLng(this.mouseEventToLayerPoint(e));
         },
         // map initialization methods
         _initContainer: function(id) {
@@ -2928,8 +2928,8 @@ var require_leaflet_src = __commonJS({
             this._resetView(this.getCenter(), this.getZoom());
           }
         },
-        _findEventTargets: function(e2, type) {
-          var targets = [], target, isHover = type === "mouseout" || type === "mouseover", src = e2.target || e2.srcElement, dragging = false;
+        _findEventTargets: function(e, type) {
+          var targets = [], target, isHover = type === "mouseout" || type === "mouseover", src = e.target || e.srcElement, dragging = false;
           while (src) {
             target = this._targets[stamp(src)];
             if (target && (type === "click" || type === "preclick") && this._draggableMoved(target)) {
@@ -2937,7 +2937,7 @@ var require_leaflet_src = __commonJS({
               break;
             }
             if (target && target.listens(type, true)) {
-              if (isHover && !isExternalTarget(src, e2)) {
+              if (isHover && !isExternalTarget(src, e)) {
                 break;
               }
               targets.push(target);
@@ -2965,16 +2965,16 @@ var require_leaflet_src = __commonJS({
             el = el.parentNode;
           }
         },
-        _handleDOMEvent: function(e2) {
-          var el = e2.target || e2.srcElement;
-          if (!this._loaded || el["_leaflet_disable_events"] || e2.type === "click" && this._isClickDisabled(el)) {
+        _handleDOMEvent: function(e) {
+          var el = e.target || e.srcElement;
+          if (!this._loaded || el["_leaflet_disable_events"] || e.type === "click" && this._isClickDisabled(el)) {
             return;
           }
-          var type = e2.type;
+          var type = e.type;
           if (type === "mousedown") {
             preventOutline(el);
           }
-          this._fireDOMEvent(e2, type);
+          this._fireDOMEvent(e, type);
         },
         _mouseEvents: [
           "click",
@@ -2983,13 +2983,13 @@ var require_leaflet_src = __commonJS({
           "mouseout",
           "contextmenu"
         ],
-        _fireDOMEvent: function(e2, type, canvasTargets) {
-          if (e2.type === "click") {
-            var synth = extend({}, e2);
+        _fireDOMEvent: function(e, type, canvasTargets) {
+          if (e.type === "click") {
+            var synth = extend({}, e);
             synth.type = "preclick";
             this._fireDOMEvent(synth, synth.type, canvasTargets);
           }
-          var targets = this._findEventTargets(e2, type);
+          var targets = this._findEventTargets(e, type);
           if (canvasTargets) {
             var filtered = [];
             for (var i = 0; i < canvasTargets.length; i++) {
@@ -3003,15 +3003,15 @@ var require_leaflet_src = __commonJS({
             return;
           }
           if (type === "contextmenu") {
-            preventDefault(e2);
+            preventDefault(e);
           }
           var target = targets[0];
           var data = {
-            originalEvent: e2
+            originalEvent: e
           };
-          if (e2.type !== "keypress" && e2.type !== "keydown" && e2.type !== "keyup") {
+          if (e.type !== "keypress" && e.type !== "keydown" && e.type !== "keyup") {
             var isMarker = target.getLatLng && (!target._radius || target._radius <= 10);
-            data.containerPoint = isMarker ? this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e2);
+            data.containerPoint = isMarker ? this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
             data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
             data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
           }
@@ -3138,9 +3138,9 @@ var require_leaflet_src = __commonJS({
         _createAnimProxy: function() {
           var proxy = this._proxy = create$1("div", "leaflet-proxy leaflet-zoom-animated");
           this._panes.mapPane.appendChild(proxy);
-          this.on("zoomanim", function(e2) {
+          this.on("zoomanim", function(e) {
             var prop = TRANSFORM, transform = this._proxy.style[prop];
-            setTransform(this._proxy, this.project(e2.center, e2.zoom), this.getZoomScale(e2.zoom, 1));
+            setTransform(this._proxy, this.project(e.center, e.zoom), this.getZoomScale(e.zoom, 1));
             if (transform === this._proxy.style[prop] && this._animatingZoom) {
               this._onZoomTransitionEnd();
             }
@@ -3157,8 +3157,8 @@ var require_leaflet_src = __commonJS({
           var c = this.getCenter(), z = this.getZoom();
           setTransform(this._proxy, this.project(c, z), this.getZoomScale(z, 1));
         },
-        _catchTransitionEnd: function(e2) {
-          if (this._animatingZoom && e2.propertyName.indexOf("transform") >= 0) {
+        _catchTransitionEnd: function(e) {
+          if (this._animatingZoom && e.propertyName.indexOf("transform") >= 0) {
             this._onZoomTransitionEnd();
           }
         },
@@ -3221,7 +3221,7 @@ var require_leaflet_src = __commonJS({
         }
       });
       function createMap(id, options) {
-        return new Map2(id, options);
+        return new Map(id, options);
       }
       var Control = Class.extend({
         // @section
@@ -3247,13 +3247,13 @@ var require_leaflet_src = __commonJS({
         // @method setPosition(position: string): this
         // Sets the position of the control.
         setPosition: function(position) {
-          var map3 = this._map;
-          if (map3) {
-            map3.removeControl(this);
+          var map2 = this._map;
+          if (map2) {
+            map2.removeControl(this);
           }
           this.options.position = position;
-          if (map3) {
-            map3.addControl(this);
+          if (map2) {
+            map2.addControl(this);
           }
           return this;
         },
@@ -3264,10 +3264,10 @@ var require_leaflet_src = __commonJS({
         },
         // @method addTo(map: Map): this
         // Adds the control to the given map.
-        addTo: function(map3) {
+        addTo: function(map2) {
           this.remove();
-          this._map = map3;
-          var container = this._container = this.onAdd(map3), pos = this.getPosition(), corner = map3._controlCorners[pos];
+          this._map = map2;
+          var container = this._container = this.onAdd(map2), pos = this.getPosition(), corner = map2._controlCorners[pos];
           addClass(container, "leaflet-control");
           if (pos.indexOf("bottom") !== -1) {
             corner.insertBefore(container, corner.firstChild);
@@ -3291,8 +3291,8 @@ var require_leaflet_src = __commonJS({
           this._map = null;
           return this;
         },
-        _refocusOnMap: function(e2) {
-          if (this._map && e2 && e2.screenX > 0 && e2.screenY > 0) {
+        _refocusOnMap: function(e) {
+          if (this._map && e && e.screenX > 0 && e.screenY > 0) {
             this._map.getContainer().focus();
           }
         }
@@ -3300,7 +3300,7 @@ var require_leaflet_src = __commonJS({
       var control = function(options) {
         return new Control(options);
       };
-      Map2.include({
+      Map.include({
         // @method addControl(control: Control): this
         // Adds the given control to the map
         addControl: function(control2) {
@@ -3375,18 +3375,18 @@ var require_leaflet_src = __commonJS({
             this._addLayer(overlays[i], i, true);
           }
         },
-        onAdd: function(map3) {
+        onAdd: function(map2) {
           this._initLayout();
           this._update();
-          this._map = map3;
-          map3.on("zoomend", this._checkDisabledLayers, this);
+          this._map = map2;
+          map2.on("zoomend", this._checkDisabledLayers, this);
           for (var i = 0; i < this._layers.length; i++) {
             this._layers[i].layer.on("add remove", this._onLayerChange, this);
           }
           return this._container;
         },
-        addTo: function(map3) {
-          Control.prototype.addTo.call(this, map3);
+        addTo: function(map2) {
+          Control.prototype.addTo.call(this, map2);
           return this._expandIfNotCollapsed();
         },
         onRemove: function() {
@@ -3456,14 +3456,14 @@ var require_leaflet_src = __commonJS({
           link.title = "Layers";
           link.setAttribute("role", "button");
           on(link, {
-            keydown: function(e2) {
-              if (e2.keyCode === 13) {
+            keydown: function(e) {
+              if (e.keyCode === 13) {
                 this._expandSafely();
               }
             },
             // Certain screen readers intercept the key event and instead send a click event
-            click: function(e2) {
-              preventDefault(e2);
+            click: function(e) {
+              preventDefault(e);
               this._expandSafely();
             }
           }, this);
@@ -3524,12 +3524,12 @@ var require_leaflet_src = __commonJS({
           this._separator.style.display = overlaysPresent && baseLayersPresent ? "" : "none";
           return this;
         },
-        _onLayerChange: function(e2) {
+        _onLayerChange: function(e) {
           if (!this._handlingClick) {
             this._update();
           }
-          var obj = this._getLayer(stamp(e2.target));
-          var type = obj.overlay ? e2.type === "add" ? "overlayadd" : "overlayremove" : e2.type === "add" ? "baselayerchange" : null;
+          var obj = this._getLayer(stamp(e.target));
+          var type = obj.overlay ? e.type === "add" ? "overlayadd" : "overlayremove" : e.type === "add" ? "baselayerchange" : null;
           if (type) {
             this._map.fire(type, obj);
           }
@@ -3641,16 +3641,16 @@ var require_leaflet_src = __commonJS({
           // The title set on the 'zoom out' button.
           zoomOutTitle: "Zoom out"
         },
-        onAdd: function(map3) {
+        onAdd: function(map2) {
           var zoomName = "leaflet-control-zoom", container = create$1("div", zoomName + " leaflet-bar"), options = this.options;
           this._zoomInButton = this._createButton(options.zoomInText, options.zoomInTitle, zoomName + "-in", container, this._zoomIn);
           this._zoomOutButton = this._createButton(options.zoomOutText, options.zoomOutTitle, zoomName + "-out", container, this._zoomOut);
           this._updateDisabled();
-          map3.on("zoomend zoomlevelschange", this._updateDisabled, this);
+          map2.on("zoomend zoomlevelschange", this._updateDisabled, this);
           return container;
         },
-        onRemove: function(map3) {
-          map3.off("zoomend zoomlevelschange", this._updateDisabled, this);
+        onRemove: function(map2) {
+          map2.off("zoomend zoomlevelschange", this._updateDisabled, this);
         },
         disable: function() {
           this._disabled = true;
@@ -3662,14 +3662,14 @@ var require_leaflet_src = __commonJS({
           this._updateDisabled();
           return this;
         },
-        _zoomIn: function(e2) {
+        _zoomIn: function(e) {
           if (!this._disabled && this._map._zoom < this._map.getMaxZoom()) {
-            this._map.zoomIn(this._map.options.zoomDelta * (e2.shiftKey ? 3 : 1));
+            this._map.zoomIn(this._map.options.zoomDelta * (e.shiftKey ? 3 : 1));
           }
         },
-        _zoomOut: function(e2) {
+        _zoomOut: function(e) {
           if (!this._disabled && this._map._zoom > this._map.getMinZoom()) {
-            this._map.zoomOut(this._map.options.zoomDelta * (e2.shiftKey ? 3 : 1));
+            this._map.zoomOut(this._map.options.zoomDelta * (e.shiftKey ? 3 : 1));
           }
         },
         _createButton: function(html, title, className, container, fn) {
@@ -3686,25 +3686,25 @@ var require_leaflet_src = __commonJS({
           return link;
         },
         _updateDisabled: function() {
-          var map3 = this._map, className = "leaflet-disabled";
+          var map2 = this._map, className = "leaflet-disabled";
           removeClass(this._zoomInButton, className);
           removeClass(this._zoomOutButton, className);
           this._zoomInButton.setAttribute("aria-disabled", "false");
           this._zoomOutButton.setAttribute("aria-disabled", "false");
-          if (this._disabled || map3._zoom === map3.getMinZoom()) {
+          if (this._disabled || map2._zoom === map2.getMinZoom()) {
             addClass(this._zoomOutButton, className);
             this._zoomOutButton.setAttribute("aria-disabled", "true");
           }
-          if (this._disabled || map3._zoom === map3.getMaxZoom()) {
+          if (this._disabled || map2._zoom === map2.getMaxZoom()) {
             addClass(this._zoomInButton, className);
             this._zoomInButton.setAttribute("aria-disabled", "true");
           }
         }
       });
-      Map2.mergeOptions({
+      Map.mergeOptions({
         zoomControl: true
       });
-      Map2.addInitHook(function() {
+      Map.addInitHook(function() {
         if (this.options.zoomControl) {
           this.zoomControl = new Zoom();
           this.addControl(this.zoomControl);
@@ -3728,15 +3728,15 @@ var require_leaflet_src = __commonJS({
           // Whether to show the imperial scale line (mi/ft).
           imperial: true
         },
-        onAdd: function(map3) {
+        onAdd: function(map2) {
           var className = "leaflet-control-scale", container = create$1("div", className), options = this.options;
           this._addScales(options, className + "-line", container);
-          map3.on(options.updateWhenIdle ? "moveend" : "move", this._update, this);
-          map3.whenReady(this._update, this);
+          map2.on(options.updateWhenIdle ? "moveend" : "move", this._update, this);
+          map2.whenReady(this._update, this);
           return container;
         },
-        onRemove: function(map3) {
-          map3.off(this.options.updateWhenIdle ? "moveend" : "move", this._update, this);
+        onRemove: function(map2) {
+          map2.off(this.options.updateWhenIdle ? "moveend" : "move", this._update, this);
         },
         _addScales: function(options, className, container) {
           if (options.metric) {
@@ -3747,11 +3747,11 @@ var require_leaflet_src = __commonJS({
           }
         },
         _update: function() {
-          var map3 = this._map, y = map3.getSize().y / 2;
-          var maxMeters = map3.distance(map3.containerPointToLatLng([
+          var map2 = this._map, y = map2.getSize().y / 2;
+          var maxMeters = map2.distance(map2.containerPointToLatLng([
             0,
             y
-          ]), map3.containerPointToLatLng([
+          ]), map2.containerPointToLatLng([
             this.options.maxWidth,
             y
           ]));
@@ -3807,21 +3807,21 @@ var require_leaflet_src = __commonJS({
           setOptions(this, options);
           this._attributions = {};
         },
-        onAdd: function(map3) {
-          map3.attributionControl = this;
+        onAdd: function(map2) {
+          map2.attributionControl = this;
           this._container = create$1("div", "leaflet-control-attribution");
           disableClickPropagation(this._container);
-          for (var i in map3._layers) {
-            if (map3._layers[i].getAttribution) {
-              this.addAttribution(map3._layers[i].getAttribution());
+          for (var i in map2._layers) {
+            if (map2._layers[i].getAttribution) {
+              this.addAttribution(map2._layers[i].getAttribution());
             }
           }
           this._update();
-          map3.on("layeradd", this._addAttribution, this);
+          map2.on("layeradd", this._addAttribution, this);
           return this._container;
         },
-        onRemove: function(map3) {
-          map3.off("layeradd", this._addAttribution, this);
+        onRemove: function(map2) {
+          map2.off("layeradd", this._addAttribution, this);
         },
         _addAttribution: function(ev) {
           if (ev.layer.getAttribution) {
@@ -3883,10 +3883,10 @@ var require_leaflet_src = __commonJS({
           this._container.innerHTML = prefixAndAttribs.join(' <span aria-hidden="true">|</span> ');
         }
       });
-      Map2.mergeOptions({
+      Map.mergeOptions({
         attributionControl: true
       });
-      Map2.addInitHook(function() {
+      Map.addInitHook(function() {
         if (this.options.attributionControl) {
           new Attribution().addTo(this);
         }
@@ -3903,8 +3903,8 @@ var require_leaflet_src = __commonJS({
       control.scale = scale;
       control.attribution = attribution;
       var Handler = Class.extend({
-        initialize: function(map3) {
-          this._map = map3;
+        initialize: function(map2) {
+          this._map = map2;
         },
         // @method enable(): this
         // Enables the handler
@@ -3932,8 +3932,8 @@ var require_leaflet_src = __commonJS({
           return !!this._enabled;
         }
       });
-      Handler.addTo = function(map3, name) {
-        map3.addHandler(name, this);
+      Handler.addTo = function(map2, name) {
+        map2.addHandler(name, this);
         return this;
       };
       var Mixin = {
@@ -3979,7 +3979,7 @@ var require_leaflet_src = __commonJS({
           this._enabled = false;
           this._moved = false;
         },
-        _onDown: function(e2) {
+        _onDown: function(e) {
           if (!this._enabled) {
             return;
           }
@@ -3987,13 +3987,13 @@ var require_leaflet_src = __commonJS({
           if (hasClass(this._element, "leaflet-zoom-anim")) {
             return;
           }
-          if (e2.touches && e2.touches.length !== 1) {
+          if (e.touches && e.touches.length !== 1) {
             if (Draggable._dragging === this) {
               this.finishDrag();
             }
             return;
           }
-          if (Draggable._dragging || e2.shiftKey || e2.which !== 1 && e2.button !== 1 && !e2.touches) {
+          if (Draggable._dragging || e.shiftKey || e.which !== 1 && e.button !== 1 && !e.touches) {
             return;
           }
           Draggable._dragging = this;
@@ -4006,23 +4006,23 @@ var require_leaflet_src = __commonJS({
             return;
           }
           this.fire("down");
-          var first = e2.touches ? e2.touches[0] : e2, sizedParent = getSizedParentNode(this._element);
+          var first = e.touches ? e.touches[0] : e, sizedParent = getSizedParentNode(this._element);
           this._startPoint = new Point(first.clientX, first.clientY);
           this._startPos = getPosition(this._element);
           this._parentScale = getScale(sizedParent);
-          var mouseevent = e2.type === "mousedown";
+          var mouseevent = e.type === "mousedown";
           on(document, mouseevent ? "mousemove" : "touchmove", this._onMove, this);
           on(document, mouseevent ? "mouseup" : "touchend touchcancel", this._onUp, this);
         },
-        _onMove: function(e2) {
+        _onMove: function(e) {
           if (!this._enabled) {
             return;
           }
-          if (e2.touches && e2.touches.length > 1) {
+          if (e.touches && e.touches.length > 1) {
             this._moved = true;
             return;
           }
-          var first = e2.touches && e2.touches.length === 1 ? e2.touches[0] : e2, offset = new Point(first.clientX, first.clientY)._subtract(this._startPoint);
+          var first = e.touches && e.touches.length === 1 ? e.touches[0] : e, offset = new Point(first.clientX, first.clientY)._subtract(this._startPoint);
           if (!offset.x && !offset.y) {
             return;
           }
@@ -4031,12 +4031,12 @@ var require_leaflet_src = __commonJS({
           }
           offset.x /= this._parentScale.x;
           offset.y /= this._parentScale.y;
-          preventDefault(e2);
+          preventDefault(e);
           if (!this._moved) {
             this.fire("dragstart");
             this._moved = true;
             addClass(document.body, "leaflet-dragging");
-            this._lastTarget = e2.target || e2.srcElement;
+            this._lastTarget = e.target || e.srcElement;
             if (window.SVGElementInstance && this._lastTarget instanceof window.SVGElementInstance) {
               this._lastTarget = this._lastTarget.correspondingUseElement;
             }
@@ -4044,16 +4044,16 @@ var require_leaflet_src = __commonJS({
           }
           this._newPos = this._startPos.add(offset);
           this._moving = true;
-          this._lastEvent = e2;
+          this._lastEvent = e;
           this._updatePosition();
         },
         _updatePosition: function() {
-          var e2 = {
+          var e = {
             originalEvent: this._lastEvent
           };
-          this.fire("predrag", e2);
+          this.fire("predrag", e);
           setPosition(this._element, this._newPos);
-          this.fire("drag", e2);
+          this.fire("drag", e);
         },
         _onUp: function() {
           if (!this._enabled) {
@@ -4116,7 +4116,7 @@ var require_leaflet_src = __commonJS({
         return points;
       }
       function polygonCenter(latlngs, crs) {
-        var i, j, p1, p2, f, area, x2, y, center;
+        var i, j, p1, p2, f, area, x, y, center;
         if (!latlngs || latlngs.length === 0) {
           throw new Error("latlngs not passed");
         }
@@ -4142,12 +4142,12 @@ var require_leaflet_src = __commonJS({
             latlng.lng - centroidLatLng.lng
           ])));
         }
-        area = x2 = y = 0;
+        area = x = y = 0;
         for (i = 0, j = len - 1; i < len; j = i++) {
           p1 = points[i];
           p2 = points[j];
           f = p1.y * p2.x - p2.y * p1.x;
-          x2 += (p1.x + p2.x) * f;
+          x += (p1.x + p2.x) * f;
           y += (p1.y + p2.y) * f;
           area += f * 3;
         }
@@ -4155,7 +4155,7 @@ var require_leaflet_src = __commonJS({
           center = points[0];
         } else {
           center = [
-            x2 / area,
+            x / area,
             y / area
           ];
         }
@@ -4270,21 +4270,21 @@ var require_leaflet_src = __commonJS({
         }
       }
       function _getEdgeIntersection(a, b, code, bounds, round) {
-        var dx = b.x - a.x, dy = b.y - a.y, min = bounds.min, max = bounds.max, x2, y;
+        var dx = b.x - a.x, dy = b.y - a.y, min = bounds.min, max = bounds.max, x, y;
         if (code & 8) {
-          x2 = a.x + dx * (max.y - a.y) / dy;
+          x = a.x + dx * (max.y - a.y) / dy;
           y = max.y;
         } else if (code & 4) {
-          x2 = a.x + dx * (min.y - a.y) / dy;
+          x = a.x + dx * (min.y - a.y) / dy;
           y = min.y;
         } else if (code & 2) {
-          x2 = max.x;
+          x = max.x;
           y = a.y + dy * (max.x - a.x) / dx;
         } else if (code & 1) {
-          x2 = min.x;
+          x = min.x;
           y = a.y + dy * (min.x - a.x) / dx;
         }
-        return new Point(x2, y, round);
+        return new Point(x, y, round);
       }
       function _getBitCode(p, bounds) {
         var code = 0;
@@ -4305,20 +4305,20 @@ var require_leaflet_src = __commonJS({
         return dx * dx + dy * dy;
       }
       function _sqClosestPointOnSegment(p, p1, p2, sqDist) {
-        var x2 = p1.x, y = p1.y, dx = p2.x - x2, dy = p2.y - y, dot = dx * dx + dy * dy, t;
+        var x = p1.x, y = p1.y, dx = p2.x - x, dy = p2.y - y, dot = dx * dx + dy * dy, t;
         if (dot > 0) {
-          t = ((p.x - x2) * dx + (p.y - y) * dy) / dot;
+          t = ((p.x - x) * dx + (p.y - y) * dy) / dot;
           if (t > 1) {
-            x2 = p2.x;
+            x = p2.x;
             y = p2.y;
           } else if (t > 0) {
-            x2 += dx * t;
+            x += dx * t;
             y += dy * t;
           }
         }
-        dx = p.x - x2;
+        dx = p.x - x;
         dy = p.y - y;
-        return sqDist ? dx * dx + dy * dy : new Point(x2, y);
+        return sqDist ? dx * dx + dy * dy : new Point(x, y);
       }
       function isFlat(latlngs) {
         return !isArray(latlngs[0]) || typeof latlngs[0][0] !== "object" && typeof latlngs[0][0] !== "undefined";
@@ -4420,16 +4420,16 @@ var require_leaflet_src = __commonJS({
           1876465623138e-5
         ]),
         project: function(latlng) {
-          var d = Math.PI / 180, r = this.R, y = latlng.lat * d, tmp = this.R_MINOR / r, e2 = Math.sqrt(1 - tmp * tmp), con = e2 * Math.sin(y);
-          var ts = Math.tan(Math.PI / 4 - y / 2) / Math.pow((1 - con) / (1 + con), e2 / 2);
+          var d = Math.PI / 180, r = this.R, y = latlng.lat * d, tmp = this.R_MINOR / r, e = Math.sqrt(1 - tmp * tmp), con = e * Math.sin(y);
+          var ts = Math.tan(Math.PI / 4 - y / 2) / Math.pow((1 - con) / (1 + con), e / 2);
           y = -r * Math.log(Math.max(ts, 1e-10));
           return new Point(latlng.lng * d * r, y);
         },
         unproject: function(point) {
-          var d = 180 / Math.PI, r = this.R, tmp = this.R_MINOR / r, e2 = Math.sqrt(1 - tmp * tmp), ts = Math.exp(-point.y / r), phi = Math.PI / 2 - 2 * Math.atan(ts);
+          var d = 180 / Math.PI, r = this.R, tmp = this.R_MINOR / r, e = Math.sqrt(1 - tmp * tmp), ts = Math.exp(-point.y / r), phi = Math.PI / 2 - 2 * Math.atan(ts);
           for (var i = 0, dphi = 0.1, con; i < 15 && Math.abs(dphi) > 1e-7; i++) {
-            con = e2 * Math.sin(phi);
-            con = Math.pow((1 - con) / (1 + con), e2 / 2);
+            con = e * Math.sin(phi);
+            con = Math.pow((1 - con) / (1 + con), e / 2);
             dphi = Math.PI / 2 - 2 * Math.atan(ts * con) - phi;
             phi += dphi;
           }
@@ -4493,8 +4493,8 @@ var require_leaflet_src = __commonJS({
         * @method addTo(map: Map|LayerGroup): this
         * Adds the layer to the given map or layer group.
         */
-        addTo: function(map3) {
-          map3.addLayer(this);
+        addTo: function(map2) {
+          map2.addLayer(this);
           return this;
         },
         // @method remove: this
@@ -4532,28 +4532,28 @@ var require_leaflet_src = __commonJS({
         getAttribution: function() {
           return this.options.attribution;
         },
-        _layerAdd: function(e2) {
-          var map3 = e2.target;
-          if (!map3.hasLayer(this)) {
+        _layerAdd: function(e) {
+          var map2 = e.target;
+          if (!map2.hasLayer(this)) {
             return;
           }
-          this._map = map3;
-          this._zoomAnimated = map3._zoomAnimated;
+          this._map = map2;
+          this._zoomAnimated = map2._zoomAnimated;
           if (this.getEvents) {
             var events = this.getEvents();
-            map3.on(events, this);
+            map2.on(events, this);
             this.once("remove", function() {
-              map3.off(events, this);
+              map2.off(events, this);
             }, this);
           }
-          this.onAdd(map3);
+          this.onAdd(map2);
           this.fire("add");
-          map3.fire("layeradd", {
+          map2.fire("layeradd", {
             layer: this
           });
         }
       });
-      Map2.include({
+      Map.include({
         // @method addLayer(layer: Layer): this
         // Adds the given layer to the map
         addLayer: function(layer) {
@@ -4714,11 +4714,11 @@ var require_leaflet_src = __commonJS({
           }
           return this;
         },
-        onAdd: function(map3) {
-          this.eachLayer(map3.addLayer, map3);
+        onAdd: function(map2) {
+          this.eachLayer(map2.addLayer, map2);
         },
-        onRemove: function(map3) {
-          this.eachLayer(map3.removeLayer, map3);
+        onRemove: function(map2) {
+          this.eachLayer(map2.removeLayer, map2);
         },
         // @method eachLayer(fn: Function, context?: Object): this
         // Iterates over the layers of the group, optionally specifying context of the iterator function.
@@ -5014,19 +5014,19 @@ var require_leaflet_src = __commonJS({
         moved: function() {
           return this._draggable && this._draggable._moved;
         },
-        _adjustPan: function(e2) {
-          var marker3 = this._marker, map3 = marker3._map, speed = this._marker.options.autoPanSpeed, padding = this._marker.options.autoPanPadding, iconPos = getPosition(marker3._icon), bounds = map3.getPixelBounds(), origin = map3.getPixelOrigin();
+        _adjustPan: function(e) {
+          var marker3 = this._marker, map2 = marker3._map, speed = this._marker.options.autoPanSpeed, padding = this._marker.options.autoPanPadding, iconPos = getPosition(marker3._icon), bounds = map2.getPixelBounds(), origin = map2.getPixelOrigin();
           var panBounds = toBounds(bounds.min._subtract(origin).add(padding), bounds.max._subtract(origin).subtract(padding));
           if (!panBounds.contains(iconPos)) {
             var movement = toPoint((Math.max(panBounds.max.x, iconPos.x) - panBounds.max.x) / (bounds.max.x - panBounds.max.x) - (Math.min(panBounds.min.x, iconPos.x) - panBounds.min.x) / (bounds.min.x - panBounds.min.x), (Math.max(panBounds.max.y, iconPos.y) - panBounds.max.y) / (bounds.max.y - panBounds.max.y) - (Math.min(panBounds.min.y, iconPos.y) - panBounds.min.y) / (bounds.min.y - panBounds.min.y)).multiplyBy(speed);
-            map3.panBy(movement, {
+            map2.panBy(movement, {
               animate: false
             });
             this._draggable._newPos._add(movement);
             this._draggable._startPos._add(movement);
             setPosition(marker3._icon, this._draggable._newPos);
-            this._onDrag(e2);
-            this._panRequest = requestAnimFrame(this._adjustPan.bind(this, e2));
+            this._onDrag(e);
+            this._panRequest = requestAnimFrame(this._adjustPan.bind(this, e));
           }
         },
         _onDragStart: function() {
@@ -5034,26 +5034,26 @@ var require_leaflet_src = __commonJS({
           this._marker.closePopup && this._marker.closePopup();
           this._marker.fire("movestart").fire("dragstart");
         },
-        _onPreDrag: function(e2) {
+        _onPreDrag: function(e) {
           if (this._marker.options.autoPan) {
             cancelAnimFrame(this._panRequest);
-            this._panRequest = requestAnimFrame(this._adjustPan.bind(this, e2));
+            this._panRequest = requestAnimFrame(this._adjustPan.bind(this, e));
           }
         },
-        _onDrag: function(e2) {
+        _onDrag: function(e) {
           var marker3 = this._marker, shadow = marker3._shadow, iconPos = getPosition(marker3._icon), latlng = marker3._map.layerPointToLatLng(iconPos);
           if (shadow) {
             setPosition(shadow, iconPos);
           }
           marker3._latlng = latlng;
-          e2.latlng = latlng;
-          e2.oldLatLng = this._oldLatLng;
-          marker3.fire("move", e2).fire("drag", e2);
+          e.latlng = latlng;
+          e.oldLatLng = this._oldLatLng;
+          marker3.fire("move", e).fire("drag", e);
         },
-        _onDragEnd: function(e2) {
+        _onDragEnd: function(e) {
           cancelAnimFrame(this._panRequest);
           delete this._oldLatLng;
-          this._marker.fire("moveend").fire("dragend", e2);
+          this._marker.fire("moveend").fire("dragend", e);
         }
       });
       var Marker = Layer.extend({
@@ -5131,22 +5131,22 @@ var require_leaflet_src = __commonJS({
           setOptions(this, options);
           this._latlng = toLatLng(latlng);
         },
-        onAdd: function(map3) {
-          this._zoomAnimated = this._zoomAnimated && map3.options.markerZoomAnimation;
+        onAdd: function(map2) {
+          this._zoomAnimated = this._zoomAnimated && map2.options.markerZoomAnimation;
           if (this._zoomAnimated) {
-            map3.on("zoomanim", this._animateZoom, this);
+            map2.on("zoomanim", this._animateZoom, this);
           }
           this._initIcon();
           this.update();
         },
-        onRemove: function(map3) {
+        onRemove: function(map2) {
           if (this.dragging && this.dragging.enabled()) {
             this.options.draggable = true;
             this.dragging.removeHooks();
           }
           delete this.dragging;
           if (this._zoomAnimated) {
-            map3.off("zoomanim", this._animateZoom, this);
+            map2.off("zoomanim", this._animateZoom, this);
           }
           this._removeIcon();
           this._removeShadow();
@@ -5340,14 +5340,14 @@ var require_leaflet_src = __commonJS({
           this._updateZIndex(0);
         },
         _panOnFocus: function() {
-          var map3 = this._map;
-          if (!map3) {
+          var map2 = this._map;
+          if (!map2) {
             return;
           }
           var iconOpts = this.options.icon.options;
           var size = iconOpts.iconSize ? toPoint(iconOpts.iconSize) : toPoint(0, 0);
           var anchor = iconOpts.iconAnchor ? toPoint(iconOpts.iconAnchor) : toPoint(0, 0);
-          map3.panInside(this._latlng, {
+          map2.panInside(this._latlng, {
             paddingTopLeft: anchor,
             paddingBottomRight: size.subtract(anchor)
           });
@@ -5410,8 +5410,8 @@ var require_leaflet_src = __commonJS({
           // (unless [`L.DomEvent.stopPropagation`](#domevent-stoppropagation) is used).
           bubblingMouseEvents: true
         },
-        beforeAdd: function(map3) {
-          this._renderer = map3.getRenderer(this);
+        beforeAdd: function(map2) {
+          this._renderer = map2.getRenderer(this);
         },
         onAdd: function() {
           this._renderer._initPath(this);
@@ -5581,20 +5581,20 @@ var require_leaflet_src = __commonJS({
         },
         setStyle: Path.prototype.setStyle,
         _project: function() {
-          var lng = this._latlng.lng, lat = this._latlng.lat, map3 = this._map, crs = map3.options.crs;
+          var lng = this._latlng.lng, lat = this._latlng.lat, map2 = this._map, crs = map2.options.crs;
           if (crs.distance === Earth.distance) {
-            var d = Math.PI / 180, latR = this._mRadius / Earth.R / d, top = map3.project([
+            var d = Math.PI / 180, latR = this._mRadius / Earth.R / d, top = map2.project([
               lat + latR,
               lng
-            ]), bottom = map3.project([
+            ]), bottom = map2.project([
               lat - latR,
               lng
-            ]), p = top.add(bottom).divideBy(2), lat2 = map3.unproject(p).lat, lngR = Math.acos((Math.cos(latR * d) - Math.sin(lat * d) * Math.sin(lat2 * d)) / (Math.cos(lat * d) * Math.cos(lat2 * d))) / d;
+            ]), p = top.add(bottom).divideBy(2), lat2 = map2.unproject(p).lat, lngR = Math.acos((Math.cos(latR * d) - Math.sin(lat * d) * Math.sin(lat2 * d)) / (Math.cos(lat * d) * Math.cos(lat2 * d))) / d;
             if (isNaN(lngR) || lngR === 0) {
               lngR = latR / Math.cos(Math.PI / 180 * lat);
             }
-            this._point = p.subtract(map3.getPixelOrigin());
-            this._radius = isNaN(lngR) ? 0 : p.x - map3.project([
+            this._point = p.subtract(map2.getPixelOrigin());
+            this._radius = isNaN(lngR) ? 0 : p.x - map2.project([
               lat2,
               lng - lngR
             ]).x;
@@ -5604,8 +5604,8 @@ var require_leaflet_src = __commonJS({
               this._mRadius,
               0
             ]));
-            this._point = map3.latLngToLayerPoint(this._latlng);
-            this._radius = this._point.x - map3.latLngToLayerPoint(latlng2).x;
+            this._point = map2.latLngToLayerPoint(this._latlng);
+            this._radius = this._point.x - map2.latLngToLayerPoint(latlng2).x;
           }
           this._updateBounds();
         }
@@ -6345,8 +6345,8 @@ var require_leaflet_src = __commonJS({
           img.src = this._url;
           img.alt = this.options.alt;
         },
-        _animateZoom: function(e2) {
-          var scale2 = this._map.getZoomScale(e2.zoom), offset = this._map._latLngBoundsToNewLayerBounds(this._bounds, e2.zoom, e2.center).min;
+        _animateZoom: function(e) {
+          var scale2 = this._map.getZoomScale(e.zoom), offset = this._map._latLngBoundsToNewLayerBounds(this._bounds, e.zoom, e.center).min;
           setTransform(this._image, offset, scale2);
         },
         _reset: function() {
@@ -6504,10 +6504,10 @@ var require_leaflet_src = __commonJS({
         // @method openOn(map: Map): this
         // Adds the overlay to the map.
         // Alternative to `map.openPopup(popup)`/`.openTooltip(tooltip)`.
-        openOn: function(map3) {
-          map3 = arguments.length ? map3 : this._source._map;
-          if (!map3.hasLayer(this)) {
-            map3.addLayer(this);
+        openOn: function(map2) {
+          map2 = arguments.length ? map2 : this._source._map;
+          if (!map2.hasLayer(this)) {
+            map2.addLayer(this);
           }
           return this;
         },
@@ -6539,18 +6539,18 @@ var require_leaflet_src = __commonJS({
           }
           return this;
         },
-        onAdd: function(map3) {
-          this._zoomAnimated = map3._zoomAnimated;
+        onAdd: function(map2) {
+          this._zoomAnimated = map2._zoomAnimated;
           if (!this._container) {
             this._initLayout();
           }
-          if (map3._fadeAnimated) {
+          if (map2._fadeAnimated) {
             setOpacity(this._container, 0);
           }
           clearTimeout(this._removeTimeout);
           this.getPane().appendChild(this._container);
           this.update();
-          if (map3._fadeAnimated) {
+          if (map2._fadeAnimated) {
             setOpacity(this._container, 1);
           }
           this.bringToFront();
@@ -6559,8 +6559,8 @@ var require_leaflet_src = __commonJS({
             this.addInteractiveTarget(this._container);
           }
         },
-        onRemove: function(map3) {
-          if (map3._fadeAnimated) {
+        onRemove: function(map2) {
+          if (map2._fadeAnimated) {
             setOpacity(this._container, 0);
             this._removeTimeout = setTimeout(bind(remove, void 0, this._container), 200);
           } else {
@@ -6723,7 +6723,7 @@ var require_leaflet_src = __commonJS({
           ];
         }
       });
-      Map2.include({
+      Map.include({
         _initOverlay: function(OverlayClass, content, latlng, options) {
           var overlay = content;
           if (!(overlay instanceof OverlayClass)) {
@@ -6817,17 +6817,17 @@ var require_leaflet_src = __commonJS({
         // @method openOn(map: Map): this
         // Alternative to `map.openPopup(popup)`.
         // Adds the popup to the map and closes the previous one.
-        openOn: function(map3) {
-          map3 = arguments.length ? map3 : this._source._map;
-          if (!map3.hasLayer(this) && map3._popup && map3._popup.options.autoClose) {
-            map3.removeLayer(map3._popup);
+        openOn: function(map2) {
+          map2 = arguments.length ? map2 : this._source._map;
+          if (!map2.hasLayer(this) && map2._popup && map2._popup.options.autoClose) {
+            map2.removeLayer(map2._popup);
           }
-          map3._popup = this;
-          return DivOverlay.prototype.openOn.call(this, map3);
+          map2._popup = this;
+          return DivOverlay.prototype.openOn.call(this, map2);
         },
-        onAdd: function(map3) {
-          DivOverlay.prototype.onAdd.call(this, map3);
-          map3.fire("popupopen", {
+        onAdd: function(map2) {
+          DivOverlay.prototype.onAdd.call(this, map2);
+          map2.fire("popupopen", {
             popup: this
           });
           if (this._source) {
@@ -6839,9 +6839,9 @@ var require_leaflet_src = __commonJS({
             }
           }
         },
-        onRemove: function(map3) {
-          DivOverlay.prototype.onRemove.call(this, map3);
-          map3.fire("popupclose", {
+        onRemove: function(map2) {
+          DivOverlay.prototype.onRemove.call(this, map2);
+          map2.fire("popupclose", {
             popup: this
           });
           if (this._source) {
@@ -6903,8 +6903,8 @@ var require_leaflet_src = __commonJS({
           }
           this._containerWidth = this._container.offsetWidth;
         },
-        _animateZoom: function(e2) {
-          var pos = this._map._latLngToNewLayerPoint(this._latlng, e2.zoom, e2.center), anchor = this._getAnchor();
+        _animateZoom: function(e) {
+          var pos = this._map._latLngToNewLayerPoint(this._latlng, e.zoom, e.center), anchor = this._getAnchor();
           setPosition(this._container, pos.add(anchor));
         },
         _adjustPan: function() {
@@ -6918,9 +6918,9 @@ var require_leaflet_src = __commonJS({
             this._autopanning = false;
             return;
           }
-          var map3 = this._map, marginBottom = parseInt(getStyle(this._container, "marginBottom"), 10) || 0, containerHeight = this._container.offsetHeight + marginBottom, containerWidth = this._containerWidth, layerPos = new Point(this._containerLeft, -containerHeight - this._containerBottom);
+          var map2 = this._map, marginBottom = parseInt(getStyle(this._container, "marginBottom"), 10) || 0, containerHeight = this._container.offsetHeight + marginBottom, containerWidth = this._containerWidth, layerPos = new Point(this._containerLeft, -containerHeight - this._containerBottom);
           layerPos._add(getPosition(this._container));
-          var containerPos = map3.layerPointToContainerPoint(layerPos), padding = toPoint(this.options.autoPanPadding), paddingTL = toPoint(this.options.autoPanPaddingTopLeft || padding), paddingBR = toPoint(this.options.autoPanPaddingBottomRight || padding), size = map3.getSize(), dx = 0, dy = 0;
+          var containerPos = map2.layerPointToContainerPoint(layerPos), padding = toPoint(this.options.autoPanPadding), paddingTL = toPoint(this.options.autoPanPaddingTopLeft || padding), paddingBR = toPoint(this.options.autoPanPaddingBottomRight || padding), size = map2.getSize(), dx = 0, dy = 0;
           if (containerPos.x + containerWidth + paddingBR.x > size.x) {
             dx = containerPos.x + containerWidth - size.x + paddingBR.x;
           }
@@ -6937,7 +6937,7 @@ var require_leaflet_src = __commonJS({
             if (this.options.keepInView) {
               this._autopanning = true;
             }
-            map3.fire("autopanstart").panBy([
+            map2.fire("autopanstart").panBy([
               dx,
               dy
             ]);
@@ -6950,28 +6950,28 @@ var require_leaflet_src = __commonJS({
           ]);
         }
       });
-      var popup = function(options, source) {
+      var popup2 = function(options, source) {
         return new Popup(options, source);
       };
-      Map2.mergeOptions({
+      Map.mergeOptions({
         closePopupOnClick: true
       });
-      Map2.include({
+      Map.include({
         // @method openPopup(popup: Popup): this
         // Opens the specified popup while closing the previously opened (to make sure only one is opened at one time for usability).
         // @alternative
         // @method openPopup(content: String|HTMLElement, latlng: LatLng, options?: Popup options): this
         // Creates a popup with the specified content and options and opens it in the given point on a map.
-        openPopup: function(popup2, latlng, options) {
-          this._initOverlay(Popup, popup2, latlng, options).openOn(this);
+        openPopup: function(popup3, latlng, options) {
+          this._initOverlay(Popup, popup3, latlng, options).openOn(this);
           return this;
         },
         // @method closePopup(popup?: Popup): this
         // Closes the popup previously opened with [openPopup](#map-openpopup) (or the given one).
-        closePopup: function(popup2) {
-          popup2 = arguments.length ? popup2 : this._popup;
-          if (popup2) {
-            popup2.close();
+        closePopup: function(popup3) {
+          popup3 = arguments.length ? popup3 : this._popup;
+          if (popup3) {
+            popup3.close();
           }
           return this;
         }
@@ -7056,29 +7056,29 @@ var require_leaflet_src = __commonJS({
         getPopup: function() {
           return this._popup;
         },
-        _openPopup: function(e2) {
+        _openPopup: function(e) {
           if (!this._popup || !this._map) {
             return;
           }
-          stop(e2);
-          var target = e2.layer || e2.target;
+          stop(e);
+          var target = e.layer || e.target;
           if (this._popup._source === target && !(target instanceof Path)) {
             if (this._map.hasLayer(this._popup)) {
               this.closePopup();
             } else {
-              this.openPopup(e2.latlng);
+              this.openPopup(e.latlng);
             }
             return;
           }
           this._popup._source = target;
-          this.openPopup(e2.latlng);
+          this.openPopup(e.latlng);
         },
-        _movePopup: function(e2) {
-          this._popup.setLatLng(e2.latlng);
+        _movePopup: function(e) {
+          this._popup.setLatLng(e.latlng);
         },
-        _onKeyPress: function(e2) {
-          if (e2.originalEvent.keyCode === 13) {
-            this._openPopup(e2);
+        _onKeyPress: function(e) {
+          if (e.originalEvent.keyCode === 13) {
+            this._openPopup(e);
           }
         }
       });
@@ -7111,10 +7111,10 @@ var require_leaflet_src = __commonJS({
           // Tooltip container opacity.
           opacity: 0.9
         },
-        onAdd: function(map3) {
-          DivOverlay.prototype.onAdd.call(this, map3);
+        onAdd: function(map2) {
+          DivOverlay.prototype.onAdd.call(this, map2);
           this.setOpacity(this.options.opacity);
-          map3.fire("tooltipopen", {
+          map2.fire("tooltipopen", {
             tooltip: this
           });
           if (this._source) {
@@ -7124,9 +7124,9 @@ var require_leaflet_src = __commonJS({
             }, true);
           }
         },
-        onRemove: function(map3) {
-          DivOverlay.prototype.onRemove.call(this, map3);
-          map3.fire("tooltipclose", {
+        onRemove: function(map2) {
+          DivOverlay.prototype.onRemove.call(this, map2);
+          map2.fire("tooltipclose", {
             tooltip: this
           });
           if (this._source) {
@@ -7154,7 +7154,7 @@ var require_leaflet_src = __commonJS({
         _adjustPan: function() {
         },
         _setPosition: function(pos) {
-          var subX, subY, map3 = this._map, container = this._container, centerPoint = map3.latLngToContainerPoint(map3.getCenter()), tooltipPoint = map3.layerPointToContainerPoint(pos), direction = this.options.direction, tooltipWidth = container.offsetWidth, tooltipHeight = container.offsetHeight, offset = toPoint(this.options.offset), anchor = this._getAnchor();
+          var subX, subY, map2 = this._map, container = this._container, centerPoint = map2.latLngToContainerPoint(map2.getCenter()), tooltipPoint = map2.layerPointToContainerPoint(pos), direction = this.options.direction, tooltipWidth = container.offsetWidth, tooltipHeight = container.offsetHeight, offset = toPoint(this.options.offset), anchor = this._getAnchor();
           if (direction === "top") {
             subX = tooltipWidth / 2;
             subY = tooltipHeight;
@@ -7197,8 +7197,8 @@ var require_leaflet_src = __commonJS({
             setOpacity(this._container, opacity);
           }
         },
-        _animateZoom: function(e2) {
-          var pos = this._map._latLngToNewLayerPoint(this._latlng, e2.zoom, e2.center);
+        _animateZoom: function(e) {
+          var pos = this._map._latLngToNewLayerPoint(this._latlng, e.zoom, e.center);
           this._setPosition(pos);
         },
         _getAnchor: function() {
@@ -7211,7 +7211,7 @@ var require_leaflet_src = __commonJS({
       var tooltip = function(options, source) {
         return new Tooltip(options, source);
       };
-      Map2.include({
+      Map.include({
         // @method openTooltip(tooltip: Tooltip): this
         // Opens the specified tooltip.
         // @alternative
@@ -7354,7 +7354,7 @@ var require_leaflet_src = __commonJS({
             el.setAttribute("aria-describedby", this._tooltip._container.id);
           }
         },
-        _openTooltip: function(e2) {
+        _openTooltip: function(e) {
           if (!this._tooltip || !this._map) {
             return;
           }
@@ -7363,17 +7363,17 @@ var require_leaflet_src = __commonJS({
             var that = this;
             this._map.once("moveend", function() {
               that._openOnceFlag = false;
-              that._openTooltip(e2);
+              that._openTooltip(e);
             });
             return;
           }
-          this._tooltip._source = e2.layer || e2.target;
-          this.openTooltip(this._tooltip.options.sticky ? e2.latlng : void 0);
+          this._tooltip._source = e.layer || e.target;
+          this.openTooltip(this._tooltip.options.sticky ? e.latlng : void 0);
         },
-        _moveTooltip: function(e2) {
-          var latlng = e2.latlng, containerPoint, layerPoint;
-          if (this._tooltip.options.sticky && e2.originalEvent) {
-            containerPoint = this._map.mouseEventToContainerPoint(e2.originalEvent);
+        _moveTooltip: function(e) {
+          var latlng = e.latlng, containerPoint, layerPoint;
+          if (this._tooltip.options.sticky && e.originalEvent) {
+            containerPoint = this._map.mouseEventToContainerPoint(e.originalEvent);
             layerPoint = this._map.containerPointToLayerPoint(containerPoint);
             latlng = this._map.layerPointToLatLng(layerPoint);
           }
@@ -7492,13 +7492,13 @@ var require_leaflet_src = __commonJS({
           this._tiles = {};
           this._resetView();
         },
-        beforeAdd: function(map3) {
-          map3._addZoomLimit(this);
+        beforeAdd: function(map2) {
+          map2._addZoomLimit(this);
         },
-        onRemove: function(map3) {
+        onRemove: function(map2) {
           this._removeAllTiles();
           remove(this._container);
-          map3._removeZoomLimit(this);
+          map2._removeZoomLimit(this);
           this._container = null;
           this._tileZoom = void 0;
         },
@@ -7674,14 +7674,14 @@ var require_leaflet_src = __commonJS({
               delete this._levels[z];
             }
           }
-          var level = this._levels[zoom2], map3 = this._map;
+          var level = this._levels[zoom2], map2 = this._map;
           if (!level) {
             level = this._levels[zoom2] = {};
             level.el = create$1("div", "leaflet-tile-container leaflet-zoom-animated", this._container);
             level.el.style.zIndex = maxZoom;
-            level.origin = map3.project(map3.unproject(map3.getPixelOrigin()), zoom2).round();
+            level.origin = map2.project(map2.unproject(map2.getPixelOrigin()), zoom2).round();
             level.zoom = zoom2;
-            this._setZoomTransform(level, map3.getCenter(), map3.getZoom());
+            this._setZoomTransform(level, map2.getCenter(), map2.getZoom());
             falseFn(level.el.offsetWidth);
             this._onCreateLevel(level);
           }
@@ -7742,8 +7742,8 @@ var require_leaflet_src = __commonJS({
           this._removeAllTiles();
           this._tileZoom = void 0;
         },
-        _retainParent: function(x2, y, z, minZoom) {
-          var x22 = Math.floor(x2 / 2), y2 = Math.floor(y / 2), z2 = z - 1, coords2 = new Point(+x22, +y2);
+        _retainParent: function(x, y, z, minZoom) {
+          var x2 = Math.floor(x / 2), y2 = Math.floor(y / 2), z2 = z - 1, coords2 = new Point(+x2, +y2);
           coords2.z = +z2;
           var key = this._tileCoordsToKey(coords2), tile = this._tiles[key];
           if (tile && tile.active) {
@@ -7753,12 +7753,12 @@ var require_leaflet_src = __commonJS({
             tile.retain = true;
           }
           if (z2 > minZoom) {
-            return this._retainParent(x22, y2, z2, minZoom);
+            return this._retainParent(x2, y2, z2, minZoom);
           }
           return false;
         },
-        _retainChildren: function(x2, y, z, maxZoom) {
-          for (var i = 2 * x2; i < 2 * x2 + 2; i++) {
+        _retainChildren: function(x, y, z, maxZoom) {
+          for (var i = 2 * x; i < 2 * x + 2; i++) {
             for (var j = 2 * y; j < 2 * y + 2; j++) {
               var coords = new Point(i, j);
               coords.z = z + 1;
@@ -7775,12 +7775,12 @@ var require_leaflet_src = __commonJS({
             }
           }
         },
-        _resetView: function(e2) {
-          var animating = e2 && (e2.pinch || e2.flyTo);
+        _resetView: function(e) {
+          var animating = e && (e.pinch || e.flyTo);
           this._setView(this._map.getCenter(), this._map.getZoom(), animating, animating);
         },
-        _animateZoom: function(e2) {
-          this._setView(e2.center, e2.zoom, true, e2.noUpdate);
+        _animateZoom: function(e) {
+          this._setView(e.center, e.zoom, true, e.noUpdate);
         },
         _clampZoom: function(zoom2) {
           var options = this.options;
@@ -7831,27 +7831,27 @@ var require_leaflet_src = __commonJS({
           }
         },
         _resetGrid: function() {
-          var map3 = this._map, crs = map3.options.crs, tileSize = this._tileSize = this.getTileSize(), tileZoom = this._tileZoom;
+          var map2 = this._map, crs = map2.options.crs, tileSize = this._tileSize = this.getTileSize(), tileZoom = this._tileZoom;
           var bounds = this._map.getPixelWorldBounds(this._tileZoom);
           if (bounds) {
             this._globalTileRange = this._pxBoundsToTileRange(bounds);
           }
           this._wrapX = crs.wrapLng && !this.options.noWrap && [
-            Math.floor(map3.project([
+            Math.floor(map2.project([
               0,
               crs.wrapLng[0]
             ], tileZoom).x / tileSize.x),
-            Math.ceil(map3.project([
+            Math.ceil(map2.project([
               0,
               crs.wrapLng[1]
             ], tileZoom).x / tileSize.y)
           ];
           this._wrapY = crs.wrapLat && !this.options.noWrap && [
-            Math.floor(map3.project([
+            Math.floor(map2.project([
               crs.wrapLat[0],
               0
             ], tileZoom).y / tileSize.x),
-            Math.ceil(map3.project([
+            Math.ceil(map2.project([
               crs.wrapLat[1],
               0
             ], tileZoom).y / tileSize.y)
@@ -7864,18 +7864,18 @@ var require_leaflet_src = __commonJS({
           this._update();
         },
         _getTiledPixelBounds: function(center) {
-          var map3 = this._map, mapZoom = map3._animatingZoom ? Math.max(map3._animateToZoom, map3.getZoom()) : map3.getZoom(), scale2 = map3.getZoomScale(mapZoom, this._tileZoom), pixelCenter = map3.project(center, this._tileZoom).floor(), halfSize = map3.getSize().divideBy(scale2 * 2);
+          var map2 = this._map, mapZoom = map2._animatingZoom ? Math.max(map2._animateToZoom, map2.getZoom()) : map2.getZoom(), scale2 = map2.getZoomScale(mapZoom, this._tileZoom), pixelCenter = map2.project(center, this._tileZoom).floor(), halfSize = map2.getSize().divideBy(scale2 * 2);
           return new Bounds(pixelCenter.subtract(halfSize), pixelCenter.add(halfSize));
         },
         // Private method to load tiles in the grid's active zoom level according to map bounds
         _update: function(center) {
-          var map3 = this._map;
-          if (!map3) {
+          var map2 = this._map;
+          if (!map2) {
             return;
           }
-          var zoom2 = this._clampZoom(map3.getZoom());
+          var zoom2 = this._clampZoom(map2.getZoom());
           if (center === void 0) {
-            center = map3.getCenter();
+            center = map2.getCenter();
           }
           if (this._tileZoom === void 0) {
             return;
@@ -7948,7 +7948,7 @@ var require_leaflet_src = __commonJS({
           return this._tileCoordsToBounds(this._keyToTileCoords(key));
         },
         _tileCoordsToNwSe: function(coords) {
-          var map3 = this._map, tileSize = this.getTileSize(), nwPoint = coords.scaleBy(tileSize), sePoint = nwPoint.add(tileSize), nw = map3.unproject(nwPoint, coords.z), se = map3.unproject(sePoint, coords.z);
+          var map2 = this._map, tileSize = this.getTileSize(), nwPoint = coords.scaleBy(tileSize), sePoint = nwPoint.add(tileSize), nw = map2.unproject(nwPoint, coords.z), se = map2.unproject(sePoint, coords.z);
           return [
             nw,
             se
@@ -8206,15 +8206,15 @@ var require_leaflet_src = __commonJS({
             done(null, tile);
           }
         },
-        _tileOnError: function(done, tile, e2) {
+        _tileOnError: function(done, tile, e) {
           var errorUrl = this.options.errorTileUrl;
           if (errorUrl && tile.getAttribute("src") !== errorUrl) {
             tile.src = errorUrl;
           }
-          done(e2, tile);
+          done(e, tile);
         },
-        _onTileRemove: function(e2) {
-          e2.tile.onload = null;
+        _onTileRemove: function(e) {
+          e.tile.onload = null;
         },
         _getZoomForUrl: function() {
           var zoom2 = this._tileZoom, maxZoom = this.options.maxZoom, zoomReverse = this.options.zoomReverse, zoomOffset = this.options.zoomOffset;
@@ -8315,12 +8315,12 @@ var require_leaflet_src = __commonJS({
           wmsParams.height = tileSize.y * realRetina;
           this.wmsParams = wmsParams;
         },
-        onAdd: function(map3) {
-          this._crs = this.options.crs || map3.options.crs;
+        onAdd: function(map2) {
+          this._crs = this.options.crs || map2.options.crs;
           this._wmsVersion = parseFloat(this.wmsParams.version);
           var projectionKey = this._wmsVersion >= 1.3 ? "crs" : "srs";
           this.wmsParams[projectionKey] = this._crs.code;
-          TileLayer.prototype.onAdd.call(this, map3);
+          TileLayer.prototype.onAdd.call(this, map2);
         },
         getTileUrl: function(coords) {
           var tileBounds = this._tileCoordsToNwSe(coords), crs = this._crs, bounds = toBounds(crs.project(tileBounds[0]), crs.project(tileBounds[1])), min = bounds.min, max = bounds.max, bbox = (this._wmsVersion >= 1.3 && this._crs === EPSG4326 ? [
@@ -8678,39 +8678,39 @@ var require_leaflet_src = __commonJS({
         },
         // Canvas obviously doesn't have mouse events for individual drawn objects,
         // so we emulate that by calculating what's under the mouse on mousemove/click manually
-        _onClick: function(e2) {
-          var point = this._map.mouseEventToLayerPoint(e2), layer, clickedLayer;
+        _onClick: function(e) {
+          var point = this._map.mouseEventToLayerPoint(e), layer, clickedLayer;
           for (var order = this._drawFirst; order; order = order.next) {
             layer = order.layer;
             if (layer.options.interactive && layer._containsPoint(point)) {
-              if (!(e2.type === "click" || e2.type === "preclick") || !this._map._draggableMoved(layer)) {
+              if (!(e.type === "click" || e.type === "preclick") || !this._map._draggableMoved(layer)) {
                 clickedLayer = layer;
               }
             }
           }
           this._fireEvent(clickedLayer ? [
             clickedLayer
-          ] : false, e2);
+          ] : false, e);
         },
-        _onMouseMove: function(e2) {
+        _onMouseMove: function(e) {
           if (!this._map || this._map.dragging.moving() || this._map._animatingZoom) {
             return;
           }
-          var point = this._map.mouseEventToLayerPoint(e2);
-          this._handleMouseHover(e2, point);
+          var point = this._map.mouseEventToLayerPoint(e);
+          this._handleMouseHover(e, point);
         },
-        _handleMouseOut: function(e2) {
+        _handleMouseOut: function(e) {
           var layer = this._hoveredLayer;
           if (layer) {
             removeClass(this._container, "leaflet-interactive");
             this._fireEvent([
               layer
-            ], e2, "mouseout");
+            ], e, "mouseout");
             this._hoveredLayer = null;
             this._mouseHoverThrottled = false;
           }
         },
-        _handleMouseHover: function(e2, point) {
+        _handleMouseHover: function(e, point) {
           if (this._mouseHoverThrottled) {
             return;
           }
@@ -8722,25 +8722,25 @@ var require_leaflet_src = __commonJS({
             }
           }
           if (candidateHoveredLayer !== this._hoveredLayer) {
-            this._handleMouseOut(e2);
+            this._handleMouseOut(e);
             if (candidateHoveredLayer) {
               addClass(this._container, "leaflet-interactive");
               this._fireEvent([
                 candidateHoveredLayer
-              ], e2, "mouseover");
+              ], e, "mouseover");
               this._hoveredLayer = candidateHoveredLayer;
             }
           }
           this._fireEvent(this._hoveredLayer ? [
             this._hoveredLayer
-          ] : false, e2);
+          ] : false, e);
           this._mouseHoverThrottled = true;
           setTimeout(bind(function() {
             this._mouseHoverThrottled = false;
           }, this), 32);
         },
-        _fireEvent: function(layers2, e2, type) {
-          this._map._fireDOMEvent(e2, type || e2.type, layers2);
+        _fireEvent: function(layers2, e, type) {
+          this._map._fireDOMEvent(e, type || e.type, layers2);
         },
         _bringToFront: function(layer) {
           var order = layer._order;
@@ -8798,7 +8798,7 @@ var require_leaflet_src = __commonJS({
           return function(name) {
             return document.createElement("<lvml:" + name + ' class="lvml">');
           };
-        } catch (e2) {
+        } catch (e) {
         }
         return function(name) {
           return document.createElement("<" + name + ' xmlns="urn:schemas-microsoft.com:vml" class="lvml">');
@@ -9006,7 +9006,7 @@ var require_leaflet_src = __commonJS({
       function svg(options) {
         return Browser.svg || Browser.vml ? new SVG(options) : null;
       }
-      Map2.include({
+      Map.include({
         // @namespace Map; @method getRenderer(layer: Path): Renderer
         // Returns the instance of `Renderer` that should be used to render the given
         // `Path`. It will ensure that the `renderer` options of the map and paths
@@ -9069,19 +9069,19 @@ var require_leaflet_src = __commonJS({
       GeoJSON.latLngsToCoords = latLngsToCoords;
       GeoJSON.getFeature = getFeature;
       GeoJSON.asFeature = asFeature;
-      Map2.mergeOptions({
+      Map.mergeOptions({
         // @option boxZoom: Boolean = true
         // Whether the map can be zoomed to a rectangular area specified by
         // dragging the mouse while pressing the shift key.
         boxZoom: true
       });
       var BoxZoom = Handler.extend({
-        initialize: function(map3) {
-          this._map = map3;
-          this._container = map3._container;
-          this._pane = map3._panes.overlayPane;
+        initialize: function(map2) {
+          this._map = map2;
+          this._container = map2._container;
+          this._pane = map2._panes.overlayPane;
           this._resetStateTimeout = 0;
-          map3.on("unload", this._destroy, this);
+          map2.on("unload", this._destroy, this);
         },
         addHooks: function() {
           on(this._container, "mousedown", this._onMouseDown, this);
@@ -9106,15 +9106,15 @@ var require_leaflet_src = __commonJS({
             this._resetStateTimeout = 0;
           }
         },
-        _onMouseDown: function(e2) {
-          if (!e2.shiftKey || e2.which !== 1 && e2.button !== 1) {
+        _onMouseDown: function(e) {
+          if (!e.shiftKey || e.which !== 1 && e.button !== 1) {
             return false;
           }
           this._clearDeferredResetState();
           this._resetState();
           disableTextSelection();
           disableImageDrag();
-          this._startPoint = this._map.mouseEventToContainerPoint(e2);
+          this._startPoint = this._map.mouseEventToContainerPoint(e);
           on(document, {
             contextmenu: stop,
             mousemove: this._onMouseMove,
@@ -9122,14 +9122,14 @@ var require_leaflet_src = __commonJS({
             keydown: this._onKeyDown
           }, this);
         },
-        _onMouseMove: function(e2) {
+        _onMouseMove: function(e) {
           if (!this._moved) {
             this._moved = true;
             this._box = create$1("div", "leaflet-zoom-box", this._container);
             addClass(this._container, "leaflet-crosshair");
             this._map.fire("boxzoomstart");
           }
-          this._point = this._map.mouseEventToContainerPoint(e2);
+          this._point = this._map.mouseEventToContainerPoint(e);
           var bounds = new Bounds(this._point, this._startPoint), size = bounds.getSize();
           setPosition(this._box, bounds.min);
           this._box.style.width = size.x + "px";
@@ -9149,8 +9149,8 @@ var require_leaflet_src = __commonJS({
             keydown: this._onKeyDown
           }, this);
         },
-        _onMouseUp: function(e2) {
-          if (e2.which !== 1 && e2.button !== 1) {
+        _onMouseUp: function(e) {
+          if (e.which !== 1 && e.button !== 1) {
             return;
           }
           this._finish();
@@ -9164,16 +9164,16 @@ var require_leaflet_src = __commonJS({
             boxZoomBounds: bounds
           });
         },
-        _onKeyDown: function(e2) {
-          if (e2.keyCode === 27) {
+        _onKeyDown: function(e) {
+          if (e.keyCode === 27) {
             this._finish();
             this._clearDeferredResetState();
             this._resetState();
           }
         }
       });
-      Map2.addInitHook("addHandler", "boxZoom", BoxZoom);
-      Map2.mergeOptions({
+      Map.addInitHook("addHandler", "boxZoom", BoxZoom);
+      Map.mergeOptions({
         // @option doubleClickZoom: Boolean|String = true
         // Whether the map can be zoomed in by double clicking on it and
         // zoomed out by double clicking while holding shift. If passed
@@ -9188,17 +9188,17 @@ var require_leaflet_src = __commonJS({
         removeHooks: function() {
           this._map.off("dblclick", this._onDoubleClick, this);
         },
-        _onDoubleClick: function(e2) {
-          var map3 = this._map, oldZoom = map3.getZoom(), delta = map3.options.zoomDelta, zoom2 = e2.originalEvent.shiftKey ? oldZoom - delta : oldZoom + delta;
-          if (map3.options.doubleClickZoom === "center") {
-            map3.setZoom(zoom2);
+        _onDoubleClick: function(e) {
+          var map2 = this._map, oldZoom = map2.getZoom(), delta = map2.options.zoomDelta, zoom2 = e.originalEvent.shiftKey ? oldZoom - delta : oldZoom + delta;
+          if (map2.options.doubleClickZoom === "center") {
+            map2.setZoom(zoom2);
           } else {
-            map3.setZoomAround(e2.containerPoint, zoom2);
+            map2.setZoomAround(e.containerPoint, zoom2);
           }
         }
       });
-      Map2.addInitHook("addHandler", "doubleClickZoom", DoubleClickZoom);
-      Map2.mergeOptions({
+      Map.addInitHook("addHandler", "doubleClickZoom", DoubleClickZoom);
+      Map.mergeOptions({
         // @option dragging: Boolean = true
         // Whether the map is draggable with mouse/touch or not.
         dragging: true,
@@ -9234,18 +9234,18 @@ var require_leaflet_src = __commonJS({
       var Drag = Handler.extend({
         addHooks: function() {
           if (!this._draggable) {
-            var map3 = this._map;
-            this._draggable = new Draggable(map3._mapPane, map3._container);
+            var map2 = this._map;
+            this._draggable = new Draggable(map2._mapPane, map2._container);
             this._draggable.on({
               dragstart: this._onDragStart,
               drag: this._onDrag,
               dragend: this._onDragEnd
             }, this);
             this._draggable.on("predrag", this._onPreDragLimit, this);
-            if (map3.options.worldCopyJump) {
+            if (map2.options.worldCopyJump) {
               this._draggable.on("predrag", this._onPreDragWrap, this);
-              map3.on("zoomend", this._onZoomEnd, this);
-              map3.whenReady(this._onZoomEnd, this);
+              map2.on("zoomend", this._onZoomEnd, this);
+              map2.whenReady(this._onZoomEnd, this);
             }
           }
           addClass(this._map._container, "leaflet-grab leaflet-touch-drag");
@@ -9265,8 +9265,8 @@ var require_leaflet_src = __commonJS({
           return this._draggable && this._draggable._moving;
         },
         _onDragStart: function() {
-          var map3 = this._map;
-          map3._stop();
+          var map2 = this._map;
+          map2._stop();
           if (this._map.options.maxBounds && this._map.options.maxBoundsViscosity) {
             var bounds = toLatLngBounds(this._map.options.maxBounds);
             this._offsetLimit = toBounds(this._map.latLngToContainerPoint(bounds.getNorthWest()).multiplyBy(-1), this._map.latLngToContainerPoint(bounds.getSouthEast()).multiplyBy(-1).add(this._map.getSize()));
@@ -9274,20 +9274,20 @@ var require_leaflet_src = __commonJS({
           } else {
             this._offsetLimit = null;
           }
-          map3.fire("movestart").fire("dragstart");
-          if (map3.options.inertia) {
+          map2.fire("movestart").fire("dragstart");
+          if (map2.options.inertia) {
             this._positions = [];
             this._times = [];
           }
         },
-        _onDrag: function(e2) {
+        _onDrag: function(e) {
           if (this._map.options.inertia) {
             var time = this._lastTime = +/* @__PURE__ */ new Date(), pos = this._lastPos = this._draggable._absPos || this._draggable._newPos;
             this._positions.push(pos);
             this._times.push(time);
             this._prunePositions(time);
           }
-          this._map.fire("move", e2).fire("drag", e2);
+          this._map.fire("move", e).fire("drag", e);
         },
         _prunePositions: function(time) {
           while (this._positions.length > 1 && time - this._times[0] > 50) {
@@ -9327,15 +9327,15 @@ var require_leaflet_src = __commonJS({
           this._draggable._newPos = this._draggable._startPos.add(offset);
         },
         _onPreDragWrap: function() {
-          var worldWidth = this._worldWidth, halfWidth = Math.round(worldWidth / 2), dx = this._initialWorldOffset, x2 = this._draggable._newPos.x, newX1 = (x2 - halfWidth + dx) % worldWidth + halfWidth - dx, newX2 = (x2 + halfWidth + dx) % worldWidth - halfWidth - dx, newX = Math.abs(newX1 + dx) < Math.abs(newX2 + dx) ? newX1 : newX2;
+          var worldWidth = this._worldWidth, halfWidth = Math.round(worldWidth / 2), dx = this._initialWorldOffset, x = this._draggable._newPos.x, newX1 = (x - halfWidth + dx) % worldWidth + halfWidth - dx, newX2 = (x + halfWidth + dx) % worldWidth - halfWidth - dx, newX = Math.abs(newX1 + dx) < Math.abs(newX2 + dx) ? newX1 : newX2;
           this._draggable._absPos = this._draggable._newPos.clone();
           this._draggable._newPos.x = newX;
         },
-        _onDragEnd: function(e2) {
-          var map3 = this._map, options = map3.options, noInertia = !options.inertia || e2.noInertia || this._times.length < 2;
-          map3.fire("dragend", e2);
+        _onDragEnd: function(e) {
+          var map2 = this._map, options = map2.options, noInertia = !options.inertia || e.noInertia || this._times.length < 2;
+          map2.fire("dragend", e);
           if (noInertia) {
-            map3.fire("moveend");
+            map2.fire("moveend");
           } else {
             this._prunePositions(+/* @__PURE__ */ new Date());
             var direction = this._lastPos.subtract(this._positions[0]), duration = (this._lastTime - this._times[0]) / 1e3, ease = options.easeLinearity, speedVector = direction.multiplyBy(ease / duration), speed = speedVector.distanceTo([
@@ -9343,11 +9343,11 @@ var require_leaflet_src = __commonJS({
               0
             ]), limitedSpeed = Math.min(options.inertiaMaxSpeed, speed), limitedSpeedVector = speedVector.multiplyBy(limitedSpeed / speed), decelerationDuration = limitedSpeed / (options.inertiaDeceleration * ease), offset = limitedSpeedVector.multiplyBy(-decelerationDuration / 2).round();
             if (!offset.x && !offset.y) {
-              map3.fire("moveend");
+              map2.fire("moveend");
             } else {
-              offset = map3._limitOffset(offset, map3.options.maxBounds);
+              offset = map2._limitOffset(offset, map2.options.maxBounds);
               requestAnimFrame(function() {
-                map3.panBy(offset, {
+                map2.panBy(offset, {
                   duration: decelerationDuration,
                   easeLinearity: ease,
                   noMoveStart: true,
@@ -9358,8 +9358,8 @@ var require_leaflet_src = __commonJS({
           }
         }
       });
-      Map2.addInitHook("addHandler", "dragging", Drag);
-      Map2.mergeOptions({
+      Map.addInitHook("addHandler", "dragging", Drag);
+      Map.mergeOptions({
         // @option keyboard: Boolean = true
         // Makes the map focusable and allows users to navigate the map with keyboard
         // arrows and `+`/`-` keys.
@@ -9395,10 +9395,10 @@ var require_leaflet_src = __commonJS({
             173
           ]
         },
-        initialize: function(map3) {
-          this._map = map3;
-          this._setPanDelta(map3.options.keyboardPanDelta);
-          this._setZoomDelta(map3.options.zoomDelta);
+        initialize: function(map2) {
+          this._map = map2;
+          this._setPanDelta(map2.options.keyboardPanDelta);
+          this._setZoomDelta(map2.options.zoomDelta);
         },
         addHooks: function() {
           var container = this._map._container;
@@ -9485,39 +9485,39 @@ var require_leaflet_src = __commonJS({
         _removeHooks: function() {
           off(document, "keydown", this._onKeyDown, this);
         },
-        _onKeyDown: function(e2) {
-          if (e2.altKey || e2.ctrlKey || e2.metaKey) {
+        _onKeyDown: function(e) {
+          if (e.altKey || e.ctrlKey || e.metaKey) {
             return;
           }
-          var key = e2.keyCode, map3 = this._map, offset;
+          var key = e.keyCode, map2 = this._map, offset;
           if (key in this._panKeys) {
-            if (!map3._panAnim || !map3._panAnim._inProgress) {
+            if (!map2._panAnim || !map2._panAnim._inProgress) {
               offset = this._panKeys[key];
-              if (e2.shiftKey) {
+              if (e.shiftKey) {
                 offset = toPoint(offset).multiplyBy(3);
               }
-              if (map3.options.maxBounds) {
-                offset = map3._limitOffset(toPoint(offset), map3.options.maxBounds);
+              if (map2.options.maxBounds) {
+                offset = map2._limitOffset(toPoint(offset), map2.options.maxBounds);
               }
-              if (map3.options.worldCopyJump) {
-                var newLatLng = map3.wrapLatLng(map3.unproject(map3.project(map3.getCenter()).add(offset)));
-                map3.panTo(newLatLng);
+              if (map2.options.worldCopyJump) {
+                var newLatLng = map2.wrapLatLng(map2.unproject(map2.project(map2.getCenter()).add(offset)));
+                map2.panTo(newLatLng);
               } else {
-                map3.panBy(offset);
+                map2.panBy(offset);
               }
             }
           } else if (key in this._zoomKeys) {
-            map3.setZoom(map3.getZoom() + (e2.shiftKey ? 3 : 1) * this._zoomKeys[key]);
-          } else if (key === 27 && map3._popup && map3._popup.options.closeOnEscapeKey) {
-            map3.closePopup();
+            map2.setZoom(map2.getZoom() + (e.shiftKey ? 3 : 1) * this._zoomKeys[key]);
+          } else if (key === 27 && map2._popup && map2._popup.options.closeOnEscapeKey) {
+            map2.closePopup();
           } else {
             return;
           }
-          stop(e2);
+          stop(e);
         }
       });
-      Map2.addInitHook("addHandler", "keyboard", Keyboard);
-      Map2.mergeOptions({
+      Map.addInitHook("addHandler", "keyboard", Keyboard);
+      Map.mergeOptions({
         // @section Mouse wheel options
         // @option scrollWheelZoom: Boolean|String = true
         // Whether the map can be zoomed by using the mouse wheel. If passed `'center'`,
@@ -9541,38 +9541,38 @@ var require_leaflet_src = __commonJS({
         removeHooks: function() {
           off(this._map._container, "wheel", this._onWheelScroll, this);
         },
-        _onWheelScroll: function(e2) {
-          var delta = getWheelDelta(e2);
+        _onWheelScroll: function(e) {
+          var delta = getWheelDelta(e);
           var debounce = this._map.options.wheelDebounceTime;
           this._delta += delta;
-          this._lastMousePos = this._map.mouseEventToContainerPoint(e2);
+          this._lastMousePos = this._map.mouseEventToContainerPoint(e);
           if (!this._startTime) {
             this._startTime = +/* @__PURE__ */ new Date();
           }
           var left = Math.max(debounce - (+/* @__PURE__ */ new Date() - this._startTime), 0);
           clearTimeout(this._timer);
           this._timer = setTimeout(bind(this._performZoom, this), left);
-          stop(e2);
+          stop(e);
         },
         _performZoom: function() {
-          var map3 = this._map, zoom2 = map3.getZoom(), snap = this._map.options.zoomSnap || 0;
-          map3._stop();
-          var d2 = this._delta / (this._map.options.wheelPxPerZoomLevel * 4), d3 = 4 * Math.log(2 / (1 + Math.exp(-Math.abs(d2)))) / Math.LN2, d4 = snap ? Math.ceil(d3 / snap) * snap : d3, delta = map3._limitZoom(zoom2 + (this._delta > 0 ? d4 : -d4)) - zoom2;
+          var map2 = this._map, zoom2 = map2.getZoom(), snap = this._map.options.zoomSnap || 0;
+          map2._stop();
+          var d2 = this._delta / (this._map.options.wheelPxPerZoomLevel * 4), d3 = 4 * Math.log(2 / (1 + Math.exp(-Math.abs(d2)))) / Math.LN2, d4 = snap ? Math.ceil(d3 / snap) * snap : d3, delta = map2._limitZoom(zoom2 + (this._delta > 0 ? d4 : -d4)) - zoom2;
           this._delta = 0;
           this._startTime = null;
           if (!delta) {
             return;
           }
-          if (map3.options.scrollWheelZoom === "center") {
-            map3.setZoom(zoom2 + delta);
+          if (map2.options.scrollWheelZoom === "center") {
+            map2.setZoom(zoom2 + delta);
           } else {
-            map3.setZoomAround(this._lastMousePos, zoom2 + delta);
+            map2.setZoomAround(this._lastMousePos, zoom2 + delta);
           }
         }
       });
-      Map2.addInitHook("addHandler", "scrollWheelZoom", ScrollWheelZoom);
+      Map.addInitHook("addHandler", "scrollWheelZoom", ScrollWheelZoom);
       var tapHoldDelay = 600;
-      Map2.mergeOptions({
+      Map.mergeOptions({
         // @section Touch interaction options
         // @option tapHold: Boolean
         // Enables simulation of `contextmenu` event, default is `true` for mobile Safari.
@@ -9589,12 +9589,12 @@ var require_leaflet_src = __commonJS({
         removeHooks: function() {
           off(this._map._container, "touchstart", this._onDown, this);
         },
-        _onDown: function(e2) {
+        _onDown: function(e) {
           clearTimeout(this._holdTimeout);
-          if (e2.touches.length !== 1) {
+          if (e.touches.length !== 1) {
             return;
           }
-          var first = e2.touches[0];
+          var first = e.touches[0];
           this._startPos = this._newPos = new Point(first.clientX, first.clientY);
           this._holdTimeout = setTimeout(bind(function() {
             this._cancel();
@@ -9617,30 +9617,30 @@ var require_leaflet_src = __commonJS({
           off(document, "touchend touchcancel contextmenu", this._cancel, this);
           off(document, "touchmove", this._onMove, this);
         },
-        _onMove: function(e2) {
-          var first = e2.touches[0];
+        _onMove: function(e) {
+          var first = e.touches[0];
           this._newPos = new Point(first.clientX, first.clientY);
         },
         _isTapValid: function() {
           return this._newPos.distanceTo(this._startPos) <= this._map.options.tapTolerance;
         },
-        _simulateEvent: function(type, e2) {
+        _simulateEvent: function(type, e) {
           var simulatedEvent = new MouseEvent(type, {
             bubbles: true,
             cancelable: true,
             view: window,
             // detail: 1,
-            screenX: e2.screenX,
-            screenY: e2.screenY,
-            clientX: e2.clientX,
-            clientY: e2.clientY
+            screenX: e.screenX,
+            screenY: e.screenY,
+            clientX: e.clientX,
+            clientY: e.clientY
           });
           simulatedEvent._simulated = true;
-          e2.target.dispatchEvent(simulatedEvent);
+          e.target.dispatchEvent(simulatedEvent);
         }
       });
-      Map2.addInitHook("addHandler", "tapHold", TapHold);
-      Map2.mergeOptions({
+      Map.addInitHook("addHandler", "tapHold", TapHold);
+      Map.mergeOptions({
         // @section Touch interaction options
         // @option touchZoom: Boolean|String = *
         // Whether the map can be zoomed by touch-dragging with two fingers. If
@@ -9662,36 +9662,36 @@ var require_leaflet_src = __commonJS({
           removeClass(this._map._container, "leaflet-touch-zoom");
           off(this._map._container, "touchstart", this._onTouchStart, this);
         },
-        _onTouchStart: function(e2) {
-          var map3 = this._map;
-          if (!e2.touches || e2.touches.length !== 2 || map3._animatingZoom || this._zooming) {
+        _onTouchStart: function(e) {
+          var map2 = this._map;
+          if (!e.touches || e.touches.length !== 2 || map2._animatingZoom || this._zooming) {
             return;
           }
-          var p1 = map3.mouseEventToContainerPoint(e2.touches[0]), p2 = map3.mouseEventToContainerPoint(e2.touches[1]);
-          this._centerPoint = map3.getSize()._divideBy(2);
-          this._startLatLng = map3.containerPointToLatLng(this._centerPoint);
-          if (map3.options.touchZoom !== "center") {
-            this._pinchStartLatLng = map3.containerPointToLatLng(p1.add(p2)._divideBy(2));
+          var p1 = map2.mouseEventToContainerPoint(e.touches[0]), p2 = map2.mouseEventToContainerPoint(e.touches[1]);
+          this._centerPoint = map2.getSize()._divideBy(2);
+          this._startLatLng = map2.containerPointToLatLng(this._centerPoint);
+          if (map2.options.touchZoom !== "center") {
+            this._pinchStartLatLng = map2.containerPointToLatLng(p1.add(p2)._divideBy(2));
           }
           this._startDist = p1.distanceTo(p2);
-          this._startZoom = map3.getZoom();
+          this._startZoom = map2.getZoom();
           this._moved = false;
           this._zooming = true;
-          map3._stop();
+          map2._stop();
           on(document, "touchmove", this._onTouchMove, this);
           on(document, "touchend touchcancel", this._onTouchEnd, this);
-          preventDefault(e2);
+          preventDefault(e);
         },
-        _onTouchMove: function(e2) {
-          if (!e2.touches || e2.touches.length !== 2 || !this._zooming) {
+        _onTouchMove: function(e) {
+          if (!e.touches || e.touches.length !== 2 || !this._zooming) {
             return;
           }
-          var map3 = this._map, p1 = map3.mouseEventToContainerPoint(e2.touches[0]), p2 = map3.mouseEventToContainerPoint(e2.touches[1]), scale2 = p1.distanceTo(p2) / this._startDist;
-          this._zoom = map3.getScaleZoom(scale2, this._startZoom);
-          if (!map3.options.bounceAtZoomLimits && (this._zoom < map3.getMinZoom() && scale2 < 1 || this._zoom > map3.getMaxZoom() && scale2 > 1)) {
-            this._zoom = map3._limitZoom(this._zoom);
+          var map2 = this._map, p1 = map2.mouseEventToContainerPoint(e.touches[0]), p2 = map2.mouseEventToContainerPoint(e.touches[1]), scale2 = p1.distanceTo(p2) / this._startDist;
+          this._zoom = map2.getScaleZoom(scale2, this._startZoom);
+          if (!map2.options.bounceAtZoomLimits && (this._zoom < map2.getMinZoom() && scale2 < 1 || this._zoom > map2.getMaxZoom() && scale2 > 1)) {
+            this._zoom = map2._limitZoom(this._zoom);
           }
-          if (map3.options.touchZoom === "center") {
+          if (map2.options.touchZoom === "center") {
             this._center = this._startLatLng;
             if (scale2 === 1) {
               return;
@@ -9701,19 +9701,19 @@ var require_leaflet_src = __commonJS({
             if (scale2 === 1 && delta.x === 0 && delta.y === 0) {
               return;
             }
-            this._center = map3.unproject(map3.project(this._pinchStartLatLng, this._zoom).subtract(delta), this._zoom);
+            this._center = map2.unproject(map2.project(this._pinchStartLatLng, this._zoom).subtract(delta), this._zoom);
           }
           if (!this._moved) {
-            map3._moveStart(true, false);
+            map2._moveStart(true, false);
             this._moved = true;
           }
           cancelAnimFrame(this._animRequest);
-          var moveFn = bind(map3._move, map3, this._center, this._zoom, {
+          var moveFn = bind(map2._move, map2, this._center, this._zoom, {
             pinch: true,
             round: false
           }, void 0);
           this._animRequest = requestAnimFrame(moveFn, this, true);
-          preventDefault(e2);
+          preventDefault(e);
         },
         _onTouchEnd: function() {
           if (!this._moved || !this._zooming) {
@@ -9731,14 +9731,14 @@ var require_leaflet_src = __commonJS({
           }
         }
       });
-      Map2.addInitHook("addHandler", "touchZoom", TouchZoom);
-      Map2.BoxZoom = BoxZoom;
-      Map2.DoubleClickZoom = DoubleClickZoom;
-      Map2.Drag = Drag;
-      Map2.Keyboard = Keyboard;
-      Map2.ScrollWheelZoom = ScrollWheelZoom;
-      Map2.TapHold = TapHold;
-      Map2.TouchZoom = TouchZoom;
+      Map.addInitHook("addHandler", "touchZoom", TouchZoom);
+      Map.BoxZoom = BoxZoom;
+      Map.DoubleClickZoom = DoubleClickZoom;
+      Map.Drag = Drag;
+      Map.Keyboard = Keyboard;
+      Map.ScrollWheelZoom = ScrollWheelZoom;
+      Map.TapHold = TapHold;
+      Map.TouchZoom = TouchZoom;
       exports2.Bounds = Bounds;
       exports2.Browser = Browser;
       exports2.CRS = CRS;
@@ -9764,7 +9764,7 @@ var require_leaflet_src = __commonJS({
       exports2.Layer = Layer;
       exports2.LayerGroup = LayerGroup;
       exports2.LineUtil = LineUtil;
-      exports2.Map = Map2;
+      exports2.Map = Map;
       exports2.Marker = Marker;
       exports2.Mixin = Mixin;
       exports2.Path = Path;
@@ -9806,7 +9806,7 @@ var require_leaflet_src = __commonJS({
       exports2.point = toPoint;
       exports2.polygon = polygon;
       exports2.polyline = polyline;
-      exports2.popup = popup;
+      exports2.popup = popup2;
       exports2.rectangle = rectangle;
       exports2.setOptions = setOptions;
       exports2.stamp = stamp;
@@ -9828,1847 +9828,25 @@ var require_leaflet_src = __commonJS({
 });
 
 // clientSide/index.ts
-var L3 = __toESM(require_leaflet_src());
-
-// ../../.cache/deno/npm/registry.npmjs.org/redux/5.0.1/dist/redux.mjs
-var $$observable = /* @__PURE__ */ (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
-var symbol_observable_default = $$observable;
-var randomString = () => Math.random().toString(36).substring(7).split("").join(".");
-var ActionTypes = {
-  INIT: `@@redux/INIT${randomString()}`,
-  REPLACE: `@@redux/REPLACE${randomString()}`,
-  PROBE_UNKNOWN_ACTION: () => `@@redux/PROBE_UNKNOWN_ACTION${randomString()}`
-};
-var actionTypes_default = ActionTypes;
-function isPlainObject(obj) {
-  if (typeof obj !== "object" || obj === null) return false;
-  let proto2 = obj;
-  while (Object.getPrototypeOf(proto2) !== null) {
-    proto2 = Object.getPrototypeOf(proto2);
-  }
-  return Object.getPrototypeOf(obj) === proto2 || Object.getPrototypeOf(obj) === null;
-}
-function miniKindOf(val) {
-  if (val === void 0) return "undefined";
-  if (val === null) return "null";
-  const type = typeof val;
-  switch (type) {
-    case "boolean":
-    case "string":
-    case "number":
-    case "symbol":
-    case "function": {
-      return type;
-    }
-  }
-  if (Array.isArray(val)) return "array";
-  if (isDate(val)) return "date";
-  if (isError(val)) return "error";
-  const constructorName = ctorName(val);
-  switch (constructorName) {
-    case "Symbol":
-    case "Promise":
-    case "WeakMap":
-    case "WeakSet":
-    case "Map":
-    case "Set":
-      return constructorName;
-  }
-  return Object.prototype.toString.call(val).slice(8, -1).toLowerCase().replace(/\s/g, "");
-}
-function ctorName(val) {
-  return typeof val.constructor === "function" ? val.constructor.name : null;
-}
-function isError(val) {
-  return val instanceof Error || typeof val.message === "string" && val.constructor && typeof val.constructor.stackTraceLimit === "number";
-}
-function isDate(val) {
-  if (val instanceof Date) return true;
-  return typeof val.toDateString === "function" && typeof val.getDate === "function" && typeof val.setDate === "function";
-}
-function kindOf(val) {
-  let typeOfVal = typeof val;
-  if (true) {
-    typeOfVal = miniKindOf(val);
-  }
-  return typeOfVal;
-}
-function createStore(reducer2, preloadedState, enhancer) {
-  if (typeof reducer2 !== "function") {
-    throw new Error(false ? formatProdErrorMessage(2) : `Expected the root reducer to be a function. Instead, received: '${kindOf(reducer2)}'`);
-  }
-  if (typeof preloadedState === "function" && typeof enhancer === "function" || typeof enhancer === "function" && typeof arguments[3] === "function") {
-    throw new Error(false ? formatProdErrorMessage(0) : "It looks like you are passing several store enhancers to createStore(). This is not supported. Instead, compose them together to a single function. See https://redux.js.org/tutorials/fundamentals/part-4-store#creating-a-store-with-enhancers for an example.");
-  }
-  if (typeof preloadedState === "function" && typeof enhancer === "undefined") {
-    enhancer = preloadedState;
-    preloadedState = void 0;
-  }
-  if (typeof enhancer !== "undefined") {
-    if (typeof enhancer !== "function") {
-      throw new Error(false ? formatProdErrorMessage(1) : `Expected the enhancer to be a function. Instead, received: '${kindOf(enhancer)}'`);
-    }
-    return enhancer(createStore)(reducer2, preloadedState);
-  }
-  let currentReducer = reducer2;
-  let currentState = preloadedState;
-  let currentListeners = /* @__PURE__ */ new Map();
-  let nextListeners = currentListeners;
-  let listenerIdCounter = 0;
-  let isDispatching = false;
-  function ensureCanMutateNextListeners() {
-    if (nextListeners === currentListeners) {
-      nextListeners = /* @__PURE__ */ new Map();
-      currentListeners.forEach((listener, key) => {
-        nextListeners.set(key, listener);
-      });
-    }
-  }
-  function getState() {
-    if (isDispatching) {
-      throw new Error(false ? formatProdErrorMessage(3) : "You may not call store.getState() while the reducer is executing. The reducer has already received the state as an argument. Pass it down from the top reducer instead of reading it from the store.");
-    }
-    return currentState;
-  }
-  function subscribe(listener) {
-    if (typeof listener !== "function") {
-      throw new Error(false ? formatProdErrorMessage(4) : `Expected the listener to be a function. Instead, received: '${kindOf(listener)}'`);
-    }
-    if (isDispatching) {
-      throw new Error(false ? formatProdErrorMessage(5) : "You may not call store.subscribe() while the reducer is executing. If you would like to be notified after the store has been updated, subscribe from a component and invoke store.getState() in the callback to access the latest state. See https://redux.js.org/api/store#subscribelistener for more details.");
-    }
-    let isSubscribed = true;
-    ensureCanMutateNextListeners();
-    const listenerId = listenerIdCounter++;
-    nextListeners.set(listenerId, listener);
-    return function unsubscribe() {
-      if (!isSubscribed) {
-        return;
-      }
-      if (isDispatching) {
-        throw new Error(false ? formatProdErrorMessage(6) : "You may not unsubscribe from a store listener while the reducer is executing. See https://redux.js.org/api/store#subscribelistener for more details.");
-      }
-      isSubscribed = false;
-      ensureCanMutateNextListeners();
-      nextListeners.delete(listenerId);
-      currentListeners = null;
-    };
-  }
-  function dispatch(action) {
-    if (!isPlainObject(action)) {
-      throw new Error(false ? formatProdErrorMessage(7) : `Actions must be plain objects. Instead, the actual type was: '${kindOf(action)}'. You may need to add middleware to your store setup to handle dispatching other values, such as 'redux-thunk' to handle dispatching functions. See https://redux.js.org/tutorials/fundamentals/part-4-store#middleware and https://redux.js.org/tutorials/fundamentals/part-6-async-logic#using-the-redux-thunk-middleware for examples.`);
-    }
-    if (typeof action.type === "undefined") {
-      throw new Error(false ? formatProdErrorMessage(8) : 'Actions may not have an undefined "type" property. You may have misspelled an action type string constant.');
-    }
-    if (typeof action.type !== "string") {
-      throw new Error(false ? formatProdErrorMessage(17) : `Action "type" property must be a string. Instead, the actual type was: '${kindOf(action.type)}'. Value was: '${action.type}' (stringified)`);
-    }
-    if (isDispatching) {
-      throw new Error(false ? formatProdErrorMessage(9) : "Reducers may not dispatch actions.");
-    }
-    try {
-      isDispatching = true;
-      currentState = currentReducer(currentState, action);
-    } finally {
-      isDispatching = false;
-    }
-    const listeners = currentListeners = nextListeners;
-    listeners.forEach((listener) => {
-      listener();
-    });
-    return action;
-  }
-  function replaceReducer(nextReducer) {
-    if (typeof nextReducer !== "function") {
-      throw new Error(false ? formatProdErrorMessage(10) : `Expected the nextReducer to be a function. Instead, received: '${kindOf(nextReducer)}`);
-    }
-    currentReducer = nextReducer;
-    dispatch({
-      type: actionTypes_default.REPLACE
-    });
-  }
-  function observable() {
-    const outerSubscribe = subscribe;
-    return {
-      /**
-       * The minimal observable subscription method.
-       * @param observer Any object that can be used as an observer.
-       * The observer object should have a `next` method.
-       * @returns An object with an `unsubscribe` method that can
-       * be used to unsubscribe the observable from the store, and prevent further
-       * emission of values from the observable.
-       */
-      subscribe(observer) {
-        if (typeof observer !== "object" || observer === null) {
-          throw new Error(false ? formatProdErrorMessage(11) : `Expected the observer to be an object. Instead, received: '${kindOf(observer)}'`);
-        }
-        function observeState() {
-          const observerAsObserver = observer;
-          if (observerAsObserver.next) {
-            observerAsObserver.next(getState());
-          }
-        }
-        observeState();
-        const unsubscribe = outerSubscribe(observeState);
-        return {
-          unsubscribe
-        };
-      },
-      [symbol_observable_default]() {
-        return this;
-      }
-    };
-  }
-  dispatch({
-    type: actionTypes_default.INIT
-  });
-  const store2 = {
-    dispatch,
-    subscribe,
-    getState,
-    replaceReducer,
-    [symbol_observable_default]: observable
-  };
-  return store2;
-}
-function warning(message) {
-  if (typeof console !== "undefined" && typeof console.error === "function") {
-    console.error(message);
-  }
-  try {
-    throw new Error(message);
-  } catch (e2) {
-  }
-}
-function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
-  const reducerKeys = Object.keys(reducers);
-  const argumentName = action && action.type === actionTypes_default.INIT ? "preloadedState argument passed to createStore" : "previous state received by the reducer";
-  if (reducerKeys.length === 0) {
-    return "Store does not have a valid reducer. Make sure the argument passed to combineReducers is an object whose values are reducers.";
-  }
-  if (!isPlainObject(inputState)) {
-    return `The ${argumentName} has unexpected type of "${kindOf(inputState)}". Expected argument to be an object with the following keys: "${reducerKeys.join('", "')}"`;
-  }
-  const unexpectedKeys = Object.keys(inputState).filter((key) => !reducers.hasOwnProperty(key) && !unexpectedKeyCache[key]);
-  unexpectedKeys.forEach((key) => {
-    unexpectedKeyCache[key] = true;
-  });
-  if (action && action.type === actionTypes_default.REPLACE) return;
-  if (unexpectedKeys.length > 0) {
-    return `Unexpected ${unexpectedKeys.length > 1 ? "keys" : "key"} "${unexpectedKeys.join('", "')}" found in ${argumentName}. Expected to find one of the known reducer keys instead: "${reducerKeys.join('", "')}". Unexpected keys will be ignored.`;
-  }
-}
-function assertReducerShape(reducers) {
-  Object.keys(reducers).forEach((key) => {
-    const reducer2 = reducers[key];
-    const initialState2 = reducer2(void 0, {
-      type: actionTypes_default.INIT
-    });
-    if (typeof initialState2 === "undefined") {
-      throw new Error(false ? formatProdErrorMessage(12) : `The slice reducer for key "${key}" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.`);
-    }
-    if (typeof reducer2(void 0, {
-      type: actionTypes_default.PROBE_UNKNOWN_ACTION()
-    }) === "undefined") {
-      throw new Error(false ? formatProdErrorMessage(13) : `The slice reducer for key "${key}" returned undefined when probed with a random type. Don't try to handle '${actionTypes_default.INIT}' or other actions in "redux/*" namespace. They are considered private. Instead, you must return the current state for any unknown actions, unless it is undefined, in which case you must return the initial state, regardless of the action type. The initial state may not be undefined, but can be null.`);
-    }
-  });
-}
-function combineReducers(reducers) {
-  const reducerKeys = Object.keys(reducers);
-  const finalReducers = {};
-  for (let i = 0; i < reducerKeys.length; i++) {
-    const key = reducerKeys[i];
-    if (true) {
-      if (typeof reducers[key] === "undefined") {
-        warning(`No reducer provided for key "${key}"`);
-      }
-    }
-    if (typeof reducers[key] === "function") {
-      finalReducers[key] = reducers[key];
-    }
-  }
-  const finalReducerKeys = Object.keys(finalReducers);
-  let unexpectedKeyCache;
-  if (true) {
-    unexpectedKeyCache = {};
-  }
-  let shapeAssertionError;
-  try {
-    assertReducerShape(finalReducers);
-  } catch (e2) {
-    shapeAssertionError = e2;
-  }
-  return function combination(state = {}, action) {
-    if (shapeAssertionError) {
-      throw shapeAssertionError;
-    }
-    if (true) {
-      const warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
-      if (warningMessage) {
-        warning(warningMessage);
-      }
-    }
-    let hasChanged = false;
-    const nextState = {};
-    for (let i = 0; i < finalReducerKeys.length; i++) {
-      const key = finalReducerKeys[i];
-      const reducer2 = finalReducers[key];
-      const previousStateForKey = state[key];
-      const nextStateForKey = reducer2(previousStateForKey, action);
-      if (typeof nextStateForKey === "undefined") {
-        const actionType = action && action.type;
-        throw new Error(false ? formatProdErrorMessage(14) : `When called with an action of type ${actionType ? `"${String(actionType)}"` : "(unknown type)"}, the slice reducer for key "${key}" returned undefined. To ignore an action, you must explicitly return the previous state. If you want this reducer to hold no value, you can return null instead of undefined.`);
-      }
-      nextState[key] = nextStateForKey;
-      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
-    }
-    hasChanged = hasChanged || finalReducerKeys.length !== Object.keys(state).length;
-    return hasChanged ? nextState : state;
-  };
-}
-function compose(...funcs) {
-  if (funcs.length === 0) {
-    return (arg) => arg;
-  }
-  if (funcs.length === 1) {
-    return funcs[0];
-  }
-  return funcs.reduce((a, b) => (...args) => a(b(...args)));
-}
-function applyMiddleware(...middlewares) {
-  return (createStore2) => (reducer2, preloadedState) => {
-    const store2 = createStore2(reducer2, preloadedState);
-    let dispatch = () => {
-      throw new Error(false ? formatProdErrorMessage(15) : "Dispatching while constructing your middleware is not allowed. Other middleware would not be applied to this dispatch.");
-    };
-    const middlewareAPI = {
-      getState: store2.getState,
-      dispatch: (action, ...args) => dispatch(action, ...args)
-    };
-    const chain = middlewares.map((middleware) => middleware(middlewareAPI));
-    dispatch = compose(...chain)(store2.dispatch);
-    return {
-      ...store2,
-      dispatch
-    };
-  };
-}
-function isAction(action) {
-  return isPlainObject(action) && "type" in action && typeof action.type === "string";
-}
-
-// ../../.cache/deno/npm/registry.npmjs.org/immer/10.1.1/dist/immer.mjs
-var NOTHING = Symbol.for("immer-nothing");
-var DRAFTABLE = Symbol.for("immer-draftable");
-var DRAFT_STATE = Symbol.for("immer-state");
-var errors = true ? [
-  // All error codes, starting by 0:
-  function(plugin) {
-    return `The plugin for '${plugin}' has not been loaded into Immer. To enable the plugin, import and call \`enable${plugin}()\` when initializing your application.`;
-  },
-  function(thing) {
-    return `produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '${thing}'`;
-  },
-  "This object has been frozen and should not be mutated",
-  function(data) {
-    return "Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? " + data;
-  },
-  "An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",
-  "Immer forbids circular references",
-  "The first or second argument to `produce` must be a function",
-  "The third argument to `produce` must be a function or undefined",
-  "First argument to `createDraft` must be a plain object, an array, or an immerable object",
-  "First argument to `finishDraft` must be a draft returned by `createDraft`",
-  function(thing) {
-    return `'current' expects a draft, got: ${thing}`;
-  },
-  "Object.defineProperty() cannot be used on an Immer draft",
-  "Object.setPrototypeOf() cannot be used on an Immer draft",
-  "Immer only supports deleting array indices",
-  "Immer only supports setting array indices and the 'length' property",
-  function(thing) {
-    return `'original' expects a draft, got: ${thing}`;
-  }
-] : [];
-function die(error, ...args) {
-  if (true) {
-    const e2 = errors[error];
-    const msg = typeof e2 === "function" ? e2.apply(null, args) : e2;
-    throw new Error(`[Immer] ${msg}`);
-  }
-  throw new Error(`[Immer] minified error nr: ${error}. Full error at: https://bit.ly/3cXEKWf`);
-}
-var getPrototypeOf = Object.getPrototypeOf;
-function isDraft(value) {
-  return !!value && !!value[DRAFT_STATE];
-}
-function isDraftable(value) {
-  if (!value) return false;
-  return isPlainObject2(value) || Array.isArray(value) || !!value[DRAFTABLE] || !!value.constructor?.[DRAFTABLE] || isMap(value) || isSet(value);
-}
-var objectCtorString = Object.prototype.constructor.toString();
-function isPlainObject2(value) {
-  if (!value || typeof value !== "object") return false;
-  const proto2 = getPrototypeOf(value);
-  if (proto2 === null) {
-    return true;
-  }
-  const Ctor = Object.hasOwnProperty.call(proto2, "constructor") && proto2.constructor;
-  if (Ctor === Object) return true;
-  return typeof Ctor == "function" && Function.toString.call(Ctor) === objectCtorString;
-}
-function each(obj, iter) {
-  if (getArchtype(obj) === 0) {
-    Reflect.ownKeys(obj).forEach((key) => {
-      iter(key, obj[key], obj);
-    });
-  } else {
-    obj.forEach((entry, index) => iter(index, entry, obj));
-  }
-}
-function getArchtype(thing) {
-  const state = thing[DRAFT_STATE];
-  return state ? state.type_ : Array.isArray(thing) ? 1 : isMap(thing) ? 2 : isSet(thing) ? 3 : 0;
-}
-function has(thing, prop) {
-  return getArchtype(thing) === 2 ? thing.has(prop) : Object.prototype.hasOwnProperty.call(thing, prop);
-}
-function set(thing, propOrOldValue, value) {
-  const t = getArchtype(thing);
-  if (t === 2) thing.set(propOrOldValue, value);
-  else if (t === 3) {
-    thing.add(value);
-  } else thing[propOrOldValue] = value;
-}
-function is(x2, y) {
-  if (x2 === y) {
-    return x2 !== 0 || 1 / x2 === 1 / y;
-  } else {
-    return x2 !== x2 && y !== y;
-  }
-}
-function isMap(target) {
-  return target instanceof Map;
-}
-function isSet(target) {
-  return target instanceof Set;
-}
-function latest(state) {
-  return state.copy_ || state.base_;
-}
-function shallowCopy(base, strict) {
-  if (isMap(base)) {
-    return new Map(base);
-  }
-  if (isSet(base)) {
-    return new Set(base);
-  }
-  if (Array.isArray(base)) return Array.prototype.slice.call(base);
-  const isPlain = isPlainObject2(base);
-  if (strict === true || strict === "class_only" && !isPlain) {
-    const descriptors = Object.getOwnPropertyDescriptors(base);
-    delete descriptors[DRAFT_STATE];
-    let keys = Reflect.ownKeys(descriptors);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const desc = descriptors[key];
-      if (desc.writable === false) {
-        desc.writable = true;
-        desc.configurable = true;
-      }
-      if (desc.get || desc.set) descriptors[key] = {
-        configurable: true,
-        writable: true,
-        // could live with !!desc.set as well here...
-        enumerable: desc.enumerable,
-        value: base[key]
-      };
-    }
-    return Object.create(getPrototypeOf(base), descriptors);
-  } else {
-    const proto2 = getPrototypeOf(base);
-    if (proto2 !== null && isPlain) {
-      return {
-        ...base
-      };
-    }
-    const obj = Object.create(proto2);
-    return Object.assign(obj, base);
-  }
-}
-function freeze(obj, deep = false) {
-  if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj)) return obj;
-  if (getArchtype(obj) > 1) {
-    obj.set = obj.add = obj.clear = obj.delete = dontMutateFrozenCollections;
-  }
-  Object.freeze(obj);
-  if (deep) Object.entries(obj).forEach(([key, value]) => freeze(value, true));
-  return obj;
-}
-function dontMutateFrozenCollections() {
-  die(2);
-}
-function isFrozen(obj) {
-  return Object.isFrozen(obj);
-}
-var plugins = {};
-function getPlugin(pluginKey) {
-  const plugin = plugins[pluginKey];
-  if (!plugin) {
-    die(0, pluginKey);
-  }
-  return plugin;
-}
-var currentScope;
-function getCurrentScope() {
-  return currentScope;
-}
-function createScope(parent_, immer_) {
-  return {
-    drafts_: [],
-    parent_,
-    immer_,
-    // Whenever the modified draft contains a draft from another scope, we
-    // need to prevent auto-freezing so the unowned draft can be finalized.
-    canAutoFreeze_: true,
-    unfinalizedDrafts_: 0
-  };
-}
-function usePatchesInScope(scope, patchListener) {
-  if (patchListener) {
-    getPlugin("Patches");
-    scope.patches_ = [];
-    scope.inversePatches_ = [];
-    scope.patchListener_ = patchListener;
-  }
-}
-function revokeScope(scope) {
-  leaveScope(scope);
-  scope.drafts_.forEach(revokeDraft);
-  scope.drafts_ = null;
-}
-function leaveScope(scope) {
-  if (scope === currentScope) {
-    currentScope = scope.parent_;
-  }
-}
-function enterScope(immer2) {
-  return currentScope = createScope(currentScope, immer2);
-}
-function revokeDraft(draft) {
-  const state = draft[DRAFT_STATE];
-  if (state.type_ === 0 || state.type_ === 1) state.revoke_();
-  else state.revoked_ = true;
-}
-function processResult(result, scope) {
-  scope.unfinalizedDrafts_ = scope.drafts_.length;
-  const baseDraft = scope.drafts_[0];
-  const isReplaced = result !== void 0 && result !== baseDraft;
-  if (isReplaced) {
-    if (baseDraft[DRAFT_STATE].modified_) {
-      revokeScope(scope);
-      die(4);
-    }
-    if (isDraftable(result)) {
-      result = finalize(scope, result);
-      if (!scope.parent_) maybeFreeze(scope, result);
-    }
-    if (scope.patches_) {
-      getPlugin("Patches").generateReplacementPatches_(baseDraft[DRAFT_STATE].base_, result, scope.patches_, scope.inversePatches_);
-    }
-  } else {
-    result = finalize(scope, baseDraft, []);
-  }
-  revokeScope(scope);
-  if (scope.patches_) {
-    scope.patchListener_(scope.patches_, scope.inversePatches_);
-  }
-  return result !== NOTHING ? result : void 0;
-}
-function finalize(rootScope, value, path) {
-  if (isFrozen(value)) return value;
-  const state = value[DRAFT_STATE];
-  if (!state) {
-    each(value, (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path));
-    return value;
-  }
-  if (state.scope_ !== rootScope) return value;
-  if (!state.modified_) {
-    maybeFreeze(rootScope, state.base_, true);
-    return state.base_;
-  }
-  if (!state.finalized_) {
-    state.finalized_ = true;
-    state.scope_.unfinalizedDrafts_--;
-    const result = state.copy_;
-    let resultEach = result;
-    let isSet2 = false;
-    if (state.type_ === 3) {
-      resultEach = new Set(result);
-      result.clear();
-      isSet2 = true;
-    }
-    each(resultEach, (key, childValue) => finalizeProperty(rootScope, state, result, key, childValue, path, isSet2));
-    maybeFreeze(rootScope, result, false);
-    if (path && rootScope.patches_) {
-      getPlugin("Patches").generatePatches_(state, path, rootScope.patches_, rootScope.inversePatches_);
-    }
-  }
-  return state.copy_;
-}
-function finalizeProperty(rootScope, parentState, targetObject, prop, childValue, rootPath, targetIsSet) {
-  if (childValue === targetObject) die(5);
-  if (isDraft(childValue)) {
-    const path = rootPath && parentState && parentState.type_ !== 3 && // Set objects are atomic since they have no keys.
-    !has(parentState.assigned_, prop) ? rootPath.concat(prop) : void 0;
-    const res = finalize(rootScope, childValue, path);
-    set(targetObject, prop, res);
-    if (isDraft(res)) {
-      rootScope.canAutoFreeze_ = false;
-    } else return;
-  } else if (targetIsSet) {
-    targetObject.add(childValue);
-  }
-  if (isDraftable(childValue) && !isFrozen(childValue)) {
-    if (!rootScope.immer_.autoFreeze_ && rootScope.unfinalizedDrafts_ < 1) {
-      return;
-    }
-    finalize(rootScope, childValue);
-    if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop)) maybeFreeze(rootScope, childValue);
-  }
-}
-function maybeFreeze(scope, value, deep = false) {
-  if (!scope.parent_ && scope.immer_.autoFreeze_ && scope.canAutoFreeze_) {
-    freeze(value, deep);
-  }
-}
-function createProxyProxy(base, parent) {
-  const isArray = Array.isArray(base);
-  const state = {
-    type_: isArray ? 1 : 0,
-    // Track which produce call this is associated with.
-    scope_: parent ? parent.scope_ : getCurrentScope(),
-    // True for both shallow and deep changes.
-    modified_: false,
-    // Used during finalization.
-    finalized_: false,
-    // Track which properties have been assigned (true) or deleted (false).
-    assigned_: {},
-    // The parent draft state.
-    parent_: parent,
-    // The base state.
-    base_: base,
-    // The base proxy.
-    draft_: null,
-    // set below
-    // The base copy with any updated values.
-    copy_: null,
-    // Called by the `produce` function.
-    revoke_: null,
-    isManual_: false
-  };
-  let target = state;
-  let traps = objectTraps;
-  if (isArray) {
-    target = [
-      state
-    ];
-    traps = arrayTraps;
-  }
-  const { revoke, proxy } = Proxy.revocable(target, traps);
-  state.draft_ = proxy;
-  state.revoke_ = revoke;
-  return proxy;
-}
-var objectTraps = {
-  get(state, prop) {
-    if (prop === DRAFT_STATE) return state;
-    const source = latest(state);
-    if (!has(source, prop)) {
-      return readPropFromProto(state, source, prop);
-    }
-    const value = source[prop];
-    if (state.finalized_ || !isDraftable(value)) {
-      return value;
-    }
-    if (value === peek(state.base_, prop)) {
-      prepareCopy(state);
-      return state.copy_[prop] = createProxy(value, state);
-    }
-    return value;
-  },
-  has(state, prop) {
-    return prop in latest(state);
-  },
-  ownKeys(state) {
-    return Reflect.ownKeys(latest(state));
-  },
-  set(state, prop, value) {
-    const desc = getDescriptorFromProto(latest(state), prop);
-    if (desc?.set) {
-      desc.set.call(state.draft_, value);
-      return true;
-    }
-    if (!state.modified_) {
-      const current2 = peek(latest(state), prop);
-      const currentState = current2?.[DRAFT_STATE];
-      if (currentState && currentState.base_ === value) {
-        state.copy_[prop] = value;
-        state.assigned_[prop] = false;
-        return true;
-      }
-      if (is(value, current2) && (value !== void 0 || has(state.base_, prop))) return true;
-      prepareCopy(state);
-      markChanged(state);
-    }
-    if (state.copy_[prop] === value && // special case: handle new props with value 'undefined'
-    (value !== void 0 || prop in state.copy_) || // special case: NaN
-    Number.isNaN(value) && Number.isNaN(state.copy_[prop])) return true;
-    state.copy_[prop] = value;
-    state.assigned_[prop] = true;
-    return true;
-  },
-  deleteProperty(state, prop) {
-    if (peek(state.base_, prop) !== void 0 || prop in state.base_) {
-      state.assigned_[prop] = false;
-      prepareCopy(state);
-      markChanged(state);
-    } else {
-      delete state.assigned_[prop];
-    }
-    if (state.copy_) {
-      delete state.copy_[prop];
-    }
-    return true;
-  },
-  // Note: We never coerce `desc.value` into an Immer draft, because we can't make
-  // the same guarantee in ES5 mode.
-  getOwnPropertyDescriptor(state, prop) {
-    const owner = latest(state);
-    const desc = Reflect.getOwnPropertyDescriptor(owner, prop);
-    if (!desc) return desc;
-    return {
-      writable: true,
-      configurable: state.type_ !== 1 || prop !== "length",
-      enumerable: desc.enumerable,
-      value: owner[prop]
-    };
-  },
-  defineProperty() {
-    die(11);
-  },
-  getPrototypeOf(state) {
-    return getPrototypeOf(state.base_);
-  },
-  setPrototypeOf() {
-    die(12);
-  }
-};
-var arrayTraps = {};
-each(objectTraps, (key, fn) => {
-  arrayTraps[key] = function() {
-    arguments[0] = arguments[0][0];
-    return fn.apply(this, arguments);
-  };
-});
-arrayTraps.deleteProperty = function(state, prop) {
-  if (isNaN(parseInt(prop))) die(13);
-  return arrayTraps.set.call(this, state, prop, void 0);
-};
-arrayTraps.set = function(state, prop, value) {
-  if (prop !== "length" && isNaN(parseInt(prop))) die(14);
-  return objectTraps.set.call(this, state[0], prop, value, state[0]);
-};
-function peek(draft, prop) {
-  const state = draft[DRAFT_STATE];
-  const source = state ? latest(state) : draft;
-  return source[prop];
-}
-function readPropFromProto(state, source, prop) {
-  const desc = getDescriptorFromProto(source, prop);
-  return desc ? `value` in desc ? desc.value : (
-    // This is a very special case, if the prop is a getter defined by the
-    // prototype, we should invoke it with the draft as context!
-    desc.get?.call(state.draft_)
-  ) : void 0;
-}
-function getDescriptorFromProto(source, prop) {
-  if (!(prop in source)) return void 0;
-  let proto2 = getPrototypeOf(source);
-  while (proto2) {
-    const desc = Object.getOwnPropertyDescriptor(proto2, prop);
-    if (desc) return desc;
-    proto2 = getPrototypeOf(proto2);
-  }
-  return void 0;
-}
-function markChanged(state) {
-  if (!state.modified_) {
-    state.modified_ = true;
-    if (state.parent_) {
-      markChanged(state.parent_);
-    }
-  }
-}
-function prepareCopy(state) {
-  if (!state.copy_) {
-    state.copy_ = shallowCopy(state.base_, state.scope_.immer_.useStrictShallowCopy_);
-  }
-}
-var Immer2 = class {
-  constructor(config) {
-    this.autoFreeze_ = true;
-    this.useStrictShallowCopy_ = false;
-    this.produce = (base, recipe, patchListener) => {
-      if (typeof base === "function" && typeof recipe !== "function") {
-        const defaultBase = recipe;
-        recipe = base;
-        const self2 = this;
-        return function curriedProduce(base2 = defaultBase, ...args) {
-          return self2.produce(base2, (draft) => recipe.call(this, draft, ...args));
-        };
-      }
-      if (typeof recipe !== "function") die(6);
-      if (patchListener !== void 0 && typeof patchListener !== "function") die(7);
-      let result;
-      if (isDraftable(base)) {
-        const scope = enterScope(this);
-        const proxy = createProxy(base, void 0);
-        let hasError = true;
-        try {
-          result = recipe(proxy);
-          hasError = false;
-        } finally {
-          if (hasError) revokeScope(scope);
-          else leaveScope(scope);
-        }
-        usePatchesInScope(scope, patchListener);
-        return processResult(result, scope);
-      } else if (!base || typeof base !== "object") {
-        result = recipe(base);
-        if (result === void 0) result = base;
-        if (result === NOTHING) result = void 0;
-        if (this.autoFreeze_) freeze(result, true);
-        if (patchListener) {
-          const p = [];
-          const ip = [];
-          getPlugin("Patches").generateReplacementPatches_(base, result, p, ip);
-          patchListener(p, ip);
-        }
-        return result;
-      } else die(1, base);
-    };
-    this.produceWithPatches = (base, recipe) => {
-      if (typeof base === "function") {
-        return (state, ...args) => this.produceWithPatches(state, (draft) => base(draft, ...args));
-      }
-      let patches, inversePatches;
-      const result = this.produce(base, recipe, (p, ip) => {
-        patches = p;
-        inversePatches = ip;
-      });
-      return [
-        result,
-        patches,
-        inversePatches
-      ];
-    };
-    if (typeof config?.autoFreeze === "boolean") this.setAutoFreeze(config.autoFreeze);
-    if (typeof config?.useStrictShallowCopy === "boolean") this.setUseStrictShallowCopy(config.useStrictShallowCopy);
-  }
-  createDraft(base) {
-    if (!isDraftable(base)) die(8);
-    if (isDraft(base)) base = current(base);
-    const scope = enterScope(this);
-    const proxy = createProxy(base, void 0);
-    proxy[DRAFT_STATE].isManual_ = true;
-    leaveScope(scope);
-    return proxy;
-  }
-  finishDraft(draft, patchListener) {
-    const state = draft && draft[DRAFT_STATE];
-    if (!state || !state.isManual_) die(9);
-    const { scope_: scope } = state;
-    usePatchesInScope(scope, patchListener);
-    return processResult(void 0, scope);
-  }
-  /**
-   * Pass true to automatically freeze all copies created by Immer.
-   *
-   * By default, auto-freezing is enabled.
-   */
-  setAutoFreeze(value) {
-    this.autoFreeze_ = value;
-  }
-  /**
-   * Pass true to enable strict shallow copy.
-   *
-   * By default, immer does not copy the object descriptors such as getter, setter and non-enumrable properties.
-   */
-  setUseStrictShallowCopy(value) {
-    this.useStrictShallowCopy_ = value;
-  }
-  applyPatches(base, patches) {
-    let i;
-    for (i = patches.length - 1; i >= 0; i--) {
-      const patch = patches[i];
-      if (patch.path.length === 0 && patch.op === "replace") {
-        base = patch.value;
-        break;
-      }
-    }
-    if (i > -1) {
-      patches = patches.slice(i + 1);
-    }
-    const applyPatchesImpl = getPlugin("Patches").applyPatches_;
-    if (isDraft(base)) {
-      return applyPatchesImpl(base, patches);
-    }
-    return this.produce(base, (draft) => applyPatchesImpl(draft, patches));
-  }
-};
-function createProxy(value, parent) {
-  const draft = isMap(value) ? getPlugin("MapSet").proxyMap_(value, parent) : isSet(value) ? getPlugin("MapSet").proxySet_(value, parent) : createProxyProxy(value, parent);
-  const scope = parent ? parent.scope_ : getCurrentScope();
-  scope.drafts_.push(draft);
-  return draft;
-}
-function current(value) {
-  if (!isDraft(value)) die(10, value);
-  return currentImpl(value);
-}
-function currentImpl(value) {
-  if (!isDraftable(value) || isFrozen(value)) return value;
-  const state = value[DRAFT_STATE];
-  let copy;
-  if (state) {
-    if (!state.modified_) return state.base_;
-    state.finalized_ = true;
-    copy = shallowCopy(value, state.scope_.immer_.useStrictShallowCopy_);
-  } else {
-    copy = shallowCopy(value, true);
-  }
-  each(copy, (key, childValue) => {
-    set(copy, key, currentImpl(childValue));
-  });
-  if (state) {
-    state.finalized_ = false;
-  }
-  return copy;
-}
-var immer = new Immer2();
-var produce = immer.produce;
-var produceWithPatches = immer.produceWithPatches.bind(immer);
-var setAutoFreeze = immer.setAutoFreeze.bind(immer);
-var setUseStrictShallowCopy = immer.setUseStrictShallowCopy.bind(immer);
-var applyPatches = immer.applyPatches.bind(immer);
-var createDraft = immer.createDraft.bind(immer);
-var finishDraft = immer.finishDraft.bind(immer);
-
-// ../../.cache/deno/npm/registry.npmjs.org/reselect/5.1.1/dist/reselect.mjs
-var runIdentityFunctionCheck = (resultFunc, inputSelectorsResults, outputSelectorResult) => {
-  if (inputSelectorsResults.length === 1 && inputSelectorsResults[0] === outputSelectorResult) {
-    let isInputSameAsOutput = false;
-    try {
-      const emptyObject = {};
-      if (resultFunc(emptyObject) === emptyObject) isInputSameAsOutput = true;
-    } catch {
-    }
-    if (isInputSameAsOutput) {
-      let stack = void 0;
-      try {
-        throw new Error();
-      } catch (e2) {
-        ;
-        ({ stack } = e2);
-      }
-      console.warn("The result function returned its own inputs without modification. e.g\n`createSelector([state => state.todos], todos => todos)`\nThis could lead to inefficient memoization and unnecessary re-renders.\nEnsure transformation logic is in the result function, and extraction logic is in the input selectors.", {
-        stack
-      });
-    }
-  }
-};
-var runInputStabilityCheck = (inputSelectorResultsObject, options, inputSelectorArgs) => {
-  const { memoize, memoizeOptions } = options;
-  const { inputSelectorResults, inputSelectorResultsCopy } = inputSelectorResultsObject;
-  const createAnEmptyObject = memoize(() => ({}), ...memoizeOptions);
-  const areInputSelectorResultsEqual = createAnEmptyObject.apply(null, inputSelectorResults) === createAnEmptyObject.apply(null, inputSelectorResultsCopy);
-  if (!areInputSelectorResultsEqual) {
-    let stack = void 0;
-    try {
-      throw new Error();
-    } catch (e2) {
-      ;
-      ({ stack } = e2);
-    }
-    console.warn("An input selector returned a different result when passed same arguments.\nThis means your output selector will likely run more frequently than intended.\nAvoid returning a new reference inside your input selector, e.g.\n`createSelector([state => state.todos.map(todo => todo.id)], todoIds => todoIds.length)`", {
-      arguments: inputSelectorArgs,
-      firstInputs: inputSelectorResults,
-      secondInputs: inputSelectorResultsCopy,
-      stack
-    });
-  }
-};
-var globalDevModeChecks = {
-  inputStabilityCheck: "once",
-  identityFunctionCheck: "once"
-};
-function assertIsFunction(func, errorMessage = `expected a function, instead received ${typeof func}`) {
-  if (typeof func !== "function") {
-    throw new TypeError(errorMessage);
-  }
-}
-function assertIsObject(object, errorMessage = `expected an object, instead received ${typeof object}`) {
-  if (typeof object !== "object") {
-    throw new TypeError(errorMessage);
-  }
-}
-function assertIsArrayOfFunctions(array, errorMessage = `expected all items to be functions, instead received the following types: `) {
-  if (!array.every((item) => typeof item === "function")) {
-    const itemTypes = array.map((item) => typeof item === "function" ? `function ${item.name || "unnamed"}()` : typeof item).join(", ");
-    throw new TypeError(`${errorMessage}[${itemTypes}]`);
-  }
-}
-var ensureIsArray = (item) => {
-  return Array.isArray(item) ? item : [
-    item
-  ];
-};
-function getDependencies(createSelectorArgs) {
-  const dependencies = Array.isArray(createSelectorArgs[0]) ? createSelectorArgs[0] : createSelectorArgs;
-  assertIsArrayOfFunctions(dependencies, `createSelector expects all input-selectors to be functions, but received the following types: `);
-  return dependencies;
-}
-function collectInputSelectorResults(dependencies, inputSelectorArgs) {
-  const inputSelectorResults = [];
-  const { length } = dependencies;
-  for (let i = 0; i < length; i++) {
-    inputSelectorResults.push(dependencies[i].apply(null, inputSelectorArgs));
-  }
-  return inputSelectorResults;
-}
-var getDevModeChecksExecutionInfo = (firstRun, devModeChecks) => {
-  const { identityFunctionCheck, inputStabilityCheck } = {
-    ...globalDevModeChecks,
-    ...devModeChecks
-  };
-  return {
-    identityFunctionCheck: {
-      shouldRun: identityFunctionCheck === "always" || identityFunctionCheck === "once" && firstRun,
-      run: runIdentityFunctionCheck
-    },
-    inputStabilityCheck: {
-      shouldRun: inputStabilityCheck === "always" || inputStabilityCheck === "once" && firstRun,
-      run: runInputStabilityCheck
-    }
-  };
-};
-var REDUX_PROXY_LABEL = Symbol();
-var proto = Object.getPrototypeOf({});
-var StrongRef = class {
-  constructor(value) {
-    this.value = value;
-  }
-  deref() {
-    return this.value;
-  }
-};
-var Ref = typeof WeakRef !== "undefined" ? WeakRef : StrongRef;
-var UNTERMINATED = 0;
-var TERMINATED = 1;
-function createCacheNode() {
-  return {
-    s: UNTERMINATED,
-    v: void 0,
-    o: null,
-    p: null
-  };
-}
-function weakMapMemoize(func, options = {}) {
-  let fnNode = createCacheNode();
-  const { resultEqualityCheck } = options;
-  let lastResult;
-  let resultsCount = 0;
-  function memoized() {
-    let cacheNode = fnNode;
-    const { length } = arguments;
-    for (let i = 0, l = length; i < l; i++) {
-      const arg = arguments[i];
-      if (typeof arg === "function" || typeof arg === "object" && arg !== null) {
-        let objectCache = cacheNode.o;
-        if (objectCache === null) {
-          cacheNode.o = objectCache = /* @__PURE__ */ new WeakMap();
-        }
-        const objectNode = objectCache.get(arg);
-        if (objectNode === void 0) {
-          cacheNode = createCacheNode();
-          objectCache.set(arg, cacheNode);
-        } else {
-          cacheNode = objectNode;
-        }
-      } else {
-        let primitiveCache = cacheNode.p;
-        if (primitiveCache === null) {
-          cacheNode.p = primitiveCache = /* @__PURE__ */ new Map();
-        }
-        const primitiveNode = primitiveCache.get(arg);
-        if (primitiveNode === void 0) {
-          cacheNode = createCacheNode();
-          primitiveCache.set(arg, cacheNode);
-        } else {
-          cacheNode = primitiveNode;
-        }
-      }
-    }
-    const terminatedNode = cacheNode;
-    let result;
-    if (cacheNode.s === TERMINATED) {
-      result = cacheNode.v;
-    } else {
-      result = func.apply(null, arguments);
-      resultsCount++;
-      if (resultEqualityCheck) {
-        const lastResultValue = lastResult?.deref?.() ?? lastResult;
-        if (lastResultValue != null && resultEqualityCheck(lastResultValue, result)) {
-          result = lastResultValue;
-          resultsCount !== 0 && resultsCount--;
-        }
-        const needsWeakRef = typeof result === "object" && result !== null || typeof result === "function";
-        lastResult = needsWeakRef ? new Ref(result) : result;
-      }
-    }
-    terminatedNode.s = TERMINATED;
-    terminatedNode.v = result;
-    return result;
-  }
-  memoized.clearCache = () => {
-    fnNode = createCacheNode();
-    memoized.resetResultsCount();
-  };
-  memoized.resultsCount = () => resultsCount;
-  memoized.resetResultsCount = () => {
-    resultsCount = 0;
-  };
-  return memoized;
-}
-function createSelectorCreator(memoizeOrOptions, ...memoizeOptionsFromArgs) {
-  const createSelectorCreatorOptions = typeof memoizeOrOptions === "function" ? {
-    memoize: memoizeOrOptions,
-    memoizeOptions: memoizeOptionsFromArgs
-  } : memoizeOrOptions;
-  const createSelector2 = (...createSelectorArgs) => {
-    let recomputations = 0;
-    let dependencyRecomputations = 0;
-    let lastResult;
-    let directlyPassedOptions = {};
-    let resultFunc = createSelectorArgs.pop();
-    if (typeof resultFunc === "object") {
-      directlyPassedOptions = resultFunc;
-      resultFunc = createSelectorArgs.pop();
-    }
-    assertIsFunction(resultFunc, `createSelector expects an output function after the inputs, but received: [${typeof resultFunc}]`);
-    const combinedOptions = {
-      ...createSelectorCreatorOptions,
-      ...directlyPassedOptions
-    };
-    const { memoize, memoizeOptions = [], argsMemoize = weakMapMemoize, argsMemoizeOptions = [], devModeChecks = {} } = combinedOptions;
-    const finalMemoizeOptions = ensureIsArray(memoizeOptions);
-    const finalArgsMemoizeOptions = ensureIsArray(argsMemoizeOptions);
-    const dependencies = getDependencies(createSelectorArgs);
-    const memoizedResultFunc = memoize(function recomputationWrapper() {
-      recomputations++;
-      return resultFunc.apply(null, arguments);
-    }, ...finalMemoizeOptions);
-    let firstRun = true;
-    const selector = argsMemoize(function dependenciesChecker() {
-      dependencyRecomputations++;
-      const inputSelectorResults = collectInputSelectorResults(dependencies, arguments);
-      lastResult = memoizedResultFunc.apply(null, inputSelectorResults);
-      if (true) {
-        const { identityFunctionCheck, inputStabilityCheck } = getDevModeChecksExecutionInfo(firstRun, devModeChecks);
-        if (identityFunctionCheck.shouldRun) {
-          identityFunctionCheck.run(resultFunc, inputSelectorResults, lastResult);
-        }
-        if (inputStabilityCheck.shouldRun) {
-          const inputSelectorResultsCopy = collectInputSelectorResults(dependencies, arguments);
-          inputStabilityCheck.run({
-            inputSelectorResults,
-            inputSelectorResultsCopy
-          }, {
-            memoize,
-            memoizeOptions: finalMemoizeOptions
-          }, arguments);
-        }
-        if (firstRun) firstRun = false;
-      }
-      return lastResult;
-    }, ...finalArgsMemoizeOptions);
-    return Object.assign(selector, {
-      resultFunc,
-      memoizedResultFunc,
-      dependencies,
-      dependencyRecomputations: () => dependencyRecomputations,
-      resetDependencyRecomputations: () => {
-        dependencyRecomputations = 0;
-      },
-      lastResult: () => lastResult,
-      recomputations: () => recomputations,
-      resetRecomputations: () => {
-        recomputations = 0;
-      },
-      memoize,
-      argsMemoize
-    });
-  };
-  Object.assign(createSelector2, {
-    withTypes: () => createSelector2
-  });
-  return createSelector2;
-}
-var createSelector = /* @__PURE__ */ createSelectorCreator(weakMapMemoize);
-var createStructuredSelector = Object.assign((inputSelectorsObject, selectorCreator = createSelector) => {
-  assertIsObject(inputSelectorsObject, `createStructuredSelector expects first argument to be an object where each property is a selector, instead received a ${typeof inputSelectorsObject}`);
-  const inputSelectorKeys = Object.keys(inputSelectorsObject);
-  const dependencies = inputSelectorKeys.map((key) => inputSelectorsObject[key]);
-  const structuredSelector = selectorCreator(dependencies, (...inputSelectorResults) => {
-    return inputSelectorResults.reduce((composition, value, index) => {
-      composition[inputSelectorKeys[index]] = value;
-      return composition;
-    }, {});
-  });
-  return structuredSelector;
-}, {
-  withTypes: () => createStructuredSelector
-});
-
-// ../../.cache/deno/npm/registry.npmjs.org/redux-thunk/3.1.0/dist/redux-thunk.mjs
-function createThunkMiddleware(extraArgument) {
-  const middleware = ({ dispatch, getState }) => (next) => (action) => {
-    if (typeof action === "function") {
-      return action(dispatch, getState, extraArgument);
-    }
-    return next(action);
-  };
-  return middleware;
-}
-var thunk = createThunkMiddleware();
-var withExtraArgument = createThunkMiddleware;
-
-// ../../.cache/deno/npm/registry.npmjs.org/@reduxjs/toolkit/2.8.2/dist/redux-toolkit.browser.mjs
-var xe = (...e2) => {
-  let t = createSelectorCreator(...e2), r = Object.assign((...n) => {
-    let o = t(...n), a = (s, ...y) => o(isDraft(s) ? current(s) : s, ...y);
-    return Object.assign(a, o), a;
-  }, {
-    withTypes: () => r
-  });
-  return r;
-};
-var ie = xe(weakMapMemoize);
-var Ee = typeof window < "u" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : function() {
-  if (arguments.length !== 0) return typeof arguments[0] == "object" ? compose : compose.apply(null, arguments);
-};
-var Rn = typeof window < "u" && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__ : function() {
-  return function(e2) {
-    return e2;
-  };
-};
-var q = (e2) => e2 && typeof e2.match == "function";
-function M(e2, t) {
-  function r(...n) {
-    if (t) {
-      let o = t(...n);
-      if (!o) throw new Error(x(0));
-      return {
-        type: e2,
-        payload: o.payload,
-        ..."meta" in o && {
-          meta: o.meta
-        },
-        ..."error" in o && {
-          error: o.error
-        }
-      };
-    }
-    return {
-      type: e2,
-      payload: n[0]
-    };
-  }
-  return r.toString = () => `${e2}`, r.type = e2, r.match = (n) => isAction(n) && n.type === e2, r;
-}
-var F = class e extends Array {
-  constructor(...t) {
-    super(...t), Object.setPrototypeOf(this, e.prototype);
-  }
-  static get [Symbol.species]() {
-    return e;
-  }
-  concat(...t) {
-    return super.concat.apply(this, t);
-  }
-  prepend(...t) {
-    return t.length === 1 && Array.isArray(t[0]) ? new e(...t[0].concat(this)) : new e(...t.concat(this));
-  }
-};
-function de(e2) {
-  return isDraftable(e2) ? produce(e2, () => {
-  }) : e2;
-}
-function P(e2, t, r) {
-  return e2.has(t) ? e2.get(t) : e2.set(t, r(t)).get(t);
-}
-function St(e2) {
-  return typeof e2 == "boolean";
-}
-var be = () => function(t) {
-  let { thunk: r = true, immutableCheck: n = true, serializableCheck: o = true, actionCreatorCheck: a = true } = t ?? {}, s = new F();
-  return r && (St(r) ? s.push(thunk) : s.push(withExtraArgument(r.extraArgument))), s;
-};
-var ue = "RTK_autoBatch";
-var Ie = (e2) => (t) => {
-  setTimeout(t, e2);
-};
-var le = (e2 = {
-  type: "raf"
-}) => (t) => (...r) => {
-  let n = t(...r), o = true, a = false, s = false, y = /* @__PURE__ */ new Set(), c = e2.type === "tick" ? queueMicrotask : e2.type === "raf" ? typeof window < "u" && window.requestAnimationFrame ? window.requestAnimationFrame : Ie(10) : e2.type === "callback" ? e2.queueNotification : Ie(e2.timeout), l = () => {
-    s = false, a && (a = false, y.forEach((i) => i()));
-  };
-  return Object.assign({}, n, {
-    subscribe(i) {
-      let d = () => o && i(), T = n.subscribe(d);
-      return y.add(i), () => {
-        T(), y.delete(i);
-      };
-    },
-    dispatch(i) {
-      try {
-        return o = !i?.meta?.[ue], a = !o, a && (s || (s = true, c(l))), n.dispatch(i);
-      } finally {
-        o = true;
-      }
-    }
-  });
-};
-var ve = (e2) => function(r) {
-  let { autoBatch: n = true } = r ?? {}, o = new F(e2);
-  return n && o.push(le(typeof n == "object" ? n : void 0)), o;
-};
-function Mt(e2) {
-  let t = be(), { reducer: r = void 0, middleware: n, devTools: o = true, duplicateMiddlewareCheck: a = true, preloadedState: s = void 0, enhancers: y = void 0 } = e2 || {}, c;
-  if (typeof r == "function") c = r;
-  else if (isPlainObject(r)) c = combineReducers(r);
-  else throw new Error(x(1));
-  let l;
-  typeof n == "function" ? l = n(t) : l = t();
-  let i = compose;
-  o && (i = Ee({
-    trace: false,
-    ...typeof o == "object" && o
-  }));
-  let d = applyMiddleware(...l), T = ve(d), g = typeof y == "function" ? y(T) : T(), p = i(...g);
-  return createStore(c, s, p);
-}
-function $(e2) {
-  let t = {}, r = [], n, o = {
-    addCase(a, s) {
-      let y = typeof a == "string" ? a : a.type;
-      if (!y) throw new Error(x(28));
-      if (y in t) throw new Error(x(29));
-      return t[y] = s, o;
-    },
-    addMatcher(a, s) {
-      return r.push({
-        matcher: a,
-        reducer: s
-      }), o;
-    },
-    addDefaultCase(a) {
-      return n = a, o;
-    }
-  };
-  return e2(o), [
-    t,
-    r,
-    n
-  ];
-}
-function vt(e2) {
-  return typeof e2 == "function";
-}
-function pe(e2, t) {
-  let [r, n, o] = $(t), a;
-  if (vt(e2)) a = () => de(e2());
-  else {
-    let y = de(e2);
-    a = () => y;
-  }
-  function s(y = a(), c) {
-    let l = [
-      r[c.type],
-      ...n.filter(({ matcher: i }) => i(c)).map(({ reducer: i }) => i)
-    ];
-    return l.filter((i) => !!i).length === 0 && (l = [
-      o
-    ]), l.reduce((i, d) => {
-      if (d) if (isDraft(i)) {
-        let g = d(i, c);
-        return g === void 0 ? i : g;
-      } else {
-        if (isDraftable(i)) return produce(i, (T) => d(T, c));
-        {
-          let T = d(i, c);
-          if (T === void 0) {
-            if (i === null) return i;
-            throw Error("A case reducer on a non-draftable value must not return undefined");
-          }
-          return T;
-        }
-      }
-      return i;
-    }, y);
-  }
-  return s.getInitialState = a, s;
-}
-var De = (e2, t) => q(e2) ? e2.match(t) : e2(t);
-function V(...e2) {
-  return (t) => e2.some((r) => De(r, t));
-}
-var Dt = "ModuleSymbhasOwnPr-0123456789ABCDEFGHNRVfgctiUvz_KqYTJkLxpZXIjQW";
-var I = (e2 = 21) => {
-  let t = "", r = e2;
-  for (; r--; ) t += Dt[Math.random() * 64 | 0];
-  return t;
-};
-var Ot = [
-  "name",
-  "message",
-  "stack",
-  "code"
-];
-var G = class {
-  constructor(t, r) {
-    this.payload = t;
-    this.meta = r;
-  }
-  _type;
-};
-var Q = class {
-  constructor(t, r) {
-    this.payload = t;
-    this.meta = r;
-  }
-  _type;
-};
-var _e = (e2) => {
-  if (typeof e2 == "object" && e2 !== null) {
-    let t = {};
-    for (let r of Ot) typeof e2[r] == "string" && (t[r] = e2[r]);
-    return t;
-  }
-  return {
-    message: String(e2)
-  };
-};
-var Ve = "External signal was aborted";
-var fe = (() => {
-  function e2(t, r, n) {
-    let o = M(t + "/fulfilled", (c, l, i, d) => ({
-      payload: c,
-      meta: {
-        ...d || {},
-        arg: i,
-        requestId: l,
-        requestStatus: "fulfilled"
-      }
-    })), a = M(t + "/pending", (c, l, i) => ({
-      payload: void 0,
-      meta: {
-        ...i || {},
-        arg: l,
-        requestId: c,
-        requestStatus: "pending"
-      }
-    })), s = M(t + "/rejected", (c, l, i, d, T) => ({
-      payload: d,
-      error: (n && n.serializeError || _e)(c || "Rejected"),
-      meta: {
-        ...T || {},
-        arg: i,
-        requestId: l,
-        rejectedWithValue: !!d,
-        requestStatus: "rejected",
-        aborted: c?.name === "AbortError",
-        condition: c?.name === "ConditionError"
-      }
-    }));
-    function y(c, { signal: l } = {}) {
-      return (i, d, T) => {
-        let g = n?.idGenerator ? n.idGenerator(c) : I(), p = new AbortController(), h, u;
-        function f(A) {
-          u = A, p.abort();
-        }
-        l && (l.aborted ? f(Ve) : l.addEventListener("abort", () => f(Ve), {
-          once: true
-        }));
-        let k = async function() {
-          let A;
-          try {
-            let S = n?.condition?.(c, {
-              getState: d,
-              extra: T
-            });
-            if (Nt(S) && (S = await S), S === false || p.signal.aborted) throw {
-              name: "ConditionError",
-              message: "Aborted due to condition callback returning false."
-            };
-            let w = new Promise((C, E) => {
-              h = () => {
-                E({
-                  name: "AbortError",
-                  message: u || "Aborted"
-                });
-              }, p.signal.addEventListener("abort", h);
-            });
-            i(a(g, c, n?.getPendingMeta?.({
-              requestId: g,
-              arg: c
-            }, {
-              getState: d,
-              extra: T
-            }))), A = await Promise.race([
-              w,
-              Promise.resolve(r(c, {
-                dispatch: i,
-                getState: d,
-                extra: T,
-                requestId: g,
-                signal: p.signal,
-                abort: f,
-                rejectWithValue: (C, E) => new G(C, E),
-                fulfillWithValue: (C, E) => new Q(C, E)
-              })).then((C) => {
-                if (C instanceof G) throw C;
-                return C instanceof Q ? o(C.payload, g, c, C.meta) : o(C, g, c);
-              })
-            ]);
-          } catch (S) {
-            A = S instanceof G ? s(null, g, c, S.payload, S.meta) : s(S, g, c);
-          } finally {
-            h && p.signal.removeEventListener("abort", h);
-          }
-          return n && !n.dispatchConditionRejection && s.match(A) && A.meta.condition || i(A), A;
-        }();
-        return Object.assign(k, {
-          abort: f,
-          requestId: g,
-          arg: c,
-          unwrap() {
-            return k.then(Le);
-          }
-        });
-      };
-    }
-    return Object.assign(y, {
-      pending: a,
-      rejected: s,
-      fulfilled: o,
-      settled: V(s, o),
-      typePrefix: t
-    });
-  }
-  return e2.withTypes = () => e2, e2;
-})();
-function Le(e2) {
-  if (e2.meta && e2.meta.rejectedWithValue) throw e2.payload;
-  if (e2.error) throw e2.error;
-  return e2.payload;
-}
-function Nt(e2) {
-  return e2 !== null && typeof e2 == "object" && typeof e2.then == "function";
-}
-var Ue = Symbol.for("rtk-slice-createasyncthunk");
-var jt = {
-  [Ue]: fe
-};
-var We = ((n) => (n.reducer = "reducer", n.reducerWithPrepare = "reducerWithPrepare", n.asyncThunk = "asyncThunk", n))(We || {});
-function Ft(e2, t) {
-  return `${e2}/${t}`;
-}
-function ze({ creators: e2 } = {}) {
-  let t = e2?.asyncThunk?.[Ue];
-  return function(n) {
-    let { name: o, reducerPath: a = o } = n;
-    if (!o) throw new Error(x(11));
-    let s = (typeof n.reducers == "function" ? n.reducers(Lt()) : n.reducers) || {}, y = Object.keys(s), c = {
-      sliceCaseReducersByName: {},
-      sliceCaseReducersByType: {},
-      actionCreators: {},
-      sliceMatchers: []
-    }, l = {
-      addCase(A, m) {
-        let S = typeof A == "string" ? A : A.type;
-        if (!S) throw new Error(x(12));
-        if (S in c.sliceCaseReducersByType) throw new Error(x(13));
-        return c.sliceCaseReducersByType[S] = m, l;
-      },
-      addMatcher(A, m) {
-        return c.sliceMatchers.push({
-          matcher: A,
-          reducer: m
-        }), l;
-      },
-      exposeAction(A, m) {
-        return c.actionCreators[A] = m, l;
-      },
-      exposeCaseReducer(A, m) {
-        return c.sliceCaseReducersByName[A] = m, l;
-      }
-    };
-    y.forEach((A) => {
-      let m = s[A], S = {
-        reducerName: A,
-        type: Ft(o, A),
-        createNotation: typeof n.reducers == "function"
-      };
-      Wt(m) ? Gt(S, m, l, t) : Ut(S, m, l);
-    });
-    function i() {
-      let [A = {}, m = [], S = void 0] = typeof n.extraReducers == "function" ? $(n.extraReducers) : [
-        n.extraReducers
-      ], w = {
-        ...A,
-        ...c.sliceCaseReducersByType
-      };
-      return pe(n.initialState, (C) => {
-        for (let E in w) C.addCase(E, w[E]);
-        for (let E of c.sliceMatchers) C.addMatcher(E.matcher, E.reducer);
-        for (let E of m) C.addMatcher(E.matcher, E.reducer);
-        S && C.addDefaultCase(S);
-      });
-    }
-    let d = (A) => A, T = /* @__PURE__ */ new Map(), g = /* @__PURE__ */ new WeakMap(), p;
-    function h(A, m) {
-      return p || (p = i()), p(A, m);
-    }
-    function u() {
-      return p || (p = i()), p.getInitialState();
-    }
-    function f(A, m = false) {
-      function S(C) {
-        let E = C[A];
-        return typeof E > "u" && m && (E = P(g, S, u)), E;
-      }
-      function w(C = d) {
-        let E = P(T, m, () => /* @__PURE__ */ new WeakMap());
-        return P(E, C, () => {
-          let U = {};
-          for (let [H, j] of Object.entries(n.selectors ?? {})) U[H] = Vt(j, C, () => P(g, C, u), m);
-          return U;
-        });
-      }
-      return {
-        reducerPath: A,
-        getSelectors: w,
-        get selectors() {
-          return w(S);
-        },
-        selectSlice: S
-      };
-    }
-    let k = {
-      name: o,
-      reducer: h,
-      actions: c.actionCreators,
-      caseReducers: c.sliceCaseReducersByName,
-      getInitialState: u,
-      ...f(a),
-      injectInto(A, { reducerPath: m, ...S } = {}) {
-        let w = m ?? a;
-        return A.inject({
-          reducerPath: w,
-          reducer: h
-        }, S), {
-          ...k,
-          ...f(w, true)
-        };
-      }
-    };
-    return k;
-  };
-}
-function Vt(e2, t, r, n) {
-  function o(a, ...s) {
-    let y = t(a);
-    return typeof y > "u" && n && (y = r()), e2(y, ...s);
-  }
-  return o.unwrapped = e2, o;
-}
-var _t = ze();
-function Lt() {
-  function e2(t, r) {
-    return {
-      _reducerDefinitionType: "asyncThunk",
-      payloadCreator: t,
-      ...r
-    };
-  }
-  return e2.withTypes = () => e2, {
-    reducer(t) {
-      return Object.assign({
-        [t.name](...r) {
-          return t(...r);
-        }
-      }[t.name], {
-        _reducerDefinitionType: "reducer"
-      });
-    },
-    preparedReducer(t, r) {
-      return {
-        _reducerDefinitionType: "reducerWithPrepare",
-        prepare: t,
-        reducer: r
-      };
-    },
-    asyncThunk: e2
-  };
-}
-function Ut({ type: e2, reducerName: t, createNotation: r }, n, o) {
-  let a, s;
-  if ("reducer" in n) {
-    if (r && !zt(n)) throw new Error(x(17));
-    a = n.reducer, s = n.prepare;
-  } else a = n;
-  o.addCase(e2, a).exposeCaseReducer(t, a).exposeAction(t, s ? M(e2, s) : M(e2));
-}
-function Wt(e2) {
-  return e2._reducerDefinitionType === "asyncThunk";
-}
-function zt(e2) {
-  return e2._reducerDefinitionType === "reducerWithPrepare";
-}
-function Gt({ type: e2, reducerName: t }, r, n, o) {
-  if (!o) throw new Error(x(18));
-  let { payloadCreator: a, fulfilled: s, pending: y, rejected: c, settled: l, options: i } = r, d = o(e2, a, i);
-  n.exposeAction(t, d), s && n.addCase(d.fulfilled, s), y && n.addCase(d.pending, y), c && n.addCase(d.rejected, c), l && n.addMatcher(d.settled, l), n.exposeCaseReducer(t, {
-    fulfilled: s || Y,
-    pending: y || Y,
-    rejected: c || Y,
-    settled: l || Y
-  });
-}
-function Y() {
-}
-var qe = "listener";
-var $e = "completed";
-var ye = "cancelled";
-var Xe = `task-${ye}`;
-var Je = `task-${$e}`;
-var te = `${qe}-${ye}`;
-var Qe = `${qe}-${$e}`;
-var ne = (e2, t) => {
-  if (typeof e2 != "function") throw new TypeError(x(32));
-};
-var { assign: L2 } = Object;
-var ae = "listenerMiddleware";
-var nt = (e2) => {
-  let { type: t, actionCreator: r, matcher: n, predicate: o, effect: a } = e2;
-  if (t) o = M(t).match;
-  else if (r) t = r.type, o = r.match;
-  else if (n) o = n;
-  else if (!o) throw new Error(x(21));
-  return ne(a, "options.listener"), {
-    predicate: o,
-    type: t,
-    effect: a
-  };
-};
-var rt = L2((e2) => {
-  let { type: t, predicate: r, effect: n } = nt(e2);
-  return {
-    id: I(),
-    effect: n,
-    type: t,
-    predicate: r,
-    pending: /* @__PURE__ */ new Set(),
-    unsubscribe: () => {
-      throw new Error(x(22));
-    }
-  };
-}, {
-  withTypes: () => rt
-});
-var me = L2(M(`${ae}/add`), {
-  withTypes: () => me
-});
-var ot = M(`${ae}/removeAll`);
-var ge = L2(M(`${ae}/remove`), {
-  withTypes: () => ge
-});
-var Se = Symbol.for("rtk-state-proxy-original");
-function x(e2) {
-  return `Minified Redux Toolkit error #${e2}; visit https://redux-toolkit.js.org/Errors?code=${e2} for the full message or use the non-minified dev environment for full errors. `;
-}
-
-// clientSide/indexStateManagement.ts
-var initialState = {
-  index: 0
-};
-var incrementIndex = M("index/increment");
-var decrementIndex = M("index/decrement");
-var setMaxIndex = M("maxIndex/set");
-var reducer = pe(initialState, (builder) => {
-  builder.addCase(incrementIndex, (state) => {
-    if (state.index + 1 <= Number(state.maxIndex)) {
-      state.index++;
-    }
-  });
-  builder.addCase(decrementIndex, (state) => {
-    if (state.index - 1 >= 0) {
-      state.index--;
-    }
-  });
-  builder.addCase(setMaxIndex, (state, action) => {
-    state.maxIndex = action.payload;
-  });
-});
-var store = Mt({
-  reducer,
-  devTools: false
-});
-
-// clientSide/index.ts
-var map2 = L3.map("map");
-var popups = [];
-function addPopup(coordinates, HTMLstring) {
-  popups.push(L3.marker(coordinates).addTo(map2).bindPopup(HTMLstring));
-}
-function openPopup() {
-  popups[store.getState().index].openPopup();
-}
-function setUpMap(coordinates) {
-  const focusMap = () => {
-    const { index } = store.getState();
-    map2.setView([
-      coordinates[index][0] + 2e-3,
-      coordinates[index][1]
-    ], 15);
-  };
-  store.subscribe(focusMap);
-  store.dispatch(setMaxIndex(coordinates.length - 1));
-  store.subscribe(openPopup);
-  L3.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+var L2 = __toESM(require_leaflet_src());
+function setUpMap(coordinates, HTMLstring) {
+  console.log(coordinates);
+  const map2 = L2.map("map");
+  map2.setView([
+    coordinates[0] + 2e-3,
+    coordinates[1]
+  ], 15);
+  L2.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 20,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map2);
+  const popup2 = L2.popup({
+    closeOnClick: false
+  }).setContent(HTMLstring);
+  L2.marker(coordinates).addTo(map2).bindPopup(popup2).openPopup();
   document.getElementById("previousPin")?.addEventListener("click", () => {
-    store.dispatch(decrementIndex());
   });
   document.getElementById("nextPin")?.addEventListener("click", () => {
-    store.dispatch(incrementIndex());
   });
 }
 function setUpSearchBar() {
@@ -11712,8 +9890,6 @@ function setUpSearchBar() {
   });
 }
 export {
-  addPopup,
-  openPopup,
   setUpMap,
   setUpSearchBar
 };

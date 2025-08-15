@@ -1,10 +1,12 @@
-import type { Response } from "npm:express";
-import selectAllItems from "../db/queries/selectAllItems.ts";
-import addLocationNamesToItems from "../helperFunctions/addLocationNamesToItems.ts";
+import type { Request, Response } from "npm:express";
+import addLocationNameToItem from "../helperFunctions/addLocationNameToItem.ts";
+import selectItem from "../db/queries/selectItem.ts";
+import selectAnyOldItem from "../db/queries/selectAnyOldItem.ts";
 
-const renderIndex = async(_req: object, res: Response) => {
-  const items = await addLocationNamesToItems(await selectAllItems());
-  res.render("index", { items });
+const renderIndex = async(req: Request, res: Response) => {
+  const itemPrimaryKey: string | undefined = req.params.itemPrimaryKey;
+  const item = await addLocationNameToItem(itemPrimaryKey ? await selectItem(itemPrimaryKey) : await selectAnyOldItem());
+  res.render("index", { item });
 };
 
 export default renderIndex;

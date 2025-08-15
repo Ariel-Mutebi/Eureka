@@ -33,7 +33,7 @@
                 type="search"
                 name="searchPattern"
                 id="searchInput"
-                placeholder="Search listing of <%= items.length %> items"
+                placeholder="Search listing"
                 autocomplete="off"
                 class="w-100"
               />
@@ -59,25 +59,11 @@
       import { setUpMap, setUpSearchBar } from "/scripts/index.js";
       setUpMap(
         JSON.parse(
-          "<%= JSON.stringify(items.map((item) => [item.location.x, item.location.y])); %>"
-        )
-      );
-      setUpSearchBar();
-    </script>
-
-    <% items.forEach((item) => { %>
-    <script type="module">
-      import { addPopup } from "/scripts/index.js";
-      addPopup(
-        [Number("<%= item.location.x %>"), Number("<%= item.location.y %>")],
+          "<%= JSON.stringify([item.location.x, item.location.y]); %>"
+        ),
         `<%- include('./partials/item', { item }) %>`
       );
-    </script>
-    <% }); %>
-
-    <script type="module">
-      import { openPopup } from "/scripts/index.js";
-      openPopup();
+      setUpSearchBar();
     </script>
   </body>
 </html>
