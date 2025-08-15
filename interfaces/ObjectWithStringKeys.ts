@@ -1,6 +1,5 @@
-interface ObjectWithStringKeys {
-  // deno-lint-ignore no-explicit-any
-  [ key: string ]: any;
+interface ObjectWithStringKeys<valueType> {
+  [ key: string ]: valueType;
 };
 
 export default ObjectWithStringKeys;
