@@ -1,4 +1,4 @@
-interface ItemInDatabase {
+interface Item {
   pk: string;
   name: string;
   description: string;
@@ -10,6 +10,7 @@ interface ItemInDatabase {
     y: number
   };
   locationName?: string;
+  fullLocationName?: string;
 };
 
-export default ItemInDatabase;
+export default Item;

@@ -8,7 +8,6 @@ interface State {
 const initialState: State = { index: 0 };
 const incrementIndex = createAction("index/increment");
 const decrementIndex = createAction("index/decrement");
-const setIndex = createAction<number>("index/set");
 const setMaxIndex = createAction<number>("maxIndex/set");
 
 const reducer = createReducer(initialState, (builder) => {
@@ -22,9 +21,6 @@ const reducer = createReducer(initialState, (builder) => {
       state.index--;
     }
   });
-  builder.addCase(setIndex, (state, action) => {
-    state.index = action.payload;
-  });
   builder.addCase(setMaxIndex, (state, action) => {
     state.maxIndex = action.payload;
   });
@@ -35,4 +31,4 @@ const store = configureStore({
   devTools: false
 });
 
-export { incrementIndex, decrementIndex, setIndex, setMaxIndex, store };
+export { incrementIndex, decrementIndex, setMaxIndex, store };

@@ -1,8 +1,8 @@
-import ItemInClient from "../interfaces/ItemInClient.ts";
+import Item from "../interfaces/Item.ts";
 import geocode from "./geocode.ts";
 
-async function addLocationToItem(item: ItemInClient) {
-  item.location = await geocode(item.locationName);
+async function addLocationToItem(item: Item) {
+  item.location = await geocode(item.locationName!);
   return item;
 }
 

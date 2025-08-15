@@ -1,8 +1,8 @@
-import ItemInDatabase from "../interfaces/ItemInDatabase.ts";
+import Item from "../interfaces/Item.ts";
 import reverseGeocode from "./reverseGeocode.ts";
 
-async function addLocationNameToItem(item: ItemInDatabase) {
-  return Object.assign({}, item, await reverseGeocode(item.location.x, item.location.y));
+async function addLocationNameToItem(item: Item) {
+  return Object.assign(item, await reverseGeocode(item.location.x, item.location.y)) as Item;
 };
 
 export default addLocationNameToItem;

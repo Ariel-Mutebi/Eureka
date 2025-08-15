@@ -1,8 +1,6 @@
 // @deno-types="npm:@types/leaflet"
 import * as L from "npm:leaflet";
-import Fuse from "npm:fuse.js";
-import { incrementIndex, decrementIndex, setIndex, setMaxIndex, store } from "./indexStateManagement.ts";
-import type { FuseResult } from "npm:fuse.js";
+import { incrementIndex, decrementIndex, setMaxIndex, store } from "./indexStateManagement.ts";
 
 const map = L.map("map");
 const popups: L.Marker[] = [];
@@ -42,19 +40,7 @@ function setUpMap(coordinates: number[][]) {
   });
 }
 
-interface SearchBarItem{
-  name: string;
-  state: string; // as in lost or found
-  description: string;
-  fullLocationName: string;
-}
-
-function setUpSearchBar(items: SearchBarItem[]) {
-  let searchPattern = "";
-  let searchResults: FuseResult<SearchBarItem>[] = [];
-  const fuse = new Fuse(items, { keys: ["name", "state", "description", "fullLocationName"] });
-  
-  const searchBar = document.getElementById("searchBar") as HTMLFormElement;
+function setUpSearchBar() {
   const searchInput = document.getElementById("searchInput") as HTMLInputElement;
   const searchSuggestionContainer = document.getElementById("searchSuggestions") as HTMLDivElement;
 
@@ -66,35 +52,38 @@ function setUpSearchBar(items: SearchBarItem[]) {
     searchSuggestionContainer.appendChild(p);
   };
 
+  let debounceTimeout: number | undefined;
+  let lastFetchId = 0;
+  const debounceDelayInMS = 300;
+
   searchInput.addEventListener("keyup", () => {
-    searchPattern = searchInput.value;
-    searchResults = fuse.search(searchPattern);
-    searchSuggestionContainer.innerHTML = "";
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(async () => {
+      const searchPattern = searchInput.value;
+      searchSuggestionContainer.innerHTML = "";
 
-    if(searchResults.length > 0) {
-      const searchSuggestions = searchResults.map(
-        (result) => `${result.item.name} ${result.item.state} at ${result.item.fullLocationName}`);
+      const fetchId = ++lastFetchId;
 
-      let searchSuggestionCount = 0;
-      const maximumSearchSuggestions = 3;
+      try {
+        const response = await fetch(`/searchSuggestions?searchPattern=${encodeURIComponent(searchPattern)}`);
+        if (!response.ok) throw new Error("Request failed");
 
-      while(searchSuggestionCount < Math.min(searchSuggestions.length, maximumSearchSuggestions)) {
-        renderSearchSuggestion(searchSuggestions[searchSuggestionCount++]);
+        const searchSuggestions: string[] = await response.json();
+
+        if (fetchId !== lastFetchId) return;
+
+        if (searchSuggestions.length > 0) {
+          const maximumSearchSuggestions = 3;
+          for (let i = 0; i < Math.min(searchSuggestions.length, maximumSearchSuggestions); i++) {
+            renderSearchSuggestion(searchSuggestions[i]);
+          }
+        } else {
+          renderSearchSuggestion("No results.");
+        }
+      } catch (err) {
+        console.error("Error fetching suggestions:", err);
       }
-    } else {
-      renderSearchSuggestion("No results.");
-    }
-  });
-
-  searchBar.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const data = new FormData(searchBar);
-    searchPattern = data.get("searchPattern") as string;
-    searchResults = fuse.search(searchPattern);
-
-    if(searchResults.length > 0) {
-      store.dispatch(setIndex(searchResults[0].refIndex));
-    }
+    }, debounceDelayInMS);
   });
 }
 

@@ -3,9 +3,8 @@ import selectAllItems from "../db/queries/selectAllItems.ts";
 import addLocationNamesToItems from "../helperFunctions/addLocationNamesToItems.ts";
 
 const renderIndex = async(_req: object, res: Response) => {
-  const itemsAsFromDatabase = await selectAllItems();
-  const itemsWithLocationNames = await addLocationNamesToItems(itemsAsFromDatabase);
-  res.render("index", { items: itemsWithLocationNames });
+  const items = await addLocationNamesToItems(await selectAllItems());
+  res.render("index", { items });
 };
 
 export default renderIndex;
