@@ -59,8 +59,8 @@
       import { setUpMap, setUpSearchBar } from "/scripts/index.js";
       setUpMap(
         JSON.parse(`<%- JSON.stringify((function() {
-          const { pk, name, description, isLost, location, fullLocationName } = item;
-          return { pk, name, description, isLost, location, fullLocationName };
+          const { pk, name, description, isLost, location, locationName, fullLocationName } = item;
+          return { pk, name, description, isLost, location, locationName, fullLocationName };
         })());  
         %>`)
       );

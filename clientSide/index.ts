@@ -1,10 +1,11 @@
 // @deno-types="npm:@types/leaflet"
 import * as L from "npm:leaflet";
-import * as ejs from "npm:ejs";
+import * as ejs from "npm:ejs/ejs.min.js";
 import Item from "../interfaces/Item.ts";
 import itemTemplate from "../views/partials/item.ejs" with { type: "text" };
 
 function setUpMap(item: Item) {
+  console.log(item);
   const map = L.map("map");
   
   // focus map
