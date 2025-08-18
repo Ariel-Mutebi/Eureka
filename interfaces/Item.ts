@@ -1,3 +1,5 @@
+import ItemPeriphery from "./ItemPeriphery.ts";
+
 interface Item {
   pk: string;
   name: string;
@@ -11,6 +13,7 @@ interface Item {
   };
   locationName?: string;
   fullLocationName?: string;
+  periphery?: ItemPeriphery;
 };
 
 export default Item;

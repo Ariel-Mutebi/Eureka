@@ -1,6 +1,6 @@
 interface ItemPeriphery{
-  previousPrimaryKey: string;
-  nextPrimaryKey: string;
+  previousPrimaryKey: string | null;
+  nextPrimaryKey: string | null;
 }
 
 export default ItemPeriphery;

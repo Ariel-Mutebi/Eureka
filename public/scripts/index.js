@@ -11008,31 +11008,59 @@ var ejs = __toESM(require_ejs_min());
 var item_default = '<% const word = item.isLost ? "Lost" : "Found"; %>\n<article class="nunito text-center">\n  <h2>\n    <%= word %><%= item.locationName ? ` at ${item.locationName}` : "" %>: <%=\n    item.name %>\n  </h2>\n  <p class="h6"><%= item.description %></p>\n\n  <div class="container">\n    <div class="row">\n      <a\n        href="/contact/<%= item.pk %>"\n        title="Contact person who posted"\n        class="col-4 bg-secondary-subtle p-1"\n      >\n        <i class="bi bi-envelope-arrow-up-fill h4 text-dark"></i>\n      </a>\n      <a\n        href="/updatePost/<%= item.pk %>"\n        title="Update post"\n        class="col-4 bg-warning-subtle p-1"\n      >\n        <i class="bi bi-pencil-fill h4 text-dark"></i>\n      </a>\n      <a\n        href="/deletePost/<%= item.pk %>"\n        title="Delete post"\n        class="col-4 bg-danger-subtle p-1"\n      >\n        <i class="bi bi-trash-fill h4 text-dark"></i>\n      </a>\n    </div>\n  </div>\n</article>\n';
 
 // clientSide/index.ts
-function setUpMap(item) {
-  console.log(item);
+function setUpMap(currentItem) {
   const map2 = L2.map("map");
-  map2.setView([
-    item.location.x + 2e-3,
-    item.location.y
-  ], 15);
   L2.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 20,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map2);
-  const itemHTML = ejs.render(item_default, {
-    item
-  });
-  const popup2 = L2.popup({
-    closeOnClick: false
-  }).setContent(itemHTML);
-  L2.marker([
-    item.location.x,
-    item.location.y
-  ]).addTo(map2).bindPopup(popup2).openPopup();
-  document.getElementById("previousPin")?.addEventListener("click", () => {
-  });
-  document.getElementById("nextPin")?.addEventListener("click", () => {
-  });
+  const previousPin = document.getElementById("previousPin");
+  const nextPin = document.getElementById("nextPin");
+  let previousPinEventListener = () => {
+  };
+  let nextPinEventListener = () => {
+  };
+  const seeAtSpecificItem = (item) => {
+    map2.setView([
+      item.location.x + 2e-3,
+      item.location.y
+    ], 15);
+    const itemHTML = ejs.render(item_default, {
+      item
+    });
+    const popup2 = L2.popup({
+      closeOnClick: false
+    }).setContent(itemHTML);
+    L2.marker([
+      item.location.x,
+      item.location.y
+    ]).addTo(map2).bindPopup(popup2).openPopup();
+    previousPin.disabled = !item.periphery?.previousPrimaryKey;
+    nextPin.disabled = !item.periphery?.nextPrimaryKey;
+    previousPin.removeEventListener("click", previousPinEventListener);
+    nextPin.removeEventListener("click", nextPinEventListener);
+    previousPinEventListener = async () => {
+      if (item.periphery?.previousPrimaryKey) {
+        const { previousPrimaryKey } = item.periphery;
+        history.pushState({}, "", `/${previousPrimaryKey}`);
+        const response = await fetch(`${window.location.protocol}/${previousPrimaryKey}/json`);
+        const previousItem = await response.json();
+        seeAtSpecificItem(previousItem);
+      }
+    };
+    nextPinEventListener = async () => {
+      if (item.periphery?.nextPrimaryKey) {
+        const { nextPrimaryKey } = item.periphery;
+        history.pushState({}, "", `/${nextPrimaryKey}`);
+        const response = await fetch(`${window.location.protocol}/${nextPrimaryKey}/json`);
+        const nextItem = await response.json();
+        seeAtSpecificItem(nextItem);
+      }
+    };
+    previousPin.addEventListener("click", previousPinEventListener);
+    nextPin.addEventListener("click", nextPinEventListener);
+  };
+  seeAtSpecificItem(currentItem);
 }
 function setUpSearchBar() {
   const searchInput = document.getElementById("searchInput");
