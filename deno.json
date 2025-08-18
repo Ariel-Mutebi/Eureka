@@ -24,5 +24,6 @@
       "dom",
       "deno.ns"
     ]
-  }
+  },
+  "vendor": true
 }
