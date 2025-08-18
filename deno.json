@@ -25,5 +25,13 @@
       "deno.ns"
     ]
   },
-  "vendor": true
+  "vendor": true,
+  "deploy": {
+    "project": "93d4128e-ac43-429d-9137-d6354664133e",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
+  }
 }
