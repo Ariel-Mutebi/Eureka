@@ -1,11 +1,8 @@
+import type { PoolConfig } from "npm:pg";
 import 'jsr:@std/dotenv/load';
 
-const databaseClientConfig = {
-  user: Deno.env.get('PGUSER'),
-  password: Deno.env.get('PGPASSWORD'),
-  host: Deno.env.get('PGHOST'),
-  port: Number(Deno.env.get('PGPORT')),
-  database: Deno.env.get('PGDATABASE')
+const databaseClientConfig: PoolConfig = {
+  connectionString: Deno.env.get("PG_CONNECTION_STRING")
 };
 
 export default databaseClientConfig;
