@@ -15,7 +15,7 @@ const updatePost = async(req: Request, res: Response) => {
   
   const item = await addLocationToItem(req.body);
   await updateItem(item);
-  res.redirect("/")
+  res.redirect(`/${key}`);
 };
 
 export default updatePost;
