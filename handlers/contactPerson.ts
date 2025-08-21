@@ -13,11 +13,12 @@ const contactPerson = async(req: Request, res: Response) => {
     host: Deno.env.get("SMTP_HOST"),
     port: Number(Deno.env.get("SMTP_PORT")),
     tls: { rejectUnauthorized: false },
+    secure: false,
     auth: {
       user: fromEmail,
       pass: Deno.env.get("APP_PASSWORD")
     }
-  }
+  };
 
   const transporter = createTransport(transportOptions);
 
@@ -26,7 +27,7 @@ const contactPerson = async(req: Request, res: Response) => {
     to: toEmail,
     subject: subject,
     text: message
-  })
+  });
 
   res.redirect("/");
 };
