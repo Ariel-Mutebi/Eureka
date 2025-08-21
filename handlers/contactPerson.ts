@@ -12,8 +12,6 @@ const contactPerson = async(req: Request, res: Response) => {
   const transportOptions: SMTPTransport.Options = {
     host: Deno.env.get("SMTP_HOST"),
     port: Number(Deno.env.get("SMTP_PORT")),
-    tls: { rejectUnauthorized: false },
-    secure: false,
     auth: {
       user: fromEmail,
       pass: Deno.env.get("APP_PASSWORD")
