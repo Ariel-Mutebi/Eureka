@@ -1,4 +1,4 @@
-import recaseKeys from "../../helperFunctions/recaseKeys.ts";
+import { recaseKeys } from "jsr:@ariel/database-chores";
 import ItemPeriphery from "../../interfaces/ItemPeriphery.ts";
 import pool from "../pool.ts";
 
@@ -17,7 +17,7 @@ async function seePeripheryOfItem(itemPrimaryKey: string) {
   );
 
   const response = await pool.query(parameterizedQuery, [itemPrimaryKey]);
-  return recaseKeys(response.rows[0]) as ItemPeriphery;
+  return recaseKeys(response.rows[0]) as object as ItemPeriphery;
 };
 
 export default seePeripheryOfItem;

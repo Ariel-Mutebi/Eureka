@@ -6,6 +6,7 @@
     "populateDB": "deno run --allow-read --allow-env --allow-net ./db/populate.ts"
   },
   "imports": {
+    "@ariel/database-chores": "jsr:@ariel/database-chores@^1.0.3",
     "@std/assert": "jsr:@std/assert@^1.0.14",
     "@types/ejs": "npm:@types/ejs@^3.1.5",
     "@types/express": "npm:@types/express@^5.0.3",
@@ -16,8 +17,8 @@
     "express-validator": "npm:express-validator@^7.2.1",
     "fuse.js": "npm:fuse.js@^7.1.0",
     "leaflet": "npm:leaflet@^1.9.4",
-    "nodemailer": "npm:nodemailer@^7.0.5",
-    "pg": "npm:pg@^8.16.3"
+    "pg": "npm:pg@^8.16.3",
+    "resend": "npm:resend@^6.0.1"
   },
   "compilerOptions": {
     "lib": [

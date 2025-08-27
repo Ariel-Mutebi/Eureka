@@ -1,6 +1,6 @@
 import jeParleAnglais from "../constants/jeParleAnglais.ts";
 import geocodesToLocationNameObjects from "../objects/geocodesToLocationNameObjects.ts";
-import recaseKeys from "./recaseKeys.ts";
+import { recaseKeys } from "jsr:@ariel/database-chores";
 
 async function reverseGeocode(lat: number, lon: number) {
   const geocodeString = JSON.stringify([lat, lon]);
@@ -12,7 +12,7 @@ async function reverseGeocode(lat: number, lon: number) {
 
   try {
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`, jeParleAnglais);
-    const location = recaseKeys(await response.json());
+    const location = recaseKeys<string>(await response.json());
     const locationName: string = location.name;
     const fullLocationName: string = location.displayName;
     const locationNameObject = { locationName, fullLocationName };

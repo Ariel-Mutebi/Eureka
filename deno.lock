@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@ariel/database-chores@^1.0.3": "1.0.3",
     "jsr:@std/assert@^1.0.14": "1.0.14",
     "jsr:@std/dotenv@*": "0.225.3",
     "jsr:@std/internal@^1.0.10": "1.0.10",
@@ -10,6 +11,7 @@
     "npm:@types/express@^5.0.3": "5.0.3",
     "npm:@types/leaflet@^1.9.20": "1.9.20",
     "npm:@types/nodemailer@7": "7.0.0",
+    "npm:@types/pg@^8.15.5": "8.15.5",
     "npm:ejs@*": "3.1.10",
     "npm:ejs@^3.1.10": "3.1.10",
     "npm:express-async-handler@*": "1.2.0",
@@ -21,12 +23,19 @@
     "npm:fuse.js@^7.1.0": "7.1.0",
     "npm:leaflet@*": "1.9.4",
     "npm:leaflet@^1.9.4": "1.9.4",
-    "npm:nodemailer@*": "7.0.5",
-    "npm:nodemailer@^7.0.5": "7.0.5",
     "npm:pg@*": "8.16.3",
-    "npm:pg@^8.16.3": "8.16.3"
+    "npm:pg@^8.16.3": "8.16.3",
+    "npm:resend@*": "6.0.1",
+    "npm:resend@^6.0.1": "6.0.1"
   },
   "jsr": {
+    "@ariel/database-chores@1.0.3": {
+      "integrity": "d4f4227ebaae00c365511bdc533fe9328294fc85297ca32b02b5245c75fdb90c",
+      "dependencies": [
+        "npm:@types/pg",
+        "npm:pg@^8.16.3"
+      ]
+    },
     "@std/assert@1.0.14": {
       "integrity": "68d0d4a43b365abc927f45a9b85c639ea18a9fab96ad92281e493e4ed84abaa4",
       "dependencies": [
@@ -886,11 +895,25 @@
         "undici-types@6.19.8"
       ]
     },
+    "@types/node@24.2.0": {
+      "integrity": "sha512-3xyG3pMCq3oYCNg7/ZP+E1ooTaGB4cG8JWRsqqOYQdbWNY4zbaV0Ennrd7stjiJEFZCaybcIgpTjJWHRfBSIDw==",
+      "dependencies": [
+        "undici-types@7.10.0"
+      ]
+    },
     "@types/nodemailer@7.0.0": {
       "integrity": "sha512-APKHivjoJ1OyLrlhdJ/QJpnj78OaGSHQ18J12CeOVbffvBgUjqBiIzCW2lnRuwQiLxCpahgMf+T7G2dZBvgeYw==",
       "dependencies": [
         "@aws-sdk/client-sesv2",
         "@types/node@22.15.15"
+      ]
+    },
+    "@types/pg@8.15.5": {
+      "integrity": "sha512-LF7lF6zWEKxuT3/OR8wAZGzkg4ENGXFNyiV/JeOt9z5B+0ZVwbql9McqX5c/WStFq1GaGso7H1AzP/qSzmlCKQ==",
+      "dependencies": [
+        "@types/node@24.2.0",
+        "pg-protocol",
+        "pg-types"
       ]
     },
     "@types/qs@6.14.0": {
@@ -1274,9 +1297,6 @@
     "negotiator@0.6.3": {
       "integrity": "sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg=="
     },
-    "nodemailer@7.0.5": {
-      "integrity": "sha512-nsrh2lO3j4GkLLXoeEksAMgAOqxOv6QumNRVQTJwKH4nuiww6iC2y7GyANs9kRAxCexg3+lTWM3PZ91iLlVjfg=="
-    },
     "object-inspect@1.13.3": {
       "integrity": "sha512-kDCGIbxkDSXE3euJZZXzc6to7fCrKHNI/hSRQnRuQ+BWjFNzZwiFF8fj/6o2t2G9/jTj8PSIYTfCLelLZEeRpA=="
     },
@@ -1378,6 +1398,9 @@
         "iconv-lite",
         "unpipe"
       ]
+    },
+    "resend@6.0.1": {
+      "integrity": "sha512-xNZ0gKAOqQcH83lXsqNOwBbpKROnsZpQr9mXRdG6hrHTF9G9Il2pkoTRtq7rJzXMvCZX+I79oahsbSeaYOWRFA=="
     },
     "safe-buffer@5.2.1": {
       "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="
@@ -1485,6 +1508,9 @@
     "undici-types@6.21.0": {
       "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
     },
+    "undici-types@7.10.0": {
+      "integrity": "sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag=="
+    },
     "unpipe@1.0.0": {
       "integrity": "sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ=="
     },
@@ -1507,6 +1533,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@ariel/database-chores@^1.0.3",
       "jsr:@std/assert@^1.0.14",
       "npm:@types/ejs@^3.1.5",
       "npm:@types/express@^5.0.3",
@@ -1517,8 +1544,8 @@
       "npm:express-validator@^7.2.1",
       "npm:fuse.js@^7.1.0",
       "npm:leaflet@^1.9.4",
-      "npm:nodemailer@^7.0.5",
-      "npm:pg@^8.16.3"
+      "npm:pg@^8.16.3",
+      "npm:resend@^6.0.1"
     ]
   }
 }

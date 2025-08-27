@@ -1,5 +1,5 @@
 import pool from "../pool.ts";
-import recaseKeys from "../../helperFunctions/recaseKeys.ts";
+import { recaseKeys } from "jsr:@ariel/database-chores";
 
 async function selectEmailOfPerson(itemPrimaryKey: string){
   const response = await pool.query("SELECT email_of_person_who_posted FROM items where pk=$1", [itemPrimaryKey])
